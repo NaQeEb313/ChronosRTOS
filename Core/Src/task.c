@@ -7,17 +7,14 @@
  ******************************************************************************/
 #include "task.h"
 
-void Task_Create(TaskFunction task_function, uint8_t priority)
-{
-    // creates a task
+void Task_Create(TaskFunction task_function, uint8_t priority) {
+  // creates a task
 }
 
-void Task_Init(TCB *task)
-{
-    // initialise the task management
+void Task_Init(TCB *task) {
+  // initialise the task management
 }
 
-void Task_Terminate()
-{
-    // terminates a task
+void Task_Terminate() {
+  // terminates a task
 }

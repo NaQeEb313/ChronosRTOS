@@ -7,12 +7,10 @@
  ******************************************************************************/
 #include "demo_tasks.h"
 
-void LED_ON_TASK(void)
-{
-    // on led
+void LED_ON_TASK(void) {
+  // on led
 }
 
-void LED_BLINK_TASK(void)
-{
-    // blinks led
+void LED_BLINK_TASK(void) {
+  // blinks led
 }
