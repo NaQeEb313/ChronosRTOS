@@ -29,9 +29,11 @@ typedef struct TCB {
   uint32_t cpu_ticks;         // Total CPU execution ticks used by the task
   uint32_t run_count;         // Number of times the task has been scheduled
   TaskFunction task_function; // pointer for demo task function using typedef
+
+  struct TCB *next;
 } TCB;
 
-void Task_Create();
+void Task_Create(TaskFunction task_function, uint8_t priority);
 void Task_Init(void);
 void Task_Terminate();
 

@@ -20,6 +20,46 @@ static TCB *curr = NULL;
 static TCB *prev = NULL;
 static TCB *next = NULL;
 
+typedef struct Free_Stack {
+
+  int8_t top;
+  int8_t arr[6];
+} Free_Stack;
+
+static Free_Stack free_slot;
+
+void Free_Stack_Init(void) { free_slot.top = -1; }
+
+void Free_Stack_Push(int8_t free) {
+
+  if (free_slot.top < 5) {
+    free_slot.top++;
+    free_slot.arr[free_slot.top] = free;
+  } else
+    return;
+}
+int8_t Free_Stack_Empty() {
+  if (free_slot.top == -1) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+int8_t Free_STack_Top() {
+  if (free_slot.top >= 0)
+    return free_slot.arr[free_slot.top];
+  else
+    return -1;
+}
+
+void Free_Stack_Pop(void) {
+  if (free_slot.top >= 0) {
+    free_slot.top--;
+  } else
+    return;
+}
+
 void Task_Create(TaskFunction task_function, uint8_t priority) {
   if (task_count >= MAX_TASKS - 1) {
     return;
