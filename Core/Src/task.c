@@ -9,6 +9,7 @@
 #define MAX_TASKS 6
 #include "task.h"
 #include "idle.h"
+#include <stdbool.h>
 #include <stddef.h>
 
 static int task_count = 0;
@@ -19,7 +20,8 @@ static TCB *TCB0 = &tcb_pool[0];
 static TCB *curr = NULL;
 static TCB *prev = NULL;
 static TCB *next = NULL;
-
+static TCB *tail = NULL;
+static bool init = 0;
 typedef struct Free_Stack {
 
   int8_t top;
@@ -46,7 +48,7 @@ int8_t Free_Stack_Empty() {
   }
 }
 
-int8_t Free_STack_Top() {
+int8_t Free_Stack_Top() {
   if (free_slot.top >= 0)
     return free_slot.arr[free_slot.top];
   else
@@ -61,59 +63,83 @@ void Free_Stack_Pop(void) {
 }
 
 void Task_Create(TaskFunction task_function, uint8_t priority) {
-  if (task_count >= MAX_TASKS - 1) {
+  if (Free_Stack_Empty() || !init || task_function == NULL) {
     return;
-  }
-  task_count++;
-  TCB *tcb = &tcb_pool[task_count];
-  tcb->task_priority = priority;
-  tcb->task_function = task_function;
-  tcb->tid = task_count;
-  tcb->task_state = TASK_READY;
+  } else {
+    task_count++;
+    TCB *tcb = &tcb_pool[Free_Stack_Top()];
 
-  // logic
-  curr->next = tcb;
-  prev = curr;
-  curr = tcb;
-  curr->next = TCB0;
+    tcb->task_priority = priority;
+    tcb->task_function = task_function;
+    tcb->tid = Free_Stack_Top();
+    tcb->task_state = TASK_READY;
+
+    // logic
+    tail->next = tcb;
+    tcb->next = TCB0;
+    tail = tcb;
+    curr = tail;
+    Free_Stack_Pop();
+  }
 }
 
 void Task_Init(void) {
   // initialise the task management
+  init = 1;
   task_count = 0;
   TCB0->next = TCB0;
   prev = TCB0;
   curr = TCB0;
   next = TCB0;
+  tail = TCB0;
 
   TCB0->task_priority = 0;
   TCB0->task_function = Idle_Function;
   TCB0->tid = 0;
   TCB0->task_state = TASK_READY;
 
+  Free_Stack_Init();
+
+  for (int8_t i = 5; i > 0; i--)
+    Free_Stack_Push(i);
+
   // initialise the task
 }
 
 void Task_Terminate(TCB *temp) {
-  if (temp == TCB0) {
-    // it will destroy the entire list
+  if (temp == NULL || temp == TCB0 || !init) {
     return;
   }
 
   if (task_count > 0) {
+    TCB *check;
+    check = curr;
+    int8_t count = 0;
+
     while (curr->next != temp) {
+      if (curr == check && count != 0)
+        return;
       curr = curr->next;
+      count++;
     }
+
+    Free_Stack_Push(temp->tid);
+
     prev = curr;
     curr = curr->next;
     next = curr->next;
+
+    if (temp == tail)
+      tail = prev;
+
     prev->next = next;
+
     temp->task_state = TASK_TERMINATED;
     task_count--;
+
     curr = prev->next;
     next = curr->next;
-  }
-
-  else
+  } else {
     return;
+  }
 }
