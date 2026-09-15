@@ -36,5 +36,10 @@ typedef struct TCB {
 void Task_Create(TaskFunction task_function, uint8_t priority);
 void Task_Init(void);
 void Task_Terminate();
+void Task_Suspend() ;
+void Task_Resume() ;
+
+TCB *Task_Get_Current();
+TCB *Task_Get_Idle();
 
 #endif /* TASK_H */

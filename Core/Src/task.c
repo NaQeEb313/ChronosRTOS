@@ -6,6 +6,8 @@
  * Description : Task creation and task management.
  ******************************************************************************/
 
+// TASK_RESUME CODE REMAINING
+
 #define MAX_TASKS 6
 #include "task.h"
 #include "idle.h"
@@ -142,4 +144,64 @@ void Task_Terminate(TCB *temp) {
   } else {
     return;
   }
+}
+
+void Task_Suspend(TCB *temp) {
+  if (temp == NULL || temp == TCB0 || !init) {
+    return;
+  }
+
+  if (task_count > 0) {
+    TCB *check;
+    check = curr;
+    int8_t count = 0;
+
+    while (curr->next != temp) {
+      if (curr == check && count != 0)
+        return;
+      curr = curr->next;
+      count++;
+    }
+
+    prev = curr;
+    curr = curr->next;
+    next = curr->next;
+
+    if (temp == tail)
+      tail = prev;
+
+    prev->next = next;
+
+    temp->task_state = TASK_BLOCKED;
+
+    curr = prev->next;
+    next = curr->next;
+  } else {
+    return;
+  }
+}
+
+void Task_Resume(TCB *temp) {
+  if (temp == NULL || temp == TCB0 || !init) {
+    return;
+  }
+
+  if (task_count > 0) {
+    tail->next = temp ;
+    temp->next = TCB0 ;
+    tail = temp ;
+    
+    tail->task_state = TASK_READY ;
+  }
+  else {
+    return;
+  }
+}
+
+TCB *Task_Get_Current() {
+  return curr ;
+}
+
+TCB *Task_Get_Idle() {
+  return TCB0 ;
 }
