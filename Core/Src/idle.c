@@ -1,8 +1,8 @@
-/******************************************************************************
- * File        : idle.c
- * Project     : ChronosRTOS
- * Module      : Idle Task
- * Group       :
- * Description : Idle task implementation.
- ******************************************************************************/
+#include "idle.h"
 
+void Idle_Function(void)
+{
+    while (1) {
+        /* idle - wait for interrupt */
+    }
+}
