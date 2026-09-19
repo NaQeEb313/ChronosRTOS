@@ -8,520 +8,477 @@
 
 #include "uart.h"
 
-
 /*
- * Enable / Disable USART peripheral clock
+ * =========================================================
+ * USART Peripheral Clock Control
+ * =========================================================
  */
-void USART_PeriClockControl(USART_TypeDef *pUSARTx, uint8_t EnorDi)
-{
-    if (EnorDi == 1)
-    {
-        if (pUSARTx == USART1)
-        {
-            RCC->APB2ENR |= (1U << 14);
-        }
 
-        else if (pUSARTx == USART2)
-        {
-            RCC->APB1ENR |= (1U << 17);
-        }
-
-        else if (pUSARTx == USART3)
-        {
-            RCC->APB1ENR |= (1U << 18);
-        }
+void USART_PeriClockControl(USART_TypeDef *pUSARTx, uint8_t EnorDi) {
+  if (EnorDi == 1U) {
+    if (pUSARTx == USART1) {
+      /* APB2ENR bit 14 */
+      RCC->APB2ENR |= (1U << 14);
+    } else if (pUSARTx == USART2) {
+      /* APB1ENR bit 17 */
+      RCC->APB1ENR |= (1U << 17);
+    } else if (pUSARTx == USART3) {
+      /* APB1ENR bit 18 */
+      RCC->APB1ENR |= (1U << 18);
     }
-
-    else
-    {
-        if (pUSARTx == USART1)
-        {
-            RCC->APB2ENR &= ~(1U << 14);
-        }
-
-        else if (pUSARTx == USART2)
-        {
-            RCC->APB1ENR &= ~(1U << 17);
-        }
-
-        else if (pUSARTx == USART3)
-        {
-            RCC->APB1ENR &= ~(1U << 18);
-        }
+  } else {
+    if (pUSARTx == USART1) {
+      RCC->APB2ENR &= ~(1U << 14);
+    } else if (pUSARTx == USART2) {
+      RCC->APB1ENR &= ~(1U << 17);
+    } else if (pUSARTx == USART3) {
+      RCC->APB1ENR &= ~(1U << 18);
     }
+  }
 }
 
-
 /*
- * Configure USART GPIO pins
+ * =========================================================
+ * USART1 GPIO Initialization
  *
  * USART1:
  * PA9  -> TX
  * PA10 -> RX
+ * =========================================================
  */
-static void USART1_GPIO_Init(void)
-{
-    /*
-     * Enable GPIOA clock
-     *
-     * RCC_APB2ENR bit 2 = IOPAEN
-     */
-    RCC->APB2ENR |= (1U << 2);
 
+static void USART1_GPIO_Init(void) {
+  /*
+   * Enable GPIOA clock.
+   *
+   * APB2ENR bit 2 = IOPAEN
+   */
+  RCC->APB2ENR |= (1U << 2);
 
-    /*
-     * PA9 configuration
-     *
-     * PA9 is in CRH.
-     *
-     * PA9 uses CRH bits [7:4].
-     *
-     * 1011 = Alternate Function Push-Pull, 50 MHz
-     */
-    GPIOA->CRH &= ~(0xFU << 4);
-    GPIOA->CRH |=  (0xBU << 4);
+  /*
+   * PA9 -> USART1_TX
+   *
+   * PA9 is in CRH.
+   * PA9 uses bits [7:4].
+   *
+   * 1011:
+   *
+   * MODE = 11 -> Output 50 MHz
+   * CNF  = 10 -> Alternate function push-pull
+   */
+  GPIOA->CRH &= ~(0xFU << 4);
+  GPIOA->CRH |= (0xBU << 4);
 
-
-    /*
-     * PA10 configuration
-     *
-     * PA10 is in CRH.
-     *
-     * PA10 uses CRH bits [11:8].
-     *
-     * 0100 = Floating input
-     */
-    GPIOA->CRH &= ~(0xFU << 8);
-    GPIOA->CRH |=  (0x4U << 8);
+  /*
+   * PA10 -> USART1_RX
+   *
+   * PA10 is in CRH.
+   * PA10 uses bits [11:8].
+   *
+   * 0100:
+   *
+   * MODE = 00 -> Input
+   * CNF  = 01 -> Floating input
+   */
+  GPIOA->CRH &= ~(0xFU << 8);
+  GPIOA->CRH |= (0x4U << 8);
 }
 
-
 /*
- * Configure baud rate
+ * =========================================================
+ * USART Baud Rate Configuration
+ * =========================================================
+ *
+ * Current ChronosRTOS clock configuration:
+ *
+ * SYSCLK = 72 MHz
+ * APB2   = 72 MHz
+ * APB1   = 36 MHz
+ *
+ * USART1 -> APB2
+ * USART2 -> APB1
+ * USART3 -> APB1
+ *
+ * Oversampling by 16 is used.
+ * =========================================================
  */
-void USART_SetBaudRate(USART_TypeDef *pUSARTx,
-                       uint32_t BaudRate)
-{
-    uint32_t PCLK;
-    uint32_t USARTDIV;
-    uint32_t Mantissa;
-    uint32_t Fraction;
 
+void USART_SetBaudRate(USART_TypeDef *pUSARTx, uint32_t BaudRate) {
+  uint32_t PCLK;
+  uint32_t USARTDIV_MUL100;
+  uint32_t Mantissa;
+  uint32_t Fraction;
 
-    /*
-     * USART1 is connected to APB2.
-     * USART2 and USART3 are connected to APB1.
-     *
-     * Assuming the standard STM32F103 clock setup:
-     *
-     * SYSCLK = 72 MHz
-     * APB2   = 72 MHz
-     * APB1   = 36 MHz
-     */
-    if (pUSARTx == USART1)
-    {
-        PCLK = 72000000U;
-    }
-    else
-    {
-        PCLK = 36000000U;
-    }
+  /*
+   * Determine peripheral clock.
+   */
+  if (pUSARTx == USART1) {
+    PCLK = 72000000U;
+  } else {
+    PCLK = 36000000U;
+  }
 
+  /*
+   * USARTDIV = PCLK / (16 * BaudRate)
+   *
+   * Calculate USARTDIV * 100 so that
+   * the fractional portion is preserved.
+   */
+  USARTDIV_MUL100 = (PCLK * 100U) / (16U * BaudRate);
 
-    /*
-     * USARTDIV = PCLK / (16 × BaudRate)
-     *
-     * USART oversampling by 16 is being used.
-     */
-    USARTDIV = (PCLK + (8U * BaudRate))
-             / (16U * BaudRate);
+  /*
+   * Integer portion.
+   */
+  Mantissa = USARTDIV_MUL100 / 100U;
 
+  /*
+   * Fractional portion.
+   *
+   * BRR has a 4-bit fraction field.
+   */
+  Fraction = ((USARTDIV_MUL100 % 100U) * 16U + 50U) / 100U;
 
-    /*
-     * The above gives USARTDIV in 16.4 fixed-point form.
-     *
-     * Mantissa = USARTDIV / 16
-     * Fraction = USARTDIV % 16
-     */
-    Mantissa = USARTDIV / 16U;
-    Fraction = USARTDIV % 16U;
+  /*
+   * Fraction rounding may produce 16.
+   *
+   * In that case carry into the mantissa.
+   */
+  if (Fraction >= 16U) {
+    Mantissa++;
+    Fraction = 0U;
+  }
 
-
-    /*
-     * Write BRR
-     */
-    pUSARTx->BRR = (Mantissa << 4) | Fraction;
+  /*
+   * USART_BRR:
+   *
+   * Bits [15:4] -> Mantissa
+   * Bits [3:0]  -> Fraction
+   */
+  pUSARTx->BRR = (Mantissa << 4) | Fraction;
 }
 
-
 /*
- * USART initialization
+ * =========================================================
+ * USART Initialization
+ * =========================================================
  */
-void USART_Init(USART_Handle_t *pUSARTHandle)
-{
-    uint32_t tempreg = 0;
 
+void USART_Init(USART_Handle_t *pUSARTHandle) {
+  uint32_t tempreg = 0U;
 
+  /*
+   * -----------------------------------------------------
+   * 1. Enable USART peripheral clock
+   * -----------------------------------------------------
+   */
+
+  USART_PeriClockControl(pUSARTHandle->pUSARTx, 1U);
+
+  /*
+   * -----------------------------------------------------
+   * 2. Configure GPIO
+   * -----------------------------------------------------
+   */
+
+  if (pUSARTHandle->pUSARTx == USART1) {
+    USART1_GPIO_Init();
+  }
+
+  /*
+   * -----------------------------------------------------
+   * 3. Configure CR1
+   * -----------------------------------------------------
+   *
+   * CR1:
+   *
+   * Bit 12 -> M
+   * Bit 10 -> PCE
+   * Bit 9  -> PS
+   * Bit 3  -> TE
+   * Bit 2  -> RE
+   *
+   * UE is enabled later.
+   * -----------------------------------------------------
+   */
+
+  /*
+   * Word length
+   *
+   * 0 -> 8 bits
+   * 1 -> 9 bits
+   */
+  tempreg |= ((uint32_t)pUSARTHandle->USART_Config.USART_WordLength << 12);
+
+  /*
+   * Parity.
+   */
+
+  if (pUSARTHandle->USART_Config.USART_ParityControl == USART_PARITY_EN_EVEN) {
     /*
-     * ------------------------------------------------
-     * 1. Enable USART peripheral clock
-     * ------------------------------------------------
+     * PCE = 1
+     * PS  = 0
      */
-    USART_PeriClockControl(
-        pUSARTHandle->pUSARTx,
-        1
-    );
-
-
+    tempreg |= (1U << 10);
+  } else if (pUSARTHandle->USART_Config.USART_ParityControl ==
+             USART_PARITY_EN_ODD) {
     /*
-     * ------------------------------------------------
-     * 2. Configure GPIO pins
-     * ------------------------------------------------
-     *
-     * USART1:
-     * PA9  -> TX
-     * PA10 -> RX
+     * PCE = 1
+     * PS  = 1
      */
-    if (pUSARTHandle->pUSARTx == USART1)
-    {
-        USART1_GPIO_Init();
-    }
+    tempreg |= (1U << 10);
+    tempreg |= (1U << 9);
+  }
 
+  /*
+   * Transmitter enable.
+   */
 
-    /*
-     * ------------------------------------------------
-     * 3. Configure CR1
-     * ------------------------------------------------
-     */
+  if ((pUSARTHandle->USART_Config.USART_Mode == USART_MODE_ONLY_TX) ||
 
+      (pUSARTHandle->USART_Config.USART_Mode == USART_MODE_TXRX)) {
+    tempreg |= (1U << 3);
+  }
 
-    /*
-     * Word length
-     *
-     * CR1 bit 12 = M
-     *
-     * 0 -> 8 data bits
-     * 1 -> 9 data bits
-     */
-    tempreg |=
-        (pUSARTHandle->USART_Config.USART_WordLength << 12);
+  /*
+   * Receiver enable.
+   */
 
+  if ((pUSARTHandle->USART_Config.USART_Mode == USART_MODE_ONLY_RX) ||
 
-    /*
-     * Parity configuration
-     */
-    if (pUSARTHandle->USART_Config.USART_ParityControl
-        == USART_PARITY_EN_EVEN)
-    {
-        /*
-         * PCE = 1
-         * PS  = 0
-         */
-        tempreg |= (1U << 10);
-    }
+      (pUSARTHandle->USART_Config.USART_Mode == USART_MODE_TXRX)) {
+    tempreg |= (1U << 2);
+  }
 
-    else if (pUSARTHandle->USART_Config.USART_ParityControl
-             == USART_PARITY_EN_ODD)
-    {
-        /*
-         * PCE = 1
-         * PS = 1
-         */
-        tempreg |= (1U << 10);
-        tempreg |= (1U << 9);
-    }
+  /*
+   * Write CR1.
+   *
+   * UE remains 0 for now.
+   */
+  pUSARTHandle->pUSARTx->CR1 = tempreg;
 
+  /*
+   * -----------------------------------------------------
+   * 4. Configure CR2
+   * -----------------------------------------------------
+   *
+   * STOP bits:
+   *
+   * CR2 bits [13:12]
+   * -----------------------------------------------------
+   */
 
-    /*
-     * Transmitter enable
-     *
-     * CR1 bit 3 = TE
-     */
-    if ((pUSARTHandle->USART_Config.USART_Mode
-         == USART_MODE_ONLY_TX) ||
-        (pUSARTHandle->USART_Config.USART_Mode
-         == USART_MODE_TXRX))
-    {
-        tempreg |= (1U << 3);
-    }
+  tempreg = 0U;
 
+  tempreg |= ((uint32_t)pUSARTHandle->USART_Config.USART_NoOfStopBits << 12);
 
-    /*
-     * Receiver enable
-     *
-     * CR1 bit 2 = RE
-     */
-    if ((pUSARTHandle->USART_Config.USART_Mode
-         == USART_MODE_ONLY_RX) ||
-        (pUSARTHandle->USART_Config.USART_Mode
-         == USART_MODE_TXRX))
-    {
-        tempreg |= (1U << 2);
-    }
+  pUSARTHandle->pUSARTx->CR2 = tempreg;
 
+  /*
+   * -----------------------------------------------------
+   * 5. Configure CR3
+   * -----------------------------------------------------
+   *
+   * CTS -> bit 9
+   * RTS -> bit 8
+   * -----------------------------------------------------
+   */
 
-    /*
-     * Write CR1
-     *
-     * UE is NOT set yet.
-     */
-    pUSARTHandle->pUSARTx->CR1 = tempreg;
+  tempreg = 0U;
 
+  if (pUSARTHandle->USART_Config.USART_HWFlowControl ==
+      USART_HW_FLOW_CTRL_CTS) {
+    tempreg |= (1U << 9);
+  } else if (pUSARTHandle->USART_Config.USART_HWFlowControl ==
+             USART_HW_FLOW_CTRL_RTS) {
+    tempreg |= (1U << 8);
+  } else if (pUSARTHandle->USART_Config.USART_HWFlowControl ==
+             USART_HW_FLOW_CTRL_CTS_RTS) {
+    tempreg |= (1U << 9);
+    tempreg |= (1U << 8);
+  }
 
-    /*
-     * ------------------------------------------------
-     * 4. Configure CR2
-     * ------------------------------------------------
-     *
-     * STOP bits are CR2 bits [13:12]
-     */
-    tempreg = 0;
+  pUSARTHandle->pUSARTx->CR3 = tempreg;
 
-    tempreg |=
-        (pUSARTHandle->USART_Config.USART_NoOfStopBits << 12);
+  /*
+   * -----------------------------------------------------
+   * 6. Configure baud rate
+   * -----------------------------------------------------
+   */
 
-    pUSARTHandle->pUSARTx->CR2 = tempreg;
+  USART_SetBaudRate(pUSARTHandle->pUSARTx,
+                    pUSARTHandle->USART_Config.USART_Baud);
 
+  /*
+   * -----------------------------------------------------
+   * 7. Enable USART
+   * -----------------------------------------------------
+   *
+   * CR1 bit 13 = UE
+   * -----------------------------------------------------
+   */
 
-    /*
-     * ------------------------------------------------
-     * 5. Configure CR3
-     * ------------------------------------------------
-     */
-    tempreg = 0;
-
-
-    /*
-     * CTS = bit 9
-     * RTS = bit 8
-     */
-    if (pUSARTHandle->USART_Config.USART_HWFlowControl
-        == USART_HW_FLOW_CTRL_CTS)
-    {
-        tempreg |= (1U << 9);
-    }
-
-    else if (pUSARTHandle->USART_Config.USART_HWFlowControl
-             == USART_HW_FLOW_CTRL_RTS)
-    {
-        tempreg |= (1U << 8);
-    }
-
-    else if (pUSARTHandle->USART_Config.USART_HWFlowControl
-             == USART_HW_FLOW_CTRL_CTS_RTS)
-    {
-        tempreg |= (1U << 9);
-        tempreg |= (1U << 8);
-    }
-
-    pUSARTHandle->pUSARTx->CR3 = tempreg;
-
-
-    /*
-     * ------------------------------------------------
-     * 6. Configure baud rate
-     * ------------------------------------------------
-     */
-    USART_SetBaudRate(
-        pUSARTHandle->pUSARTx,
-        pUSARTHandle->USART_Config.USART_Baud
-    );
-
-
-    /*
-     * ------------------------------------------------
-     * 7. Finally enable USART
-     * ------------------------------------------------
-     *
-     * CR1 bit 13 = UE
-     */
-    pUSARTHandle->pUSARTx->CR1 |= (1U << 13);
+  pUSARTHandle->pUSARTx->CR1 |= (1U << 13);
 }
 
-
 /*
- * Send one character
+ * =========================================================
+ * Send One Character
+ * =========================================================
  */
-void USART_SendChar(USART_TypeDef *pUSARTx,
-                    char data)
-{
-    /*
-     * Wait until TX data register is empty.
-     *
-     * SR bit 7 = TXE
-     */
-    while (!(pUSARTx->SR & (1U << 7)))
-    {
-    }
 
+void USART_SendChar(USART_TypeDef *pUSARTx, char data) {
+  /*
+   * Wait until transmit data register is empty.
+   *
+   * SR bit 7 = TXE
+   */
+  while (!(pUSARTx->SR & (1U << 7))) {
+  }
 
-    /*
-     * Put character into data register.
-     */
-    pUSARTx->DR = (uint8_t)data;
+  /*
+   * Write character to data register.
+   */
+  pUSARTx->DR = (uint8_t)data;
 
-
-    /*
-     * Wait until complete frame has been transmitted.
-     *
-     * SR bit 6 = TC
-     */
-    while (!(pUSARTx->SR & (1U << 6)))
-    {
-    }
+  /*
+   * Wait until complete frame has been transmitted.
+   *
+   * SR bit 6 = TC
+   */
+  while (!(pUSARTx->SR & (1U << 6))) {
+  }
 }
 
-
 /*
- * Send a string
+ * =========================================================
+ * Send String
+ * =========================================================
  */
-void USART_SendString(USART_TypeDef *pUSARTx,
-                      char *str)
-{
-    while (*str != '\0')
-    {
-        USART_SendChar(pUSARTx, *str);
 
-        str++;
-    }
+void USART_SendString(USART_TypeDef *pUSARTx, char *str) {
+  while (*str != '\0') {
+    USART_SendChar(pUSARTx, *str);
+
+    str++;
+  }
 }
 
-
 /*
- * Receive one character
+ * =========================================================
+ * Receive One Character
+ * =========================================================
  */
-uint8_t USART_ReceiveChar(USART_TypeDef *pUSARTx)
-{
-    /*
-     * Wait until data is received.
-     *
-     * SR bit 5 = RXNE
-     */
-    while (!(pUSARTx->SR & (1U << 5)))
-    {
-    }
 
+uint8_t USART_ReceiveChar(USART_TypeDef *pUSARTx) {
+  /*
+   * Wait until receive data is available.
+   *
+   * SR bit 5 = RXNE
+   */
+  while (!(pUSARTx->SR & (1U << 5))) {
+  }
 
-    /*
-     * Read received data
-     */
-    return (uint8_t)pUSARTx->DR;
+  /*
+   * Read received data.
+   */
+  return (uint8_t)pUSARTx->DR;
 }
 
-
 /*
- * Send multiple bytes
+ * =========================================================
+ * Send Multiple Bytes
+ * =========================================================
  */
-void USART_SendData(USART_TypeDef *pUSARTx,
-                    uint8_t *pTxBuffer,
-                    uint32_t Len)
-{
-    uint8_t data;
 
+void USART_SendData(USART_TypeDef *pUSARTx, uint8_t *pTxBuffer, uint32_t Len) {
+  uint8_t data;
 
-    while (Len > 0)
-    {
-        /*
-         * Wait until transmit data register is empty.
-         */
-        while (!(pUSARTx->SR & (1U << 7)))
-        {
-        }
-
-
-        /*
-         * Read the byte to transmit.
-         */
-        data = *pTxBuffer;
-
-
-        /*
-         * Send data.
-         */
-        pUSARTx->DR = data;
-
-
-        /*
-         * Move to next byte.
-         */
-        pTxBuffer++;
-
-        Len--;
+  while (Len > 0U) {
+    /*
+     * Wait until transmit data register is empty.
+     */
+    while (!(pUSARTx->SR & (1U << 7))) {
     }
-
 
     /*
-     * Wait until complete transmission.
+     * Get byte from buffer.
      */
-    while (!(pUSARTx->SR & (1U << 6)))
-    {
-    }
+    data = *pTxBuffer;
+
+    /*
+     * Send byte.
+     */
+    pUSARTx->DR = data;
+
+    /*
+     * Move to next byte.
+     */
+    pTxBuffer++;
+
+    Len--;
+  }
+
+  /*
+   * Wait until final byte has completely
+   * left the USART.
+   */
+  while (!(pUSARTx->SR & (1U << 6))) {
+  }
 }
 
-
 /*
- * Receive multiple bytes
+ * =========================================================
+ * Receive Multiple Bytes
+ * =========================================================
  */
-void USART_ReceiveData(USART_TypeDef *pUSARTx,
-                       uint8_t *pRxBuffer,
-                       uint32_t Len)
-{
-    while (Len > 0)
-    {
-        /*
-         * Wait until receive data is available.
-         */
-        while (!(pUSARTx->SR & (1U << 5)))
-        {
-        }
 
-
-        /*
-         * Read received byte.
-         */
-        *pRxBuffer =
-            (uint8_t)pUSARTx->DR;
-
-
-        /*
-         * Move to next buffer location.
-         */
-        pRxBuffer++;
-
-        Len--;
+void USART_ReceiveData(USART_TypeDef *pUSARTx, uint8_t *pRxBuffer,
+                       uint32_t Len) {
+  while (Len > 0U) {
+    /*
+     * Wait for received byte.
+     */
+    while (!(pUSARTx->SR & (1U << 5))) {
     }
+
+    /*
+     * Read received byte.
+     */
+    *pRxBuffer = (uint8_t)pUSARTx->DR;
+
+    /*
+     * Move to next buffer position.
+     */
+    pRxBuffer++;
+
+    Len--;
+  }
 }
 
-
 /*
- * USART de-initialization
+ * =========================================================
+ * USART De-Initialization
+ * =========================================================
  */
-void USART_DeInit(USART_TypeDef *pUSARTx)
-{
-    if (pUSARTx == USART1)
-    {
-        /*
-         * APB2RSTR bit 14
-         */
-        RCC->APB2RSTR |= (1U << 14);
-        RCC->APB2RSTR &= ~(1U << 14);
-    }
 
-    else if (pUSARTx == USART2)
-    {
-        /*
-         * APB1RSTR bit 17
-         */
-        RCC->APB1RSTR |= (1U << 17);
-        RCC->APB1RSTR &= ~(1U << 17);
-    }
-
-    else if (pUSARTx == USART3)
-    {
-        /*
-         * APB1RSTR bit 18
-         */
-        RCC->APB1RSTR |= (1U << 18);
-        RCC->APB1RSTR &= ~(1U << 18);
-    }
+void USART_DeInit(USART_TypeDef *pUSARTx) {
+  if (pUSARTx == USART1) {
+    /*
+     * APB2RSTR bit 14
+     */
+    RCC->APB2RSTR |= (1U << 14);
+    RCC->APB2RSTR &= ~(1U << 14);
+  } else if (pUSARTx == USART2) {
+    /*
+     * APB1RSTR bit 17
+     */
+    RCC->APB1RSTR |= (1U << 17);
+    RCC->APB1RSTR &= ~(1U << 17);
+  } else if (pUSARTx == USART3) {
+    /*
+     * APB1RSTR bit 18
+     */
+    RCC->APB1RSTR |= (1U << 18);
+    RCC->APB1RSTR &= ~(1U << 18);
+  }
 }

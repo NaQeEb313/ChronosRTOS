@@ -1,0 +1,1045 @@
+ARM GAS  /tmp/ccp8gFBF.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"gpio.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../ChronosRTOS/Drivers/Src/gpio.c"
+  18              		.section	.text.GPIO_ClockControl,"ax",%progbits
+  19              		.align	1
+  20              		.global	GPIO_ClockControl
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	GPIO_ClockControl:
+  26              	.LVL0:
+  27              	.LFB65:
+   1:../ChronosRTOS/Drivers/Src/gpio.c **** /******************************************************************************
+   2:../ChronosRTOS/Drivers/Src/gpio.c ****  * File        : gpio.c
+   3:../ChronosRTOS/Drivers/Src/gpio.c ****  * Project     : ChronosRTOS
+   4:../ChronosRTOS/Drivers/Src/gpio.c ****  * Module      : GPIO
+   5:../ChronosRTOS/Drivers/Src/gpio.c ****  * Description : GPIO driver implementation.
+   6:../ChronosRTOS/Drivers/Src/gpio.c ****  ******************************************************************************/
+   7:../ChronosRTOS/Drivers/Src/gpio.c **** 
+   8:../ChronosRTOS/Drivers/Src/gpio.c **** #include "gpio.h"
+   9:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  10:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+  11:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO Clock Control
+  12:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+  13:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIOA -> APB2ENR bit 2
+  14:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIOB -> APB2ENR bit 3
+  15:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIOC -> APB2ENR bit 4
+  16:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+  17:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  18:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_ClockControl(GPIO_TypeDef *pGPIOx, uint8_t EnorDi) {
+  28              		.loc 1 18 62 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  19:../ChronosRTOS/Drivers/Src/gpio.c ****   if (EnorDi == ENABLE) {
+  33              		.loc 1 19 3 view .LVU1
+  34              		.loc 1 19 6 is_stmt 0 view .LVU2
+  35 0000 0129     		cmp	r1, #1
+  36 0002 09D0     		beq	.L8
+  20:../ChronosRTOS/Drivers/Src/gpio.c ****     if (pGPIOx == GPIOA) {
+  21:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 2);
+  22:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+ARM GAS  /tmp/ccp8gFBF.s 			page 2
+
+
+  23:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 3);
+  24:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+  25:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 4);
+  26:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+  27:../ChronosRTOS/Drivers/Src/gpio.c ****   } else {
+  28:../ChronosRTOS/Drivers/Src/gpio.c ****     if (pGPIOx == GPIOA) {
+  37              		.loc 1 28 5 is_stmt 1 view .LVU3
+  38              		.loc 1 28 8 is_stmt 0 view .LVU4
+  39 0004 1B4B     		ldr	r3, .L14
+  40 0006 9842     		cmp	r0, r3
+  41 0008 21D0     		beq	.L9
+  29:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR &= ~(1U << 2);
+  30:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+  42              		.loc 1 30 12 is_stmt 1 view .LVU5
+  43              		.loc 1 30 15 is_stmt 0 view .LVU6
+  44 000a 1B4B     		ldr	r3, .L14+4
+  45 000c 9842     		cmp	r0, r3
+  46 000e 24D0     		beq	.L10
+  31:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR &= ~(1U << 3);
+  32:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+  47              		.loc 1 32 12 is_stmt 1 view .LVU7
+  48              		.loc 1 32 15 is_stmt 0 view .LVU8
+  49 0010 1A4B     		ldr	r3, .L14+8
+  50 0012 9842     		cmp	r0, r3
+  51 0014 27D0     		beq	.L11
+  52              	.L1:
+  33:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR &= ~(1U << 4);
+  34:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+  35:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+  36:../ChronosRTOS/Drivers/Src/gpio.c **** }
+  53              		.loc 1 36 1 view .LVU9
+  54 0016 7047     		bx	lr
+  55              	.L8:
+  20:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 2);
+  56              		.loc 1 20 5 is_stmt 1 view .LVU10
+  20:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 2);
+  57              		.loc 1 20 8 is_stmt 0 view .LVU11
+  58 0018 164B     		ldr	r3, .L14
+  59 001a 9842     		cmp	r0, r3
+  60 001c 0BD0     		beq	.L12
+  22:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 3);
+  61              		.loc 1 22 12 is_stmt 1 view .LVU12
+  22:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 3);
+  62              		.loc 1 22 15 is_stmt 0 view .LVU13
+  63 001e 164B     		ldr	r3, .L14+4
+  64 0020 9842     		cmp	r0, r3
+  65 0022 0ED0     		beq	.L13
+  24:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 4);
+  66              		.loc 1 24 12 is_stmt 1 view .LVU14
+  24:../ChronosRTOS/Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 4);
+  67              		.loc 1 24 15 is_stmt 0 view .LVU15
+  68 0024 154B     		ldr	r3, .L14+8
+  69 0026 9842     		cmp	r0, r3
+  70 0028 F5D1     		bne	.L1
+  25:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+  71              		.loc 1 25 7 is_stmt 1 view .LVU16
+  25:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+ARM GAS  /tmp/ccp8gFBF.s 			page 3
+
+
+  72              		.loc 1 25 10 is_stmt 0 view .LVU17
+  73 002a 154A     		ldr	r2, .L14+12
+  74 002c 9369     		ldr	r3, [r2, #24]
+  25:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+  75              		.loc 1 25 20 view .LVU18
+  76 002e 43F01003 		orr	r3, r3, #16
+  77 0032 9361     		str	r3, [r2, #24]
+  78 0034 7047     		bx	lr
+  79              	.L12:
+  21:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+  80              		.loc 1 21 7 is_stmt 1 view .LVU19
+  21:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+  81              		.loc 1 21 10 is_stmt 0 view .LVU20
+  82 0036 124A     		ldr	r2, .L14+12
+  83 0038 9369     		ldr	r3, [r2, #24]
+  21:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+  84              		.loc 1 21 20 view .LVU21
+  85 003a 43F00403 		orr	r3, r3, #4
+  86 003e 9361     		str	r3, [r2, #24]
+  87 0040 7047     		bx	lr
+  88              	.L13:
+  23:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+  89              		.loc 1 23 7 is_stmt 1 view .LVU22
+  23:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+  90              		.loc 1 23 10 is_stmt 0 view .LVU23
+  91 0042 0F4A     		ldr	r2, .L14+12
+  92 0044 9369     		ldr	r3, [r2, #24]
+  23:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+  93              		.loc 1 23 20 view .LVU24
+  94 0046 43F00803 		orr	r3, r3, #8
+  95 004a 9361     		str	r3, [r2, #24]
+  96 004c 7047     		bx	lr
+  97              	.L9:
+  29:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+  98              		.loc 1 29 7 is_stmt 1 view .LVU25
+  29:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+  99              		.loc 1 29 10 is_stmt 0 view .LVU26
+ 100 004e 0C4A     		ldr	r2, .L14+12
+ 101 0050 9369     		ldr	r3, [r2, #24]
+  29:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
+ 102              		.loc 1 29 20 view .LVU27
+ 103 0052 23F00403 		bic	r3, r3, #4
+ 104 0056 9361     		str	r3, [r2, #24]
+ 105 0058 7047     		bx	lr
+ 106              	.L10:
+  31:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+ 107              		.loc 1 31 7 is_stmt 1 view .LVU28
+  31:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+ 108              		.loc 1 31 10 is_stmt 0 view .LVU29
+ 109 005a 094A     		ldr	r2, .L14+12
+ 110 005c 9369     		ldr	r3, [r2, #24]
+  31:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOC) {
+ 111              		.loc 1 31 20 view .LVU30
+ 112 005e 23F00803 		bic	r3, r3, #8
+ 113 0062 9361     		str	r3, [r2, #24]
+ 114 0064 7047     		bx	lr
+ 115              	.L11:
+ARM GAS  /tmp/ccp8gFBF.s 			page 4
+
+
+  33:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+ 116              		.loc 1 33 7 is_stmt 1 view .LVU31
+  33:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+ 117              		.loc 1 33 10 is_stmt 0 view .LVU32
+ 118 0066 064A     		ldr	r2, .L14+12
+ 119 0068 9369     		ldr	r3, [r2, #24]
+  33:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+ 120              		.loc 1 33 20 view .LVU33
+ 121 006a 23F01003 		bic	r3, r3, #16
+ 122 006e 9361     		str	r3, [r2, #24]
+ 123              		.loc 1 36 1 view .LVU34
+ 124 0070 D1E7     		b	.L1
+ 125              	.L15:
+ 126 0072 00BF     		.align	2
+ 127              	.L14:
+ 128 0074 00080140 		.word	1073809408
+ 129 0078 000C0140 		.word	1073810432
+ 130 007c 00100140 		.word	1073811456
+ 131 0080 00100240 		.word	1073876992
+ 132              		.cfi_endproc
+ 133              	.LFE65:
+ 135              		.section	.text.GPIO_Init,"ax",%progbits
+ 136              		.align	1
+ 137              		.global	GPIO_Init
+ 138              		.syntax unified
+ 139              		.thumb
+ 140              		.thumb_func
+ 142              	GPIO_Init:
+ 143              	.LVL1:
+ 144              	.LFB66:
+  37:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  38:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+  39:../ChronosRTOS/Drivers/Src/gpio.c ****  * Generic GPIO Initialization
+  40:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+  41:../ChronosRTOS/Drivers/Src/gpio.c ****  * STM32F103:
+  42:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+  43:../ChronosRTOS/Drivers/Src/gpio.c ****  * Pins 0-7  -> CRL
+  44:../ChronosRTOS/Drivers/Src/gpio.c ****  * Pins 8-15 -> CRH
+  45:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+  46:../ChronosRTOS/Drivers/Src/gpio.c ****  * Each pin uses 4 configuration bits:
+  47:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+  48:../ChronosRTOS/Drivers/Src/gpio.c ****  * CNF[1:0] + MODE[1:0]
+  49:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+  50:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  51:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_Init(GPIO_Handle_t *pGPIOHandle) {
+ 145              		.loc 1 51 44 is_stmt 1 view -0
+ 146              		.cfi_startproc
+ 147              		@ args = 0, pretend = 0, frame = 0
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149              		.loc 1 51 44 is_stmt 0 view .LVU36
+ 150 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 151              	.LCFI0:
+ 152              		.cfi_def_cfa_offset 24
+ 153              		.cfi_offset 3, -24
+ 154              		.cfi_offset 4, -20
+ 155              		.cfi_offset 5, -16
+ 156              		.cfi_offset 6, -12
+ARM GAS  /tmp/ccp8gFBF.s 			page 5
+
+
+ 157              		.cfi_offset 7, -8
+ 158              		.cfi_offset 14, -4
+ 159 0002 0546     		mov	r5, r0
+  52:../ChronosRTOS/Drivers/Src/gpio.c ****   uint32_t config = 0U;
+ 160              		.loc 1 52 3 is_stmt 1 view .LVU37
+ 161              	.LVL2:
+  53:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  54:../ChronosRTOS/Drivers/Src/gpio.c ****   uint8_t pin = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber;
+ 162              		.loc 1 54 3 view .LVU38
+ 163              		.loc 1 54 11 is_stmt 0 view .LVU39
+ 164 0004 0479     		ldrb	r4, [r0, #4]	@ zero_extendqisi2
+ 165              	.LVL3:
+  55:../ChronosRTOS/Drivers/Src/gpio.c ****   uint8_t mode = pGPIOHandle->GPIO_PinConfig.GPIO_Mode;
+ 166              		.loc 1 55 3 is_stmt 1 view .LVU40
+ 167              		.loc 1 55 11 is_stmt 0 view .LVU41
+ 168 0006 4679     		ldrb	r6, [r0, #5]	@ zero_extendqisi2
+ 169              	.LVL4:
+  56:../ChronosRTOS/Drivers/Src/gpio.c ****   uint8_t cnf = pGPIOHandle->GPIO_PinConfig.GPIO_CNF;
+ 170              		.loc 1 56 3 is_stmt 1 view .LVU42
+ 171              		.loc 1 56 11 is_stmt 0 view .LVU43
+ 172 0008 8779     		ldrb	r7, [r0, #6]	@ zero_extendqisi2
+ 173              	.LVL5:
+  57:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  58:../ChronosRTOS/Drivers/Src/gpio.c ****   volatile uint32_t *configReg;
+ 174              		.loc 1 58 3 is_stmt 1 view .LVU44
+  59:../ChronosRTOS/Drivers/Src/gpio.c ****   uint8_t position;
+ 175              		.loc 1 59 3 view .LVU45
+  60:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  61:../ChronosRTOS/Drivers/Src/gpio.c ****   /* Enable peripheral clock before accessing GPIO registers. */
+  62:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIO_ClockControl(pGPIOHandle->pGPIOx, ENABLE);
+ 176              		.loc 1 62 3 view .LVU46
+ 177 000a 0121     		movs	r1, #1
+ 178 000c 0068     		ldr	r0, [r0]
+ 179              	.LVL6:
+ 180              		.loc 1 62 3 is_stmt 0 view .LVU47
+ 181 000e FFF7FEFF 		bl	GPIO_ClockControl
+ 182              	.LVL7:
+  63:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  64:../ChronosRTOS/Drivers/Src/gpio.c ****   /* Select CRL or CRH. */
+  65:../ChronosRTOS/Drivers/Src/gpio.c ****   if (pin < 8U) {
+ 183              		.loc 1 65 3 is_stmt 1 view .LVU48
+ 184              		.loc 1 65 6 is_stmt 0 view .LVU49
+ 185 0012 072C     		cmp	r4, #7
+ 186 0014 09D8     		bhi	.L17
+  66:../ChronosRTOS/Drivers/Src/gpio.c ****     configReg = &pGPIOHandle->pGPIOx->CRL;
+ 187              		.loc 1 66 5 is_stmt 1 view .LVU50
+ 188              		.loc 1 66 29 is_stmt 0 view .LVU51
+ 189 0016 2B68     		ldr	r3, [r5]
+ 190              	.LVL8:
+  67:../ChronosRTOS/Drivers/Src/gpio.c ****     position = pin * 4U;
+ 191              		.loc 1 67 5 is_stmt 1 view .LVU52
+ 192              		.loc 1 67 14 is_stmt 0 view .LVU53
+ 193 0018 A400     		lsls	r4, r4, #2
+ 194              	.LVL9:
+ 195              		.loc 1 67 14 view .LVU54
+ 196 001a E4B2     		uxtb	r4, r4
+ 197              	.LVL10:
+ARM GAS  /tmp/ccp8gFBF.s 			page 6
+
+
+ 198              	.L18:
+  68:../ChronosRTOS/Drivers/Src/gpio.c ****   } else {
+  69:../ChronosRTOS/Drivers/Src/gpio.c ****     configReg = &pGPIOHandle->pGPIOx->CRH;
+  70:../ChronosRTOS/Drivers/Src/gpio.c ****     position = (pin - 8U) * 4U;
+  71:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+  72:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  73:../ChronosRTOS/Drivers/Src/gpio.c ****   /* =====================================================
+  74:../ChronosRTOS/Drivers/Src/gpio.c ****    * INPUT MODE
+  75:../ChronosRTOS/Drivers/Src/gpio.c ****    * ===================================================== */
+  76:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  77:../ChronosRTOS/Drivers/Src/gpio.c ****   if (mode == GPIO_MODE_INPUT) {
+ 199              		.loc 1 77 3 is_stmt 1 view .LVU55
+ 200              		.loc 1 77 6 is_stmt 0 view .LVU56
+ 201 001c 5EB9     		cbnz	r6, .L19
+  78:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  79:../ChronosRTOS/Drivers/Src/gpio.c ****     /* MODE = 00 */
+  80:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  81:../ChronosRTOS/Drivers/Src/gpio.c ****     if (cnf == GPIO_CNF_INPUT_ANALOG) {
+ 202              		.loc 1 81 5 is_stmt 1 view .LVU57
+ 203 001e 012F     		cmp	r7, #1
+ 204 0020 18D0     		beq	.L26
+ 205 0022 022F     		cmp	r7, #2
+ 206 0024 22D1     		bne	.L27
+  77:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 207              		.loc 1 77 6 is_stmt 0 view .LVU58
+ 208 0026 0826     		movs	r6, #8
+ 209              	.LVL11:
+  77:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 210              		.loc 1 77 6 view .LVU59
+ 211 0028 15E0     		b	.L20
+ 212              	.LVL12:
+ 213              	.L17:
+  69:../ChronosRTOS/Drivers/Src/gpio.c ****     position = (pin - 8U) * 4U;
+ 214              		.loc 1 69 5 is_stmt 1 view .LVU60
+  69:../ChronosRTOS/Drivers/Src/gpio.c ****     position = (pin - 8U) * 4U;
+ 215              		.loc 1 69 29 is_stmt 0 view .LVU61
+ 216 002a 2B68     		ldr	r3, [r5]
+  69:../ChronosRTOS/Drivers/Src/gpio.c ****     position = (pin - 8U) * 4U;
+ 217              		.loc 1 69 15 view .LVU62
+ 218 002c 0433     		adds	r3, r3, #4
+ 219              	.LVL13:
+  70:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 220              		.loc 1 70 5 is_stmt 1 view .LVU63
+  70:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 221              		.loc 1 70 14 is_stmt 0 view .LVU64
+ 222 002e 083C     		subs	r4, r4, #8
+ 223              	.LVL14:
+  70:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 224              		.loc 1 70 14 view .LVU65
+ 225 0030 A400     		lsls	r4, r4, #2
+ 226              	.LVL15:
+  70:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 227              		.loc 1 70 14 view .LVU66
+ 228 0032 E4B2     		uxtb	r4, r4
+ 229              	.LVL16:
+  70:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 230              		.loc 1 70 14 view .LVU67
+ARM GAS  /tmp/ccp8gFBF.s 			page 7
+
+
+ 231 0034 F2E7     		b	.L18
+ 232              	.L19:
+  82:../ChronosRTOS/Drivers/Src/gpio.c ****       /* CNF = 00, MODE = 00 */
+  83:../ChronosRTOS/Drivers/Src/gpio.c ****       config = 0x0U;
+  84:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  85:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (cnf == GPIO_CNF_INPUT_FLOATING) {
+  86:../ChronosRTOS/Drivers/Src/gpio.c ****       /* CNF = 01, MODE = 00 */
+  87:../ChronosRTOS/Drivers/Src/gpio.c ****       config = (1U << 2);
+  88:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  89:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (cnf == GPIO_CNF_INPUT_PU_PD) {
+  90:../ChronosRTOS/Drivers/Src/gpio.c ****       /* CNF = 10, MODE = 00 */
+  91:../ChronosRTOS/Drivers/Src/gpio.c ****       config = (2U << 2);
+  92:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  93:../ChronosRTOS/Drivers/Src/gpio.c ****     } else {
+  94:../ChronosRTOS/Drivers/Src/gpio.c ****       config = 0x0U;
+  95:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+  96:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+  97:../ChronosRTOS/Drivers/Src/gpio.c **** 
+  98:../ChronosRTOS/Drivers/Src/gpio.c ****   /* =====================================================
+  99:../ChronosRTOS/Drivers/Src/gpio.c ****    * OUTPUT MODE
+ 100:../ChronosRTOS/Drivers/Src/gpio.c ****    * ===================================================== */
+ 101:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 102:../ChronosRTOS/Drivers/Src/gpio.c ****   else {
+ 103:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 104:../ChronosRTOS/Drivers/Src/gpio.c ****     if (cnf == GPIO_CNF_OUTPUT_PP) {
+ 233              		.loc 1 104 5 is_stmt 1 view .LVU68
+ 234 0036 032F     		cmp	r7, #3
+ 235 0038 1AD8     		bhi	.L28
+ 236 003a DFE807F0 		tbb	[pc, r7]
+ 237              	.L22:
+ 238 003e 0C       		.byte	(.L20-.L22)/2
+ 239 003f 02       		.byte	(.L24-.L22)/2
+ 240 0040 05       		.byte	(.L23-.L22)/2
+ 241 0041 08       		.byte	(.L21-.L22)/2
+ 242              		.p2align 1
+ 243              	.L24:
+ 105:../ChronosRTOS/Drivers/Src/gpio.c ****       /* CNF = 00 */
+ 106:../ChronosRTOS/Drivers/Src/gpio.c ****       config = mode;
+ 107:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 108:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (cnf == GPIO_CNF_OUTPUT_OD) {
+ 109:../ChronosRTOS/Drivers/Src/gpio.c ****       /* CNF = 01 */
+ 110:../ChronosRTOS/Drivers/Src/gpio.c ****       config = (1U << 2) | mode;
+ 244              		.loc 1 110 7 view .LVU69
+ 245              		.loc 1 110 26 is_stmt 0 view .LVU70
+ 246 0042 46F00406 		orr	r6, r6, #4
+ 247              	.LVL17:
+ 248              		.loc 1 110 26 view .LVU71
+ 249 0046 06E0     		b	.L20
+ 250              	.LVL18:
+ 251              	.L23:
+ 111:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 112:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (cnf == GPIO_CNF_AF_OUTPUT_PP) {
+ 113:../ChronosRTOS/Drivers/Src/gpio.c ****       /* CNF = 10 */
+ 114:../ChronosRTOS/Drivers/Src/gpio.c ****       config = (2U << 2) | mode;
+ 252              		.loc 1 114 7 is_stmt 1 view .LVU72
+ 253              		.loc 1 114 26 is_stmt 0 view .LVU73
+ 254 0048 46F00806 		orr	r6, r6, #8
+ARM GAS  /tmp/ccp8gFBF.s 			page 8
+
+
+ 255              	.LVL19:
+ 256              		.loc 1 114 26 view .LVU74
+ 257 004c 03E0     		b	.L20
+ 258              	.LVL20:
+ 259              	.L21:
+ 115:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 116:../ChronosRTOS/Drivers/Src/gpio.c ****     } else if (cnf == GPIO_CNF_AF_OUTPUT_OD) {
+ 117:../ChronosRTOS/Drivers/Src/gpio.c ****       /* CNF = 11 */
+ 118:../ChronosRTOS/Drivers/Src/gpio.c ****       config = (3U << 2) | mode;
+ 260              		.loc 1 118 7 is_stmt 1 view .LVU75
+ 261              		.loc 1 118 26 is_stmt 0 view .LVU76
+ 262 004e 46F00C06 		orr	r6, r6, #12
+ 263              	.LVL21:
+ 264              		.loc 1 118 26 view .LVU77
+ 265 0052 00E0     		b	.L20
+ 266              	.LVL22:
+ 267              	.L26:
+  77:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 268              		.loc 1 77 6 view .LVU78
+ 269 0054 0426     		movs	r6, #4
+ 270              	.LVL23:
+ 271              	.L20:
+ 119:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 120:../ChronosRTOS/Drivers/Src/gpio.c ****     } else {
+ 121:../ChronosRTOS/Drivers/Src/gpio.c ****       config = 0x0U;
+ 122:../ChronosRTOS/Drivers/Src/gpio.c ****     }
+ 123:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 124:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 125:../ChronosRTOS/Drivers/Src/gpio.c ****   /* Clear existing 4-bit configuration. */
+ 126:../ChronosRTOS/Drivers/Src/gpio.c ****   *configReg &= ~(0xFU << position);
+ 272              		.loc 1 126 3 is_stmt 1 view .LVU79
+ 273 0056 1A68     		ldr	r2, [r3]
+ 274              		.loc 1 126 24 is_stmt 0 view .LVU80
+ 275 0058 0F21     		movs	r1, #15
+ 276 005a A140     		lsls	r1, r1, r4
+ 277              		.loc 1 126 14 view .LVU81
+ 278 005c 22EA0102 		bic	r2, r2, r1
+ 279 0060 1A60     		str	r2, [r3]
+ 127:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 128:../ChronosRTOS/Drivers/Src/gpio.c ****   /* Write new configuration. */
+ 129:../ChronosRTOS/Drivers/Src/gpio.c ****   *configReg |= (config << position);
+ 280              		.loc 1 129 3 is_stmt 1 view .LVU82
+ 281 0062 1A68     		ldr	r2, [r3]
+ 282              		.loc 1 129 25 is_stmt 0 view .LVU83
+ 283 0064 A640     		lsls	r6, r6, r4
+ 284              	.LVL24:
+ 285              		.loc 1 129 14 view .LVU84
+ 286 0066 3243     		orrs	r2, r2, r6
+ 287 0068 1A60     		str	r2, [r3]
+ 130:../ChronosRTOS/Drivers/Src/gpio.c **** }
+ 288              		.loc 1 130 1 view .LVU85
+ 289 006a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 290              	.LVL25:
+ 291              	.L27:
+  77:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 292              		.loc 1 77 6 view .LVU86
+ 293 006c 0026     		movs	r6, #0
+ARM GAS  /tmp/ccp8gFBF.s 			page 9
+
+
+ 294              	.LVL26:
+  77:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 295              		.loc 1 77 6 view .LVU87
+ 296 006e F2E7     		b	.L20
+ 297              	.LVL27:
+ 298              	.L28:
+  77:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 299              		.loc 1 77 6 view .LVU88
+ 300 0070 0026     		movs	r6, #0
+ 301              	.LVL28:
+  77:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 302              		.loc 1 77 6 view .LVU89
+ 303 0072 F0E7     		b	.L20
+ 304              		.cfi_endproc
+ 305              	.LFE66:
+ 307              		.section	.text.GPIO_ReadPin,"ax",%progbits
+ 308              		.align	1
+ 309              		.global	GPIO_ReadPin
+ 310              		.syntax unified
+ 311              		.thumb
+ 312              		.thumb_func
+ 314              	GPIO_ReadPin:
+ 315              	.LVL29:
+ 316              	.LFB67:
+ 131:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 132:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 133:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO Read
+ 134:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 135:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 136:../ChronosRTOS/Drivers/Src/gpio.c **** uint8_t GPIO_ReadPin(GPIO_TypeDef *pGPIOx, uint8_t PinNumber) {
+ 317              		.loc 1 136 63 is_stmt 1 view -0
+ 318              		.cfi_startproc
+ 319              		@ args = 0, pretend = 0, frame = 0
+ 320              		@ frame_needed = 0, uses_anonymous_args = 0
+ 321              		@ link register save eliminated.
+ 137:../ChronosRTOS/Drivers/Src/gpio.c ****   return (uint8_t)((pGPIOx->IDR >> PinNumber) & 0x01U);
+ 322              		.loc 1 137 3 view .LVU91
+ 323              		.loc 1 137 27 is_stmt 0 view .LVU92
+ 324 0000 8068     		ldr	r0, [r0, #8]
+ 325              	.LVL30:
+ 326              		.loc 1 137 33 view .LVU93
+ 327 0002 C840     		lsrs	r0, r0, r1
+ 138:../ChronosRTOS/Drivers/Src/gpio.c **** }
+ 328              		.loc 1 138 1 view .LVU94
+ 329 0004 00F00100 		and	r0, r0, #1
+ 330 0008 7047     		bx	lr
+ 331              		.cfi_endproc
+ 332              	.LFE67:
+ 334              		.section	.text.GPIO_WritePin,"ax",%progbits
+ 335              		.align	1
+ 336              		.global	GPIO_WritePin
+ 337              		.syntax unified
+ 338              		.thumb
+ 339              		.thumb_func
+ 341              	GPIO_WritePin:
+ 342              	.LVL31:
+ 343              	.LFB68:
+ARM GAS  /tmp/ccp8gFBF.s 			page 10
+
+
+ 139:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 140:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 141:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO Write
+ 142:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 143:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 144:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_WritePin(GPIO_TypeDef *pGPIOx, uint8_t PinNumber, uint8_t Value) {
+ 344              		.loc 1 144 76 is_stmt 1 view -0
+ 345              		.cfi_startproc
+ 346              		@ args = 0, pretend = 0, frame = 0
+ 347              		@ frame_needed = 0, uses_anonymous_args = 0
+ 348              		@ link register save eliminated.
+ 145:../ChronosRTOS/Drivers/Src/gpio.c ****   if (Value == 1U) {
+ 349              		.loc 1 145 3 view .LVU96
+ 350              		.loc 1 145 6 is_stmt 0 view .LVU97
+ 351 0000 012A     		cmp	r2, #1
+ 352 0002 03D0     		beq	.L34
+ 146:../ChronosRTOS/Drivers/Src/gpio.c ****     pGPIOx->BSRR = (1U << PinNumber);
+ 147:../ChronosRTOS/Drivers/Src/gpio.c ****   } else {
+ 148:../ChronosRTOS/Drivers/Src/gpio.c ****     pGPIOx->BRR = (1U << PinNumber);
+ 353              		.loc 1 148 5 is_stmt 1 view .LVU98
+ 354              		.loc 1 148 23 is_stmt 0 view .LVU99
+ 355 0004 0123     		movs	r3, #1
+ 356 0006 8B40     		lsls	r3, r3, r1
+ 357              		.loc 1 148 17 view .LVU100
+ 358 0008 4361     		str	r3, [r0, #20]
+ 149:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 150:../ChronosRTOS/Drivers/Src/gpio.c **** }
+ 359              		.loc 1 150 1 view .LVU101
+ 360 000a 7047     		bx	lr
+ 361              	.L34:
+ 146:../ChronosRTOS/Drivers/Src/gpio.c ****     pGPIOx->BSRR = (1U << PinNumber);
+ 362              		.loc 1 146 5 is_stmt 1 view .LVU102
+ 146:../ChronosRTOS/Drivers/Src/gpio.c ****     pGPIOx->BSRR = (1U << PinNumber);
+ 363              		.loc 1 146 24 is_stmt 0 view .LVU103
+ 364 000c 0123     		movs	r3, #1
+ 365 000e 8B40     		lsls	r3, r3, r1
+ 146:../ChronosRTOS/Drivers/Src/gpio.c ****     pGPIOx->BSRR = (1U << PinNumber);
+ 366              		.loc 1 146 18 view .LVU104
+ 367 0010 0361     		str	r3, [r0, #16]
+ 368 0012 7047     		bx	lr
+ 369              		.cfi_endproc
+ 370              	.LFE68:
+ 372              		.section	.text.GPIO_TogglePin,"ax",%progbits
+ 373              		.align	1
+ 374              		.global	GPIO_TogglePin
+ 375              		.syntax unified
+ 376              		.thumb
+ 377              		.thumb_func
+ 379              	GPIO_TogglePin:
+ 380              	.LVL32:
+ 381              	.LFB69:
+ 151:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 152:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 153:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO Toggle
+ 154:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 155:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 156:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_TogglePin(GPIO_TypeDef *pGPIOx, uint8_t PinNumber) {
+ARM GAS  /tmp/ccp8gFBF.s 			page 11
+
+
+ 382              		.loc 1 156 62 is_stmt 1 view -0
+ 383              		.cfi_startproc
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 157:../ChronosRTOS/Drivers/Src/gpio.c ****   pGPIOx->ODR ^= (1U << PinNumber);
+ 387              		.loc 1 157 3 view .LVU106
+ 388              		.loc 1 157 9 is_stmt 0 view .LVU107
+ 389 0000 C368     		ldr	r3, [r0, #12]
+ 390              		.loc 1 157 22 view .LVU108
+ 391 0002 0122     		movs	r2, #1
+ 392 0004 8A40     		lsls	r2, r2, r1
+ 393              		.loc 1 157 15 view .LVU109
+ 394 0006 5340     		eors	r3, r3, r2
+ 395 0008 C360     		str	r3, [r0, #12]
+ 158:../ChronosRTOS/Drivers/Src/gpio.c **** }
+ 396              		.loc 1 158 1 view .LVU110
+ 397 000a 7047     		bx	lr
+ 398              		.cfi_endproc
+ 399              	.LFE69:
+ 401              		.section	.text.GPIO_DeInit,"ax",%progbits
+ 402              		.align	1
+ 403              		.global	GPIO_DeInit
+ 404              		.syntax unified
+ 405              		.thumb
+ 406              		.thumb_func
+ 408              	GPIO_DeInit:
+ 409              	.LVL33:
+ 410              	.LFB70:
+ 159:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 160:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 161:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO De-Initialization
+ 162:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 163:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 164:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_DeInit(GPIO_TypeDef *pGPIOx) {
+ 411              		.loc 1 164 40 is_stmt 1 view -0
+ 412              		.cfi_startproc
+ 413              		@ args = 0, pretend = 0, frame = 0
+ 414              		@ frame_needed = 0, uses_anonymous_args = 0
+ 415              		@ link register save eliminated.
+ 165:../ChronosRTOS/Drivers/Src/gpio.c ****   if (pGPIOx == GPIOA) {
+ 416              		.loc 1 165 3 view .LVU112
+ 417              		.loc 1 165 6 is_stmt 0 view .LVU113
+ 418 0000 154B     		ldr	r3, .L43
+ 419 0002 9842     		cmp	r0, r3
+ 420 0004 06D0     		beq	.L40
+ 166:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR |= (1U << 2);
+ 167:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 2);
+ 168:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 169:../ChronosRTOS/Drivers/Src/gpio.c ****   } else if (pGPIOx == GPIOB) {
+ 421              		.loc 1 169 10 is_stmt 1 view .LVU114
+ 422              		.loc 1 169 13 is_stmt 0 view .LVU115
+ 423 0006 154B     		ldr	r3, .L43+4
+ 424 0008 9842     		cmp	r0, r3
+ 425 000a 0ED0     		beq	.L41
+ 170:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR |= (1U << 3);
+ 171:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 3);
+ARM GAS  /tmp/ccp8gFBF.s 			page 12
+
+
+ 172:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 173:../ChronosRTOS/Drivers/Src/gpio.c ****   } else if (pGPIOx == GPIOC) {
+ 426              		.loc 1 173 10 is_stmt 1 view .LVU116
+ 427              		.loc 1 173 13 is_stmt 0 view .LVU117
+ 428 000c 144B     		ldr	r3, .L43+8
+ 429 000e 9842     		cmp	r0, r3
+ 430 0010 16D0     		beq	.L42
+ 431              	.L36:
+ 174:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR |= (1U << 4);
+ 175:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 4);
+ 176:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 177:../ChronosRTOS/Drivers/Src/gpio.c **** }
+ 432              		.loc 1 177 1 view .LVU118
+ 433 0012 7047     		bx	lr
+ 434              	.L40:
+ 166:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 2);
+ 435              		.loc 1 166 5 is_stmt 1 view .LVU119
+ 166:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 2);
+ 436              		.loc 1 166 8 is_stmt 0 view .LVU120
+ 437 0014 03F58433 		add	r3, r3, #67584
+ 438 0018 DA68     		ldr	r2, [r3, #12]
+ 166:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 2);
+ 439              		.loc 1 166 19 view .LVU121
+ 440 001a 42F00402 		orr	r2, r2, #4
+ 441 001e DA60     		str	r2, [r3, #12]
+ 167:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 442              		.loc 1 167 5 is_stmt 1 view .LVU122
+ 167:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 443              		.loc 1 167 8 is_stmt 0 view .LVU123
+ 444 0020 DA68     		ldr	r2, [r3, #12]
+ 167:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 445              		.loc 1 167 19 view .LVU124
+ 446 0022 22F00402 		bic	r2, r2, #4
+ 447 0026 DA60     		str	r2, [r3, #12]
+ 448 0028 7047     		bx	lr
+ 449              	.L41:
+ 170:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 3);
+ 450              		.loc 1 170 5 is_stmt 1 view .LVU125
+ 170:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 3);
+ 451              		.loc 1 170 8 is_stmt 0 view .LVU126
+ 452 002a 03F58233 		add	r3, r3, #66560
+ 453 002e DA68     		ldr	r2, [r3, #12]
+ 170:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 3);
+ 454              		.loc 1 170 19 view .LVU127
+ 455 0030 42F00802 		orr	r2, r2, #8
+ 456 0034 DA60     		str	r2, [r3, #12]
+ 171:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 457              		.loc 1 171 5 is_stmt 1 view .LVU128
+ 171:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 458              		.loc 1 171 8 is_stmt 0 view .LVU129
+ 459 0036 DA68     		ldr	r2, [r3, #12]
+ 171:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 460              		.loc 1 171 19 view .LVU130
+ 461 0038 22F00802 		bic	r2, r2, #8
+ 462 003c DA60     		str	r2, [r3, #12]
+ 463 003e 7047     		bx	lr
+ 464              	.L42:
+ARM GAS  /tmp/ccp8gFBF.s 			page 13
+
+
+ 174:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 4);
+ 465              		.loc 1 174 5 is_stmt 1 view .LVU131
+ 174:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 4);
+ 466              		.loc 1 174 8 is_stmt 0 view .LVU132
+ 467 0040 03F58033 		add	r3, r3, #65536
+ 468 0044 DA68     		ldr	r2, [r3, #12]
+ 174:../ChronosRTOS/Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 4);
+ 469              		.loc 1 174 19 view .LVU133
+ 470 0046 42F01002 		orr	r2, r2, #16
+ 471 004a DA60     		str	r2, [r3, #12]
+ 175:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 472              		.loc 1 175 5 is_stmt 1 view .LVU134
+ 175:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 473              		.loc 1 175 8 is_stmt 0 view .LVU135
+ 474 004c DA68     		ldr	r2, [r3, #12]
+ 175:../ChronosRTOS/Drivers/Src/gpio.c ****   }
+ 475              		.loc 1 175 19 view .LVU136
+ 476 004e 22F01002 		bic	r2, r2, #16
+ 477 0052 DA60     		str	r2, [r3, #12]
+ 478              		.loc 1 177 1 view .LVU137
+ 479 0054 DDE7     		b	.L36
+ 480              	.L44:
+ 481 0056 00BF     		.align	2
+ 482              	.L43:
+ 483 0058 00080140 		.word	1073809408
+ 484 005c 000C0140 		.word	1073810432
+ 485 0060 00100140 		.word	1073811456
+ 486              		.cfi_endproc
+ 487              	.LFE70:
+ 489              		.section	.text.GPIO_INIT,"ax",%progbits
+ 490              		.align	1
+ 491              		.global	GPIO_INIT
+ 492              		.syntax unified
+ 493              		.thumb
+ 494              		.thumb_func
+ 496              	GPIO_INIT:
+ 497              	.LFB71:
+ 178:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 179:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 180:../ChronosRTOS/Drivers/Src/gpio.c ****  * ChronosRTOS PC13 LED Driver
+ 181:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 182:../ChronosRTOS/Drivers/Src/gpio.c ****  * STM32F103C8T6 Blue Pill:
+ 183:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 184:../ChronosRTOS/Drivers/Src/gpio.c ****  * PC13 LOW  -> LED ON
+ 185:../ChronosRTOS/Drivers/Src/gpio.c ****  * PC13 HIGH -> LED OFF
+ 186:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 187:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 188:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 189:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO_INIT
+ 190:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 191:../ChronosRTOS/Drivers/Src/gpio.c ****  * Configure PC13 as:
+ 192:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 193:../ChronosRTOS/Drivers/Src/gpio.c ****  * General-purpose output
+ 194:../ChronosRTOS/Drivers/Src/gpio.c ****  * Push-pull
+ 195:../ChronosRTOS/Drivers/Src/gpio.c ****  * 2 MHz
+ 196:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 197:../ChronosRTOS/Drivers/Src/gpio.c ****  * LED starts OFF.
+ARM GAS  /tmp/ccp8gFBF.s 			page 14
+
+
+ 198:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 199:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 200:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_INIT(void) {
+ 498              		.loc 1 200 22 is_stmt 1 view -0
+ 499              		.cfi_startproc
+ 500              		@ args = 0, pretend = 0, frame = 8
+ 501              		@ frame_needed = 0, uses_anonymous_args = 0
+ 502 0000 10B5     		push	{r4, lr}
+ 503              	.LCFI1:
+ 504              		.cfi_def_cfa_offset 8
+ 505              		.cfi_offset 4, -8
+ 506              		.cfi_offset 14, -4
+ 507 0002 82B0     		sub	sp, sp, #8
+ 508              	.LCFI2:
+ 509              		.cfi_def_cfa_offset 16
+ 201:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIO_Handle_t GPIOC_Handle;
+ 510              		.loc 1 201 3 view .LVU139
+ 202:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 203:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIOC_Handle.pGPIOx = GPIOC;
+ 511              		.loc 1 203 3 view .LVU140
+ 512              		.loc 1 203 23 is_stmt 0 view .LVU141
+ 513 0004 094C     		ldr	r4, .L47
+ 514 0006 0094     		str	r4, [sp]
+ 204:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 205:../ChronosRTOS/Drivers/Src/gpio.c ****   /*
+ 206:../ChronosRTOS/Drivers/Src/gpio.c ****    * GPIO_PinNumber represents the actual pin number,
+ 207:../ChronosRTOS/Drivers/Src/gpio.c ****    * not the STM32 HAL bit-mask.
+ 208:../ChronosRTOS/Drivers/Src/gpio.c ****    */
+ 209:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIOC_Handle.GPIO_PinConfig.GPIO_PinNumber = 13;
+ 515              		.loc 1 209 3 is_stmt 1 view .LVU142
+ 516              		.loc 1 209 46 is_stmt 0 view .LVU143
+ 517 0008 0D23     		movs	r3, #13
+ 518 000a 8DF80430 		strb	r3, [sp, #4]
+ 210:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 211:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIOC_Handle.GPIO_PinConfig.GPIO_Mode = GPIO_MODE_OUT_2MHz;
+ 519              		.loc 1 211 3 is_stmt 1 view .LVU144
+ 520              		.loc 1 211 41 is_stmt 0 view .LVU145
+ 521 000e 0223     		movs	r3, #2
+ 522 0010 8DF80530 		strb	r3, [sp, #5]
+ 212:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 213:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIOC_Handle.GPIO_PinConfig.GPIO_CNF = GPIO_CNF_OUTPUT_PP;
+ 523              		.loc 1 213 3 is_stmt 1 view .LVU146
+ 524              		.loc 1 213 40 is_stmt 0 view .LVU147
+ 525 0014 0023     		movs	r3, #0
+ 526 0016 8DF80630 		strb	r3, [sp, #6]
+ 214:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 215:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIO_Init(&GPIOC_Handle);
+ 527              		.loc 1 215 3 is_stmt 1 view .LVU148
+ 528 001a 6846     		mov	r0, sp
+ 529 001c FFF7FEFF 		bl	GPIO_Init
+ 530              	.LVL34:
+ 216:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 217:../ChronosRTOS/Drivers/Src/gpio.c ****   /* LED OFF: PC13 HIGH */
+ 218:../ChronosRTOS/Drivers/Src/gpio.c ****   GPIOC->BSRR = (1U << 13);
+ 531              		.loc 1 218 3 view .LVU149
+ 532              		.loc 1 218 15 is_stmt 0 view .LVU150
+ 533 0020 4FF40053 		mov	r3, #8192
+ARM GAS  /tmp/ccp8gFBF.s 			page 15
+
+
+ 534 0024 2361     		str	r3, [r4, #16]
+ 219:../ChronosRTOS/Drivers/Src/gpio.c **** }
+ 535              		.loc 1 219 1 view .LVU151
+ 536 0026 02B0     		add	sp, sp, #8
+ 537              	.LCFI3:
+ 538              		.cfi_def_cfa_offset 8
+ 539              		@ sp needed
+ 540 0028 10BD     		pop	{r4, pc}
+ 541              	.L48:
+ 542 002a 00BF     		.align	2
+ 543              	.L47:
+ 544 002c 00100140 		.word	1073811456
+ 545              		.cfi_endproc
+ 546              	.LFE71:
+ 548              		.section	.text.GPIO_ON,"ax",%progbits
+ 549              		.align	1
+ 550              		.global	GPIO_ON
+ 551              		.syntax unified
+ 552              		.thumb
+ 553              		.thumb_func
+ 555              	GPIO_ON:
+ 556              	.LFB72:
+ 220:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 221:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 222:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO_ON
+ 223:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 224:../ChronosRTOS/Drivers/Src/gpio.c ****  * PC13 LOW -> LED ON
+ 225:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 226:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 227:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_ON(void) { GPIOC->BRR = (1U << 13); }
+ 557              		.loc 1 227 20 is_stmt 1 view -0
+ 558              		.cfi_startproc
+ 559              		@ args = 0, pretend = 0, frame = 0
+ 560              		@ frame_needed = 0, uses_anonymous_args = 0
+ 561              		@ link register save eliminated.
+ 562              		.loc 1 227 22 view .LVU153
+ 563              		.loc 1 227 33 is_stmt 0 view .LVU154
+ 564 0000 024B     		ldr	r3, .L50
+ 565 0002 4FF40052 		mov	r2, #8192
+ 566 0006 5A61     		str	r2, [r3, #20]
+ 567              		.loc 1 227 47 view .LVU155
+ 568 0008 7047     		bx	lr
+ 569              	.L51:
+ 570 000a 00BF     		.align	2
+ 571              	.L50:
+ 572 000c 00100140 		.word	1073811456
+ 573              		.cfi_endproc
+ 574              	.LFE72:
+ 576              		.section	.text.GPIO_OFF,"ax",%progbits
+ 577              		.align	1
+ 578              		.global	GPIO_OFF
+ 579              		.syntax unified
+ 580              		.thumb
+ 581              		.thumb_func
+ 583              	GPIO_OFF:
+ 584              	.LFB73:
+ 228:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ARM GAS  /tmp/ccp8gFBF.s 			page 16
+
+
+ 229:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 230:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO_OFF
+ 231:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 232:../ChronosRTOS/Drivers/Src/gpio.c ****  * PC13 HIGH -> LED OFF
+ 233:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 234:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 235:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_OFF(void) { GPIOC->BSRR = (1U << 13); }
+ 585              		.loc 1 235 21 is_stmt 1 view -0
+ 586              		.cfi_startproc
+ 587              		@ args = 0, pretend = 0, frame = 0
+ 588              		@ frame_needed = 0, uses_anonymous_args = 0
+ 589              		@ link register save eliminated.
+ 590              		.loc 1 235 23 view .LVU157
+ 591              		.loc 1 235 35 is_stmt 0 view .LVU158
+ 592 0000 024B     		ldr	r3, .L53
+ 593 0002 4FF40052 		mov	r2, #8192
+ 594 0006 1A61     		str	r2, [r3, #16]
+ 595              		.loc 1 235 49 view .LVU159
+ 596 0008 7047     		bx	lr
+ 597              	.L54:
+ 598 000a 00BF     		.align	2
+ 599              	.L53:
+ 600 000c 00100140 		.word	1073811456
+ 601              		.cfi_endproc
+ 602              	.LFE73:
+ 604              		.section	.text.GPIO_TOGGLE,"ax",%progbits
+ 605              		.align	1
+ 606              		.global	GPIO_TOGGLE
+ 607              		.syntax unified
+ 608              		.thumb
+ 609              		.thumb_func
+ 611              	GPIO_TOGGLE:
+ 612              	.LFB74:
+ 236:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 237:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 238:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO_TOGGLE
+ 239:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 240:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 241:../ChronosRTOS/Drivers/Src/gpio.c **** void GPIO_TOGGLE(void) { GPIOC->ODR ^= (1U << 13); }
+ 613              		.loc 1 241 24 is_stmt 1 view -0
+ 614              		.cfi_startproc
+ 615              		@ args = 0, pretend = 0, frame = 0
+ 616              		@ frame_needed = 0, uses_anonymous_args = 0
+ 617              		@ link register save eliminated.
+ 618              		.loc 1 241 26 view .LVU161
+ 619              		.loc 1 241 31 is_stmt 0 view .LVU162
+ 620 0000 024A     		ldr	r2, .L56
+ 621 0002 D368     		ldr	r3, [r2, #12]
+ 622              		.loc 1 241 37 view .LVU163
+ 623 0004 83F40053 		eor	r3, r3, #8192
+ 624 0008 D360     		str	r3, [r2, #12]
+ 625              		.loc 1 241 52 view .LVU164
+ 626 000a 7047     		bx	lr
+ 627              	.L57:
+ 628              		.align	2
+ 629              	.L56:
+ 630 000c 00100140 		.word	1073811456
+ARM GAS  /tmp/ccp8gFBF.s 			page 17
+
+
+ 631              		.cfi_endproc
+ 632              	.LFE74:
+ 634              		.section	.text.GPIO_READ,"ax",%progbits
+ 635              		.align	1
+ 636              		.global	GPIO_READ
+ 637              		.syntax unified
+ 638              		.thumb
+ 639              		.thumb_func
+ 641              	GPIO_READ:
+ 642              	.LFB75:
+ 242:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 243:../ChronosRTOS/Drivers/Src/gpio.c **** /* =========================================================
+ 244:../ChronosRTOS/Drivers/Src/gpio.c ****  * GPIO_READ
+ 245:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 246:../ChronosRTOS/Drivers/Src/gpio.c ****  * Returns:
+ 247:../ChronosRTOS/Drivers/Src/gpio.c ****  *
+ 248:../ChronosRTOS/Drivers/Src/gpio.c ****  * 0 -> PC13 LOW
+ 249:../ChronosRTOS/Drivers/Src/gpio.c ****  * 1 -> PC13 HIGH
+ 250:../ChronosRTOS/Drivers/Src/gpio.c ****  * ========================================================= */
+ 251:../ChronosRTOS/Drivers/Src/gpio.c **** 
+ 252:../ChronosRTOS/Drivers/Src/gpio.c **** uint8_t GPIO_READ(void) { return (uint8_t)((GPIOC->IDR >> 13) & 0x01U); }...
+ 643              		.loc 1 252 25 is_stmt 1 view -0
+ 644              		.cfi_startproc
+ 645              		@ args = 0, pretend = 0, frame = 0
+ 646              		@ frame_needed = 0, uses_anonymous_args = 0
+ 647              		@ link register save eliminated.
+ 648              		.loc 1 252 27 view .LVU166
+ 649              		.loc 1 252 50 is_stmt 0 view .LVU167
+ 650 0000 024B     		ldr	r3, .L59
+ 651 0002 9868     		ldr	r0, [r3, #8]
+ 652              		.loc 1 252 73 view .LVU168
+ 653 0004 C0F34030 		ubfx	r0, r0, #13, #1
+ 654 0008 7047     		bx	lr
+ 655              	.L60:
+ 656 000a 00BF     		.align	2
+ 657              	.L59:
+ 658 000c 00100140 		.word	1073811456
+ 659              		.cfi_endproc
+ 660              	.LFE75:
+ 662              		.text
+ 663              	.Letext0:
+ 664              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ 665              		.file 3 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 666              		.file 4 "../ChronosRTOS/Drivers/Inc/gpio.h"
+ARM GAS  /tmp/ccp8gFBF.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 gpio.c
+     /tmp/ccp8gFBF.s:19     .text.GPIO_ClockControl:00000000 $t
+     /tmp/ccp8gFBF.s:25     .text.GPIO_ClockControl:00000000 GPIO_ClockControl
+     /tmp/ccp8gFBF.s:128    .text.GPIO_ClockControl:00000074 $d
+     /tmp/ccp8gFBF.s:136    .text.GPIO_Init:00000000 $t
+     /tmp/ccp8gFBF.s:142    .text.GPIO_Init:00000000 GPIO_Init
+     /tmp/ccp8gFBF.s:238    .text.GPIO_Init:0000003e $d
+     /tmp/ccp8gFBF.s:242    .text.GPIO_Init:00000042 $t
+     /tmp/ccp8gFBF.s:308    .text.GPIO_ReadPin:00000000 $t
+     /tmp/ccp8gFBF.s:314    .text.GPIO_ReadPin:00000000 GPIO_ReadPin
+     /tmp/ccp8gFBF.s:335    .text.GPIO_WritePin:00000000 $t
+     /tmp/ccp8gFBF.s:341    .text.GPIO_WritePin:00000000 GPIO_WritePin
+     /tmp/ccp8gFBF.s:373    .text.GPIO_TogglePin:00000000 $t
+     /tmp/ccp8gFBF.s:379    .text.GPIO_TogglePin:00000000 GPIO_TogglePin
+     /tmp/ccp8gFBF.s:402    .text.GPIO_DeInit:00000000 $t
+     /tmp/ccp8gFBF.s:408    .text.GPIO_DeInit:00000000 GPIO_DeInit
+     /tmp/ccp8gFBF.s:483    .text.GPIO_DeInit:00000058 $d
+     /tmp/ccp8gFBF.s:490    .text.GPIO_INIT:00000000 $t
+     /tmp/ccp8gFBF.s:496    .text.GPIO_INIT:00000000 GPIO_INIT
+     /tmp/ccp8gFBF.s:544    .text.GPIO_INIT:0000002c $d
+     /tmp/ccp8gFBF.s:549    .text.GPIO_ON:00000000 $t
+     /tmp/ccp8gFBF.s:555    .text.GPIO_ON:00000000 GPIO_ON
+     /tmp/ccp8gFBF.s:572    .text.GPIO_ON:0000000c $d
+     /tmp/ccp8gFBF.s:577    .text.GPIO_OFF:00000000 $t
+     /tmp/ccp8gFBF.s:583    .text.GPIO_OFF:00000000 GPIO_OFF
+     /tmp/ccp8gFBF.s:600    .text.GPIO_OFF:0000000c $d
+     /tmp/ccp8gFBF.s:605    .text.GPIO_TOGGLE:00000000 $t
+     /tmp/ccp8gFBF.s:611    .text.GPIO_TOGGLE:00000000 GPIO_TOGGLE
+     /tmp/ccp8gFBF.s:630    .text.GPIO_TOGGLE:0000000c $d
+     /tmp/ccp8gFBF.s:635    .text.GPIO_READ:00000000 $t
+     /tmp/ccp8gFBF.s:641    .text.GPIO_READ:00000000 GPIO_READ
+     /tmp/ccp8gFBF.s:658    .text.GPIO_READ:0000000c $d
+
+NO UNDEFINED SYMBOLS

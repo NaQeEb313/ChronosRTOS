@@ -8,8 +8,8 @@
 
 #ifndef TASK_H
 #define TASK_H
+#include <stdbool.h>
 #include <stdint.h>
-
 typedef enum TaskState {
   TASK_NEW,
   TASK_READY,
@@ -35,11 +35,12 @@ typedef struct TCB {
 
 void Task_Create(TaskFunction task_function, uint8_t priority);
 void Task_Init(void);
-void Task_Terminate();
-void Task_Suspend() ;
-void Task_Resume() ;
-
+void Task_Terminate(TCB *temp);
+void Task_Suspend(TCB *temp);
+void Task_Resume(TCB *temp);
 TCB *Task_Get_Current();
 TCB *Task_Get_Idle();
+bool Task_Is_Initialized(void);
+void Task_Exit_Handler(void);
 
 #endif /* TASK_H */

@@ -8,9 +8,10 @@
 
 // TASK_RESUME CODE REMAINING
 
-#define MAX_TASKS 6
 #include "task.h"
+#include "config.h"
 #include "idle.h"
+#include "memory.h"
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -64,23 +65,84 @@ void Free_Stack_Pop(void) {
     return;
 }
 
+void Task_Exit_Handler(void) { Task_Terminate(curr); }
+void Task_Set_Current(TCB *task) { curr = task; }
+
 void Task_Create(TaskFunction task_function, uint8_t priority) {
   if (Free_Stack_Empty() || !init || task_function == NULL) {
     return;
   } else {
     task_count++;
-    TCB *tcb = &tcb_pool[Free_Stack_Top()];
+    int8_t slot = Free_Stack_Top();
+    TCB *tcb = &tcb_pool[slot];
+    uint32_t *stack_base = Mem_Stack_Base(&slot); // THe base of the Task Stack
+    uint32_t *sp =
+        stack_base + Mem_Stack_Size_Words(); // The top of the Task Stack it
+                                             // will grow downwards
+    sp--;                                    // push in down growing stack so -
+    *sp = 0x01000000; // set xpsr which has 32 bit , NZCV and other , 24th bit
+                      // is T bit which is T bit , Thumb bit use to set the
+                      // instruction as thumb 2 cause m3 doesnt support arm
+    sp--;
+    *sp = (uint32_t)task_function; // set PC
+    sp--;
+
+    /* LR: return address used if the task function returns */
+    *sp = (uint32_t)Task_Exit_Handler;
+
+    --sp;
+    *sp = 0x00000000; // R12
+
+    --sp;
+    *sp = 0x00000000; // R3
+
+    --sp;
+    *sp = 0x00000000; // R2
+
+    --sp;
+    *sp = 0x00000000; // R1
+
+    --sp;
+    *sp = 0x00000000; // R0
+
+    /* Software saved frame */
+
+    --sp;
+    *sp = 0x00000000; // R11
+
+    --sp;
+    *sp = 0x00000000; // R10
+
+    --sp;
+    *sp = 0x00000000; // R9
+
+    --sp;
+    *sp = 0x00000000; // R8
+
+    --sp;
+    *sp = 0x00000000; // R7
+
+    --sp;
+    *sp = 0x00000000; // R6
+
+    --sp;
+    *sp = 0x00000000; // R5
+
+    --sp;
+    *sp = 0x00000000; // R4
 
     tcb->task_priority = priority;
     tcb->task_function = task_function;
-    tcb->tid = Free_Stack_Top();
+    tcb->tid = slot;
+    tcb->sp = sp;
     tcb->task_state = TASK_READY;
 
     // logic
+
     tail->next = tcb;
     tcb->next = TCB0;
     tail = tcb;
-    curr = tail;
+
     Free_Stack_Pop();
   }
 }
@@ -114,33 +176,40 @@ void Task_Terminate(TCB *temp) {
   }
 
   if (task_count > 0) {
-    TCB *check;
-    check = curr;
+
+    TCB *check = curr;
+    TCB *walker = curr;
     int8_t count = 0;
 
-    while (curr->next != temp) {
-      if (curr == check && count != 0)
+    /* Find the node before temp */
+    while (walker->next != temp) {
+
+      if (walker == check && count != 0) {
         return;
-      curr = curr->next;
+      }
+
+      walker = walker->next;
       count++;
     }
 
     Free_Stack_Push(temp->tid);
 
-    prev = curr;
-    curr = curr->next;
-    next = curr->next;
+    prev = walker;
+    next = temp->next;
 
-    if (temp == tail)
+    if (temp == tail) {
       tail = prev;
+    }
 
     prev->next = next;
+
+    if (temp == curr) {
+      curr = next;
+    }
 
     temp->task_state = TASK_TERMINATED;
     task_count--;
 
-    curr = prev->next;
-    next = curr->next;
   } else {
     return;
   }
@@ -152,30 +221,37 @@ void Task_Suspend(TCB *temp) {
   }
 
   if (task_count > 0) {
-    TCB *check;
-    check = curr;
+
+    TCB *check = curr;
+    TCB *walker = curr;
     int8_t count = 0;
 
-    while (curr->next != temp) {
-      if (curr == check && count != 0)
+    /* Find the node before temp */
+    while (walker->next != temp) {
+
+      if (walker == check && count != 0) {
         return;
-      curr = curr->next;
+      }
+
+      walker = walker->next;
       count++;
     }
 
-    prev = curr;
-    curr = curr->next;
-    next = curr->next;
+    prev = walker;
+    next = temp->next;
 
-    if (temp == tail)
+    if (temp == tail) {
       tail = prev;
+    }
 
     prev->next = next;
 
+    if (temp == curr) {
+      curr = next;
+    }
+
     temp->task_state = TASK_BLOCKED;
 
-    curr = prev->next;
-    next = curr->next;
   } else {
     return;
   }
@@ -186,22 +262,22 @@ void Task_Resume(TCB *temp) {
     return;
   }
 
-  if (task_count > 0) {
-    tail->next = temp ;
-    temp->next = TCB0 ;
-    tail = temp ;
-    
-    tail->task_state = TASK_READY ;
+  if (temp->task_state != TASK_BLOCKED) {
+    return;
   }
-  else {
+
+  if (task_count > 0) {
+    tail->next = temp;
+    temp->next = TCB0;
+    tail = temp;
+
+    tail->task_state = TASK_READY;
+  } else {
     return;
   }
 }
 
-TCB *Task_Get_Current() {
-  return curr ;
-}
+TCB *Task_Get_Current() { return curr; }
 
-TCB *Task_Get_Idle() {
-  return TCB0 ;
-}
+TCB *Task_Get_Idle() { return TCB0; }
+bool Task_Is_Initialized(void) { return init; }

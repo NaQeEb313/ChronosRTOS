@@ -1,0 +1,1333 @@
+ARM GAS  /tmp/ccvuygcI.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"task.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../ChronosRTOS/Core/Src/task.c"
+  18              		.section	.text.Free_Stack_Init,"ax",%progbits
+  19              		.align	1
+  20              		.global	Free_Stack_Init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	Free_Stack_Init:
+  26              	.LFB0:
+   1:../ChronosRTOS/Core/Src/task.c **** /******************************************************************************
+   2:../ChronosRTOS/Core/Src/task.c ****  * File        : task.c
+   3:../ChronosRTOS/Core/Src/task.c ****  * Project     : ChronosRTOS
+   4:../ChronosRTOS/Core/Src/task.c ****  * Module      : Task
+   5:../ChronosRTOS/Core/Src/task.c ****  * Group       :
+   6:../ChronosRTOS/Core/Src/task.c ****  * Description : Task creation and task management.
+   7:../ChronosRTOS/Core/Src/task.c ****  ******************************************************************************/
+   8:../ChronosRTOS/Core/Src/task.c **** 
+   9:../ChronosRTOS/Core/Src/task.c **** // TASK_RESUME CODE REMAINING
+  10:../ChronosRTOS/Core/Src/task.c **** 
+  11:../ChronosRTOS/Core/Src/task.c **** #include "task.h"
+  12:../ChronosRTOS/Core/Src/task.c **** #include "idle.h"
+  13:../ChronosRTOS/Core/Src/task.c **** #include "memory.h"
+  14:../ChronosRTOS/Core/Src/task.c **** #include <stdbool.h>
+  15:../ChronosRTOS/Core/Src/task.c **** #include <stddef.h>
+  16:../ChronosRTOS/Core/Src/task.c **** 
+  17:../ChronosRTOS/Core/Src/task.c **** static int task_count = 0;
+  18:../ChronosRTOS/Core/Src/task.c **** 
+  19:../ChronosRTOS/Core/Src/task.c **** static TCB tcb_pool[MAX_TASKS];
+  20:../ChronosRTOS/Core/Src/task.c **** 
+  21:../ChronosRTOS/Core/Src/task.c **** static TCB *TCB0 = &tcb_pool[0];
+  22:../ChronosRTOS/Core/Src/task.c **** static TCB *curr = NULL;
+  23:../ChronosRTOS/Core/Src/task.c **** static TCB *prev = NULL;
+  24:../ChronosRTOS/Core/Src/task.c **** static TCB *next = NULL;
+  25:../ChronosRTOS/Core/Src/task.c **** static TCB *tail = NULL;
+  26:../ChronosRTOS/Core/Src/task.c **** static bool init = 0;
+  27:../ChronosRTOS/Core/Src/task.c **** typedef struct Free_Stack {
+  28:../ChronosRTOS/Core/Src/task.c **** 
+  29:../ChronosRTOS/Core/Src/task.c ****   int8_t top;
+  30:../ChronosRTOS/Core/Src/task.c ****   int8_t arr[6];
+  31:../ChronosRTOS/Core/Src/task.c **** } Free_Stack;
+  32:../ChronosRTOS/Core/Src/task.c **** 
+ARM GAS  /tmp/ccvuygcI.s 			page 2
+
+
+  33:../ChronosRTOS/Core/Src/task.c **** static Free_Stack free_slot;
+  34:../ChronosRTOS/Core/Src/task.c **** 
+  35:../ChronosRTOS/Core/Src/task.c **** void Free_Stack_Init(void) { free_slot.top = -1; }
+  27              		.loc 1 35 28 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              		.loc 1 35 30 view .LVU1
+  33              		.loc 1 35 44 is_stmt 0 view .LVU2
+  34 0000 014B     		ldr	r3, .L2
+  35 0002 FF22     		movs	r2, #255
+  36 0004 1A70     		strb	r2, [r3]
+  37              		.loc 1 35 50 view .LVU3
+  38 0006 7047     		bx	lr
+  39              	.L3:
+  40              		.align	2
+  41              	.L2:
+  42 0008 00000000 		.word	free_slot
+  43              		.cfi_endproc
+  44              	.LFE0:
+  46              		.section	.text.Free_Stack_Push,"ax",%progbits
+  47              		.align	1
+  48              		.global	Free_Stack_Push
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  53              	Free_Stack_Push:
+  54              	.LVL0:
+  55              	.LFB1:
+  36:../ChronosRTOS/Core/Src/task.c **** 
+  37:../ChronosRTOS/Core/Src/task.c **** void Free_Stack_Push(int8_t free) {
+  56              		.loc 1 37 35 is_stmt 1 view -0
+  57              		.cfi_startproc
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60              		@ link register save eliminated.
+  38:../ChronosRTOS/Core/Src/task.c **** 
+  39:../ChronosRTOS/Core/Src/task.c ****   if (free_slot.top < 5) {
+  61              		.loc 1 39 3 view .LVU5
+  62              		.loc 1 39 16 is_stmt 0 view .LVU6
+  63 0000 054B     		ldr	r3, .L6
+  64 0002 93F90030 		ldrsb	r3, [r3]
+  65              		.loc 1 39 6 view .LVU7
+  66 0006 042B     		cmp	r3, #4
+  67 0008 05DC     		bgt	.L4
+  40:../ChronosRTOS/Core/Src/task.c ****     free_slot.top++;
+  68              		.loc 1 40 5 is_stmt 1 view .LVU8
+  69              		.loc 1 40 18 is_stmt 0 view .LVU9
+  70 000a 0133     		adds	r3, r3, #1
+  71 000c 5BB2     		sxtb	r3, r3
+  72 000e 024A     		ldr	r2, .L6
+  73 0010 1370     		strb	r3, [r2]
+  41:../ChronosRTOS/Core/Src/task.c ****     free_slot.arr[free_slot.top] = free;
+  74              		.loc 1 41 5 is_stmt 1 view .LVU10
+  75              		.loc 1 41 34 is_stmt 0 view .LVU11
+  76 0012 1A44     		add	r2, r2, r3
+ARM GAS  /tmp/ccvuygcI.s 			page 3
+
+
+  77 0014 5070     		strb	r0, [r2, #1]
+  78              	.L4:
+  42:../ChronosRTOS/Core/Src/task.c ****   } else
+  43:../ChronosRTOS/Core/Src/task.c ****     return;
+  44:../ChronosRTOS/Core/Src/task.c **** }
+  79              		.loc 1 44 1 view .LVU12
+  80 0016 7047     		bx	lr
+  81              	.L7:
+  82              		.align	2
+  83              	.L6:
+  84 0018 00000000 		.word	free_slot
+  85              		.cfi_endproc
+  86              	.LFE1:
+  88              		.section	.text.Free_Stack_Empty,"ax",%progbits
+  89              		.align	1
+  90              		.global	Free_Stack_Empty
+  91              		.syntax unified
+  92              		.thumb
+  93              		.thumb_func
+  95              	Free_Stack_Empty:
+  96              	.LFB2:
+  45:../ChronosRTOS/Core/Src/task.c **** int8_t Free_Stack_Empty() {
+  97              		.loc 1 45 27 is_stmt 1 view -0
+  98              		.cfi_startproc
+  99              		@ args = 0, pretend = 0, frame = 0
+ 100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 101              		@ link register save eliminated.
+  46:../ChronosRTOS/Core/Src/task.c ****   if (free_slot.top == -1) {
+ 102              		.loc 1 46 3 view .LVU14
+ 103              		.loc 1 46 16 is_stmt 0 view .LVU15
+ 104 0000 044B     		ldr	r3, .L12
+ 105 0002 93F90030 		ldrsb	r3, [r3]
+ 106              		.loc 1 46 6 view .LVU16
+ 107 0006 B3F1FF3F 		cmp	r3, #-1
+ 108 000a 01D0     		beq	.L11
+  47:../ChronosRTOS/Core/Src/task.c ****     return 1;
+  48:../ChronosRTOS/Core/Src/task.c ****   } else {
+  49:../ChronosRTOS/Core/Src/task.c ****     return 0;
+ 109              		.loc 1 49 12 view .LVU17
+ 110 000c 0020     		movs	r0, #0
+  50:../ChronosRTOS/Core/Src/task.c ****   }
+  51:../ChronosRTOS/Core/Src/task.c **** }
+ 111              		.loc 1 51 1 view .LVU18
+ 112 000e 7047     		bx	lr
+ 113              	.L11:
+  47:../ChronosRTOS/Core/Src/task.c ****     return 1;
+ 114              		.loc 1 47 12 view .LVU19
+ 115 0010 0120     		movs	r0, #1
+ 116 0012 7047     		bx	lr
+ 117              	.L13:
+ 118              		.align	2
+ 119              	.L12:
+ 120 0014 00000000 		.word	free_slot
+ 121              		.cfi_endproc
+ 122              	.LFE2:
+ 124              		.section	.text.Free_Stack_Top,"ax",%progbits
+ 125              		.align	1
+ARM GAS  /tmp/ccvuygcI.s 			page 4
+
+
+ 126              		.global	Free_Stack_Top
+ 127              		.syntax unified
+ 128              		.thumb
+ 129              		.thumb_func
+ 131              	Free_Stack_Top:
+ 132              	.LFB3:
+  52:../ChronosRTOS/Core/Src/task.c **** 
+  53:../ChronosRTOS/Core/Src/task.c **** int8_t Free_Stack_Top() {
+ 133              		.loc 1 53 25 is_stmt 1 view -0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137              		@ link register save eliminated.
+  54:../ChronosRTOS/Core/Src/task.c ****   if (free_slot.top >= 0)
+ 138              		.loc 1 54 3 view .LVU21
+ 139              		.loc 1 54 16 is_stmt 0 view .LVU22
+ 140 0000 054B     		ldr	r3, .L17
+ 141 0002 93F90020 		ldrsb	r2, [r3]
+ 142              		.loc 1 54 6 view .LVU23
+ 143 0006 002A     		cmp	r2, #0
+ 144 0008 03DB     		blt	.L16
+  55:../ChronosRTOS/Core/Src/task.c ****     return free_slot.arr[free_slot.top];
+ 145              		.loc 1 55 5 is_stmt 1 view .LVU24
+ 146              		.loc 1 55 25 is_stmt 0 view .LVU25
+ 147 000a 1344     		add	r3, r3, r2
+ 148 000c 93F90100 		ldrsb	r0, [r3, #1]
+ 149 0010 7047     		bx	lr
+ 150              	.L16:
+  56:../ChronosRTOS/Core/Src/task.c ****   else
+  57:../ChronosRTOS/Core/Src/task.c ****     return -1;
+ 151              		.loc 1 57 12 view .LVU26
+ 152 0012 4FF0FF30 		mov	r0, #-1
+  58:../ChronosRTOS/Core/Src/task.c **** }
+ 153              		.loc 1 58 1 view .LVU27
+ 154 0016 7047     		bx	lr
+ 155              	.L18:
+ 156              		.align	2
+ 157              	.L17:
+ 158 0018 00000000 		.word	free_slot
+ 159              		.cfi_endproc
+ 160              	.LFE3:
+ 162              		.section	.text.Free_Stack_Pop,"ax",%progbits
+ 163              		.align	1
+ 164              		.global	Free_Stack_Pop
+ 165              		.syntax unified
+ 166              		.thumb
+ 167              		.thumb_func
+ 169              	Free_Stack_Pop:
+ 170              	.LFB4:
+  59:../ChronosRTOS/Core/Src/task.c **** 
+  60:../ChronosRTOS/Core/Src/task.c **** void Free_Stack_Pop(void) {
+ 171              		.loc 1 60 27 is_stmt 1 view -0
+ 172              		.cfi_startproc
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175              		@ link register save eliminated.
+  61:../ChronosRTOS/Core/Src/task.c ****   if (free_slot.top >= 0) {
+ARM GAS  /tmp/ccvuygcI.s 			page 5
+
+
+ 176              		.loc 1 61 3 view .LVU29
+ 177              		.loc 1 61 16 is_stmt 0 view .LVU30
+ 178 0000 044B     		ldr	r3, .L21
+ 179 0002 93F90030 		ldrsb	r3, [r3]
+ 180              		.loc 1 61 6 view .LVU31
+ 181 0006 002B     		cmp	r3, #0
+ 182 0008 02DB     		blt	.L19
+  62:../ChronosRTOS/Core/Src/task.c ****     free_slot.top--;
+ 183              		.loc 1 62 5 is_stmt 1 view .LVU32
+ 184              		.loc 1 62 18 is_stmt 0 view .LVU33
+ 185 000a 013B     		subs	r3, r3, #1
+ 186 000c 014A     		ldr	r2, .L21
+ 187 000e 1370     		strb	r3, [r2]
+ 188              	.L19:
+  63:../ChronosRTOS/Core/Src/task.c ****   } else
+  64:../ChronosRTOS/Core/Src/task.c ****     return;
+  65:../ChronosRTOS/Core/Src/task.c **** }
+ 189              		.loc 1 65 1 view .LVU34
+ 190 0010 7047     		bx	lr
+ 191              	.L22:
+ 192 0012 00BF     		.align	2
+ 193              	.L21:
+ 194 0014 00000000 		.word	free_slot
+ 195              		.cfi_endproc
+ 196              	.LFE4:
+ 198              		.section	.text.Task_Create,"ax",%progbits
+ 199              		.align	1
+ 200              		.global	Task_Create
+ 201              		.syntax unified
+ 202              		.thumb
+ 203              		.thumb_func
+ 205              	Task_Create:
+ 206              	.LVL1:
+ 207              	.LFB5:
+  66:../ChronosRTOS/Core/Src/task.c **** 
+  67:../ChronosRTOS/Core/Src/task.c **** void Task_Create(TaskFunction task_function, uint8_t priority) {
+ 208              		.loc 1 67 64 is_stmt 1 view -0
+ 209              		.cfi_startproc
+ 210              		@ args = 0, pretend = 0, frame = 8
+ 211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 212              		.loc 1 67 64 is_stmt 0 view .LVU36
+ 213 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 214              	.LCFI0:
+ 215              		.cfi_def_cfa_offset 20
+ 216              		.cfi_offset 4, -20
+ 217              		.cfi_offset 5, -16
+ 218              		.cfi_offset 6, -12
+ 219              		.cfi_offset 7, -8
+ 220              		.cfi_offset 14, -4
+ 221 0002 83B0     		sub	sp, sp, #12
+ 222              	.LCFI1:
+ 223              		.cfi_def_cfa_offset 32
+ 224 0004 0646     		mov	r6, r0
+ 225 0006 0D46     		mov	r5, r1
+  68:../ChronosRTOS/Core/Src/task.c ****   if (Free_Stack_Empty() || !init || task_function == NULL) {
+ 226              		.loc 1 68 3 is_stmt 1 view .LVU37
+ 227              		.loc 1 68 7 is_stmt 0 view .LVU38
+ARM GAS  /tmp/ccvuygcI.s 			page 6
+
+
+ 228 0008 FFF7FEFF 		bl	Free_Stack_Empty
+ 229              	.LVL2:
+ 230              		.loc 1 68 6 discriminator 1 view .LVU39
+ 231 000c 10BB     		cbnz	r0, .L23
+ 232              		.loc 1 68 29 discriminator 1 view .LVU40
+ 233 000e 124B     		ldr	r3, .L26
+ 234 0010 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 235              		.loc 1 68 26 discriminator 1 view .LVU41
+ 236 0012 FBB1     		cbz	r3, .L23
+ 237              		.loc 1 68 35 discriminator 2 view .LVU42
+ 238 0014 F6B1     		cbz	r6, .L23
+ 239              	.LBB2:
+  69:../ChronosRTOS/Core/Src/task.c ****     return;
+  70:../ChronosRTOS/Core/Src/task.c ****   } else {
+  71:../ChronosRTOS/Core/Src/task.c ****     task_count++;
+ 240              		.loc 1 71 5 is_stmt 1 view .LVU43
+ 241              		.loc 1 71 15 is_stmt 0 view .LVU44
+ 242 0016 114A     		ldr	r2, .L26+4
+ 243 0018 1368     		ldr	r3, [r2]
+ 244 001a 0133     		adds	r3, r3, #1
+ 245 001c 1360     		str	r3, [r2]
+  72:../ChronosRTOS/Core/Src/task.c ****     int8_t slot = Free_Stack_Top();
+ 246              		.loc 1 72 5 is_stmt 1 view .LVU45
+ 247              		.loc 1 72 19 is_stmt 0 view .LVU46
+ 248 001e FFF7FEFF 		bl	Free_Stack_Top
+ 249              	.LVL3:
+ 250              		.loc 1 72 12 discriminator 1 view .LVU47
+ 251 0022 8DF80700 		strb	r0, [sp, #7]
+  73:../ChronosRTOS/Core/Src/task.c ****     TCB *tcb = &tcb_pool[slot];
+ 252              		.loc 1 73 5 is_stmt 1 view .LVU48
+ 253              		.loc 1 73 10 is_stmt 0 view .LVU49
+ 254 0026 4201     		lsls	r2, r0, #5
+ 255 0028 0D4F     		ldr	r7, .L26+8
+ 256 002a 07EB4014 		add	r4, r7, r0, lsl #5
+ 257              	.LVL4:
+  74:../ChronosRTOS/Core/Src/task.c **** 
+  75:../ChronosRTOS/Core/Src/task.c ****     tcb->task_priority = priority;
+ 258              		.loc 1 75 5 is_stmt 1 view .LVU50
+ 259              		.loc 1 75 24 is_stmt 0 view .LVU51
+ 260 002e 6572     		strb	r5, [r4, #9]
+  76:../ChronosRTOS/Core/Src/task.c ****     tcb->task_function = task_function;
+ 261              		.loc 1 76 5 is_stmt 1 view .LVU52
+ 262              		.loc 1 76 24 is_stmt 0 view .LVU53
+ 263 0030 A661     		str	r6, [r4, #24]
+  77:../ChronosRTOS/Core/Src/task.c ****     tcb->tid = slot;
+ 264              		.loc 1 77 5 is_stmt 1 view .LVU54
+ 265              		.loc 1 77 14 is_stmt 0 view .LVU55
+ 266 0032 B850     		str	r0, [r7, r2]
+  78:../ChronosRTOS/Core/Src/task.c ****     tcb->sp = Mem_Stack_Base(&slot);
+ 267              		.loc 1 78 5 is_stmt 1 view .LVU56
+ 268              		.loc 1 78 15 is_stmt 0 view .LVU57
+ 269 0034 0DF10700 		add	r0, sp, #7
+ 270 0038 FFF7FEFF 		bl	Mem_Stack_Base
+ 271              	.LVL5:
+ 272              		.loc 1 78 13 discriminator 1 view .LVU58
+ 273 003c E060     		str	r0, [r4, #12]
+  79:../ChronosRTOS/Core/Src/task.c ****     tcb->task_state = TASK_READY;
+ARM GAS  /tmp/ccvuygcI.s 			page 7
+
+
+ 274              		.loc 1 79 5 is_stmt 1 view .LVU59
+ 275              		.loc 1 79 21 is_stmt 0 view .LVU60
+ 276 003e 0123     		movs	r3, #1
+ 277 0040 2372     		strb	r3, [r4, #8]
+  80:../ChronosRTOS/Core/Src/task.c **** 
+  81:../ChronosRTOS/Core/Src/task.c ****     // logic
+  82:../ChronosRTOS/Core/Src/task.c **** 
+  83:../ChronosRTOS/Core/Src/task.c ****     tail->next = tcb;
+ 278              		.loc 1 83 5 is_stmt 1 view .LVU61
+ 279              		.loc 1 83 9 is_stmt 0 view .LVU62
+ 280 0042 084B     		ldr	r3, .L26+12
+ 281 0044 1A68     		ldr	r2, [r3]
+ 282              		.loc 1 83 16 view .LVU63
+ 283 0046 D461     		str	r4, [r2, #28]
+  84:../ChronosRTOS/Core/Src/task.c ****     tcb->next = TCB0;
+ 284              		.loc 1 84 5 is_stmt 1 view .LVU64
+ 285              		.loc 1 84 15 is_stmt 0 view .LVU65
+ 286 0048 E761     		str	r7, [r4, #28]
+  85:../ChronosRTOS/Core/Src/task.c ****     tail = tcb;
+ 287              		.loc 1 85 5 is_stmt 1 view .LVU66
+ 288              		.loc 1 85 10 is_stmt 0 view .LVU67
+ 289 004a 1C60     		str	r4, [r3]
+  86:../ChronosRTOS/Core/Src/task.c ****     curr = tail;
+ 290              		.loc 1 86 5 is_stmt 1 view .LVU68
+ 291              		.loc 1 86 10 is_stmt 0 view .LVU69
+ 292 004c 064B     		ldr	r3, .L26+16
+ 293 004e 1C60     		str	r4, [r3]
+  87:../ChronosRTOS/Core/Src/task.c ****     Free_Stack_Pop();
+ 294              		.loc 1 87 5 is_stmt 1 view .LVU70
+ 295 0050 FFF7FEFF 		bl	Free_Stack_Pop
+ 296              	.LVL6:
+ 297              	.L23:
+ 298              		.loc 1 87 5 is_stmt 0 view .LVU71
+ 299              	.LBE2:
+  88:../ChronosRTOS/Core/Src/task.c ****   }
+  89:../ChronosRTOS/Core/Src/task.c **** }
+ 300              		.loc 1 89 1 view .LVU72
+ 301 0054 03B0     		add	sp, sp, #12
+ 302              	.LCFI2:
+ 303              		.cfi_def_cfa_offset 20
+ 304              		@ sp needed
+ 305 0056 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 306              	.LVL7:
+ 307              	.L27:
+ 308              		.loc 1 89 1 view .LVU73
+ 309              		.align	2
+ 310              	.L26:
+ 311 0058 00000000 		.word	init
+ 312 005c 00000000 		.word	task_count
+ 313 0060 00000000 		.word	tcb_pool
+ 314 0064 00000000 		.word	tail
+ 315 0068 00000000 		.word	curr
+ 316              		.cfi_endproc
+ 317              	.LFE5:
+ 319              		.section	.text.Task_Init,"ax",%progbits
+ 320              		.align	1
+ 321              		.global	Task_Init
+ARM GAS  /tmp/ccvuygcI.s 			page 8
+
+
+ 322              		.syntax unified
+ 323              		.thumb
+ 324              		.thumb_func
+ 326              	Task_Init:
+ 327              	.LFB6:
+  90:../ChronosRTOS/Core/Src/task.c **** 
+  91:../ChronosRTOS/Core/Src/task.c **** void Task_Init(void) {
+ 328              		.loc 1 91 22 is_stmt 1 view -0
+ 329              		.cfi_startproc
+ 330              		@ args = 0, pretend = 0, frame = 0
+ 331              		@ frame_needed = 0, uses_anonymous_args = 0
+ 332 0000 10B5     		push	{r4, lr}
+ 333              	.LCFI3:
+ 334              		.cfi_def_cfa_offset 8
+ 335              		.cfi_offset 4, -8
+ 336              		.cfi_offset 14, -4
+  92:../ChronosRTOS/Core/Src/task.c ****   // initialise the task management
+  93:../ChronosRTOS/Core/Src/task.c ****   init = 1;
+ 337              		.loc 1 93 3 view .LVU75
+ 338              		.loc 1 93 8 is_stmt 0 view .LVU76
+ 339 0002 0121     		movs	r1, #1
+ 340 0004 0F4B     		ldr	r3, .L32
+ 341 0006 1970     		strb	r1, [r3]
+  94:../ChronosRTOS/Core/Src/task.c ****   task_count = 0;
+ 342              		.loc 1 94 3 is_stmt 1 view .LVU77
+ 343              		.loc 1 94 14 is_stmt 0 view .LVU78
+ 344 0008 0022     		movs	r2, #0
+ 345 000a 0F4B     		ldr	r3, .L32+4
+ 346 000c 1A60     		str	r2, [r3]
+  95:../ChronosRTOS/Core/Src/task.c ****   TCB0->next = TCB0;
+ 347              		.loc 1 95 3 is_stmt 1 view .LVU79
+ 348              		.loc 1 95 14 is_stmt 0 view .LVU80
+ 349 000e 0F4B     		ldr	r3, .L32+8
+ 350 0010 DB61     		str	r3, [r3, #28]
+  96:../ChronosRTOS/Core/Src/task.c ****   prev = TCB0;
+ 351              		.loc 1 96 3 is_stmt 1 view .LVU81
+ 352              		.loc 1 96 8 is_stmt 0 view .LVU82
+ 353 0012 0F48     		ldr	r0, .L32+12
+ 354 0014 0360     		str	r3, [r0]
+  97:../ChronosRTOS/Core/Src/task.c ****   curr = TCB0;
+ 355              		.loc 1 97 3 is_stmt 1 view .LVU83
+ 356              		.loc 1 97 8 is_stmt 0 view .LVU84
+ 357 0016 0F48     		ldr	r0, .L32+16
+ 358 0018 0360     		str	r3, [r0]
+  98:../ChronosRTOS/Core/Src/task.c ****   next = TCB0;
+ 359              		.loc 1 98 3 is_stmt 1 view .LVU85
+ 360              		.loc 1 98 8 is_stmt 0 view .LVU86
+ 361 001a 0F48     		ldr	r0, .L32+20
+ 362 001c 0360     		str	r3, [r0]
+  99:../ChronosRTOS/Core/Src/task.c ****   tail = TCB0;
+ 363              		.loc 1 99 3 is_stmt 1 view .LVU87
+ 364              		.loc 1 99 8 is_stmt 0 view .LVU88
+ 365 001e 0F48     		ldr	r0, .L32+24
+ 366 0020 0360     		str	r3, [r0]
+ 100:../ChronosRTOS/Core/Src/task.c **** 
+ 101:../ChronosRTOS/Core/Src/task.c ****   TCB0->task_priority = 0;
+ 367              		.loc 1 101 3 is_stmt 1 view .LVU89
+ARM GAS  /tmp/ccvuygcI.s 			page 9
+
+
+ 368              		.loc 1 101 23 is_stmt 0 view .LVU90
+ 369 0022 5A72     		strb	r2, [r3, #9]
+ 102:../ChronosRTOS/Core/Src/task.c ****   TCB0->task_function = Idle_Function;
+ 370              		.loc 1 102 3 is_stmt 1 view .LVU91
+ 371              		.loc 1 102 23 is_stmt 0 view .LVU92
+ 372 0024 0E48     		ldr	r0, .L32+28
+ 373 0026 9861     		str	r0, [r3, #24]
+ 103:../ChronosRTOS/Core/Src/task.c ****   TCB0->tid = 0;
+ 374              		.loc 1 103 3 is_stmt 1 view .LVU93
+ 375              		.loc 1 103 13 is_stmt 0 view .LVU94
+ 376 0028 1A60     		str	r2, [r3]
+ 104:../ChronosRTOS/Core/Src/task.c ****   TCB0->task_state = TASK_READY;
+ 377              		.loc 1 104 3 is_stmt 1 view .LVU95
+ 378              		.loc 1 104 20 is_stmt 0 view .LVU96
+ 379 002a 1972     		strb	r1, [r3, #8]
+ 105:../ChronosRTOS/Core/Src/task.c **** 
+ 106:../ChronosRTOS/Core/Src/task.c ****   Free_Stack_Init();
+ 380              		.loc 1 106 3 is_stmt 1 view .LVU97
+ 381 002c FFF7FEFF 		bl	Free_Stack_Init
+ 382              	.LVL8:
+ 107:../ChronosRTOS/Core/Src/task.c **** 
+ 108:../ChronosRTOS/Core/Src/task.c ****   for (int8_t i = 5; i > 0; i--)
+ 383              		.loc 1 108 3 view .LVU98
+ 384              	.LBB3:
+ 385              		.loc 1 108 8 view .LVU99
+ 386              		.loc 1 108 15 is_stmt 0 view .LVU100
+ 387 0030 0524     		movs	r4, #5
+ 388              		.loc 1 108 3 view .LVU101
+ 389 0032 04E0     		b	.L29
+ 390              	.LVL9:
+ 391              	.L30:
+ 109:../ChronosRTOS/Core/Src/task.c ****     Free_Stack_Push(i);
+ 392              		.loc 1 109 5 is_stmt 1 view .LVU102
+ 393 0034 2046     		mov	r0, r4
+ 394 0036 FFF7FEFF 		bl	Free_Stack_Push
+ 395              	.LVL10:
+ 108:../ChronosRTOS/Core/Src/task.c ****     Free_Stack_Push(i);
+ 396              		.loc 1 108 30 discriminator 3 view .LVU103
+ 397 003a 013C     		subs	r4, r4, #1
+ 398              	.LVL11:
+ 108:../ChronosRTOS/Core/Src/task.c ****     Free_Stack_Push(i);
+ 399              		.loc 1 108 30 is_stmt 0 discriminator 3 view .LVU104
+ 400 003c 64B2     		sxtb	r4, r4
+ 401              	.LVL12:
+ 402              	.L29:
+ 108:../ChronosRTOS/Core/Src/task.c ****     Free_Stack_Push(i);
+ 403              		.loc 1 108 24 is_stmt 1 discriminator 1 view .LVU105
+ 404 003e 002C     		cmp	r4, #0
+ 405 0040 F8DC     		bgt	.L30
+ 406              	.LBE3:
+ 110:../ChronosRTOS/Core/Src/task.c **** 
+ 111:../ChronosRTOS/Core/Src/task.c ****   // initialise the task
+ 112:../ChronosRTOS/Core/Src/task.c **** }
+ 407              		.loc 1 112 1 is_stmt 0 view .LVU106
+ 408 0042 10BD     		pop	{r4, pc}
+ 409              	.LVL13:
+ 410              	.L33:
+ARM GAS  /tmp/ccvuygcI.s 			page 10
+
+
+ 411              		.loc 1 112 1 view .LVU107
+ 412              		.align	2
+ 413              	.L32:
+ 414 0044 00000000 		.word	init
+ 415 0048 00000000 		.word	task_count
+ 416 004c 00000000 		.word	tcb_pool
+ 417 0050 00000000 		.word	prev
+ 418 0054 00000000 		.word	curr
+ 419 0058 00000000 		.word	next
+ 420 005c 00000000 		.word	tail
+ 421 0060 00000000 		.word	Idle_Function
+ 422              		.cfi_endproc
+ 423              	.LFE6:
+ 425              		.section	.text.Task_Terminate,"ax",%progbits
+ 426              		.align	1
+ 427              		.global	Task_Terminate
+ 428              		.syntax unified
+ 429              		.thumb
+ 430              		.thumb_func
+ 432              	Task_Terminate:
+ 433              	.LVL14:
+ 434              	.LFB7:
+ 113:../ChronosRTOS/Core/Src/task.c **** 
+ 114:../ChronosRTOS/Core/Src/task.c **** void Task_Terminate(TCB *temp) {
+ 435              		.loc 1 114 32 is_stmt 1 view -0
+ 436              		.cfi_startproc
+ 437              		@ args = 0, pretend = 0, frame = 0
+ 438              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115:../ChronosRTOS/Core/Src/task.c ****   if (temp == NULL || temp == TCB0 || !init) {
+ 439              		.loc 1 115 3 view .LVU109
+ 440              		.loc 1 115 6 is_stmt 0 view .LVU110
+ 441 0000 0028     		cmp	r0, #0
+ 442 0002 3FD0     		beq	.L41
+ 114:../ChronosRTOS/Core/Src/task.c ****   if (temp == NULL || temp == TCB0 || !init) {
+ 443              		.loc 1 114 32 view .LVU111
+ 444 0004 10B5     		push	{r4, lr}
+ 445              	.LCFI4:
+ 446              		.cfi_def_cfa_offset 8
+ 447              		.cfi_offset 4, -8
+ 448              		.cfi_offset 14, -4
+ 449 0006 0446     		mov	r4, r0
+ 450              		.loc 1 115 20 discriminator 1 view .LVU112
+ 451 0008 1F4B     		ldr	r3, .L46
+ 452 000a 9842     		cmp	r0, r3
+ 453 000c 17D0     		beq	.L34
+ 454              		.loc 1 115 39 discriminator 2 view .LVU113
+ 455 000e 1F4B     		ldr	r3, .L46+4
+ 456 0010 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 457              		.loc 1 115 36 discriminator 2 view .LVU114
+ 458 0012 A3B1     		cbz	r3, .L34
+ 116:../ChronosRTOS/Core/Src/task.c ****     return;
+ 117:../ChronosRTOS/Core/Src/task.c ****   }
+ 118:../ChronosRTOS/Core/Src/task.c **** 
+ 119:../ChronosRTOS/Core/Src/task.c ****   if (task_count > 0) {
+ 459              		.loc 1 119 3 is_stmt 1 view .LVU115
+ 460              		.loc 1 119 18 is_stmt 0 view .LVU116
+ 461 0014 1E4B     		ldr	r3, .L46+8
+ARM GAS  /tmp/ccvuygcI.s 			page 11
+
+
+ 462 0016 1B68     		ldr	r3, [r3]
+ 463              		.loc 1 119 6 view .LVU117
+ 464 0018 002B     		cmp	r3, #0
+ 465 001a 10DD     		ble	.L34
+ 466              	.LBB4:
+ 120:../ChronosRTOS/Core/Src/task.c ****     TCB *check;
+ 467              		.loc 1 120 5 is_stmt 1 view .LVU118
+ 121:../ChronosRTOS/Core/Src/task.c ****     check = curr;
+ 468              		.loc 1 121 5 view .LVU119
+ 469              		.loc 1 121 11 is_stmt 0 view .LVU120
+ 470 001c 1D4B     		ldr	r3, .L46+12
+ 471 001e 1868     		ldr	r0, [r3]
+ 472              	.LVL15:
+ 122:../ChronosRTOS/Core/Src/task.c ****     int8_t count = 0;
+ 473              		.loc 1 122 5 is_stmt 1 view .LVU121
+ 123:../ChronosRTOS/Core/Src/task.c **** 
+ 124:../ChronosRTOS/Core/Src/task.c ****     while (curr->next != temp) {
+ 474              		.loc 1 124 5 view .LVU122
+ 122:../ChronosRTOS/Core/Src/task.c ****     int8_t count = 0;
+ 475              		.loc 1 122 12 is_stmt 0 view .LVU123
+ 476 0020 0023     		movs	r3, #0
+ 477              		.loc 1 124 11 view .LVU124
+ 478 0022 03E0     		b	.L36
+ 479              	.LVL16:
+ 480              	.L37:
+ 125:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 126:../ChronosRTOS/Core/Src/task.c ****         return;
+ 127:../ChronosRTOS/Core/Src/task.c ****       curr = curr->next;
+ 481              		.loc 1 127 7 is_stmt 1 view .LVU125
+ 482              		.loc 1 127 12 is_stmt 0 view .LVU126
+ 483 0024 1B4A     		ldr	r2, .L46+12
+ 484 0026 1160     		str	r1, [r2]
+ 128:../ChronosRTOS/Core/Src/task.c ****       count++;
+ 485              		.loc 1 128 7 is_stmt 1 view .LVU127
+ 486              		.loc 1 128 12 is_stmt 0 view .LVU128
+ 487 0028 0133     		adds	r3, r3, #1
+ 488              	.LVL17:
+ 489              		.loc 1 128 12 view .LVU129
+ 490 002a 5BB2     		sxtb	r3, r3
+ 491              	.LVL18:
+ 492              	.L36:
+ 124:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 493              		.loc 1 124 23 is_stmt 1 view .LVU130
+ 124:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 494              		.loc 1 124 16 is_stmt 0 view .LVU131
+ 495 002c 194A     		ldr	r2, .L46+12
+ 496 002e 1268     		ldr	r2, [r2]
+ 497 0030 D169     		ldr	r1, [r2, #28]
+ 124:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 498              		.loc 1 124 23 view .LVU132
+ 499 0032 A142     		cmp	r1, r4
+ 500 0034 04D0     		beq	.L44
+ 125:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 501              		.loc 1 125 7 is_stmt 1 view .LVU133
+ 125:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 502              		.loc 1 125 10 is_stmt 0 view .LVU134
+ 503 0036 8242     		cmp	r2, r0
+ARM GAS  /tmp/ccvuygcI.s 			page 12
+
+
+ 504 0038 F4D1     		bne	.L37
+ 125:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 505              		.loc 1 125 25 discriminator 1 view .LVU135
+ 506 003a 002B     		cmp	r3, #0
+ 507 003c F2D0     		beq	.L37
+ 508              	.LVL19:
+ 509              	.L34:
+ 125:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 510              		.loc 1 125 25 discriminator 1 view .LVU136
+ 511              	.LBE4:
+ 129:../ChronosRTOS/Core/Src/task.c ****     }
+ 130:../ChronosRTOS/Core/Src/task.c **** 
+ 131:../ChronosRTOS/Core/Src/task.c ****     Free_Stack_Push(temp->tid);
+ 132:../ChronosRTOS/Core/Src/task.c **** 
+ 133:../ChronosRTOS/Core/Src/task.c ****     prev = curr;
+ 134:../ChronosRTOS/Core/Src/task.c ****     curr = curr->next;
+ 135:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 136:../ChronosRTOS/Core/Src/task.c **** 
+ 137:../ChronosRTOS/Core/Src/task.c ****     if (temp == tail)
+ 138:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 139:../ChronosRTOS/Core/Src/task.c **** 
+ 140:../ChronosRTOS/Core/Src/task.c ****     prev->next = next;
+ 141:../ChronosRTOS/Core/Src/task.c **** 
+ 142:../ChronosRTOS/Core/Src/task.c ****     temp->task_state = TASK_TERMINATED;
+ 143:../ChronosRTOS/Core/Src/task.c ****     task_count--;
+ 144:../ChronosRTOS/Core/Src/task.c **** 
+ 145:../ChronosRTOS/Core/Src/task.c ****     curr = prev->next;
+ 146:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 147:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 148:../ChronosRTOS/Core/Src/task.c ****     return;
+ 149:../ChronosRTOS/Core/Src/task.c ****   }
+ 150:../ChronosRTOS/Core/Src/task.c **** }
+ 512              		.loc 1 150 1 view .LVU137
+ 513 003e 10BD     		pop	{r4, pc}
+ 514              	.LVL20:
+ 515              	.L44:
+ 516              	.LBB5:
+ 131:../ChronosRTOS/Core/Src/task.c **** 
+ 517              		.loc 1 131 5 is_stmt 1 view .LVU138
+ 518 0040 94F90000 		ldrsb	r0, [r4]
+ 519              	.LVL21:
+ 131:../ChronosRTOS/Core/Src/task.c **** 
+ 520              		.loc 1 131 5 is_stmt 0 view .LVU139
+ 521 0044 FFF7FEFF 		bl	Free_Stack_Push
+ 522              	.LVL22:
+ 133:../ChronosRTOS/Core/Src/task.c ****     curr = curr->next;
+ 523              		.loc 1 133 5 is_stmt 1 view .LVU140
+ 133:../ChronosRTOS/Core/Src/task.c ****     curr = curr->next;
+ 524              		.loc 1 133 10 is_stmt 0 view .LVU141
+ 525 0048 1249     		ldr	r1, .L46+12
+ 526 004a 0B68     		ldr	r3, [r1]
+ 527 004c 124A     		ldr	r2, .L46+16
+ 528 004e 1360     		str	r3, [r2]
+ 134:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 529              		.loc 1 134 5 is_stmt 1 view .LVU142
+ 134:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 530              		.loc 1 134 16 is_stmt 0 view .LVU143
+ARM GAS  /tmp/ccvuygcI.s 			page 13
+
+
+ 531 0050 DA69     		ldr	r2, [r3, #28]
+ 134:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 532              		.loc 1 134 10 view .LVU144
+ 533 0052 0A60     		str	r2, [r1]
+ 135:../ChronosRTOS/Core/Src/task.c **** 
+ 534              		.loc 1 135 5 is_stmt 1 view .LVU145
+ 135:../ChronosRTOS/Core/Src/task.c **** 
+ 535              		.loc 1 135 16 is_stmt 0 view .LVU146
+ 536 0054 D269     		ldr	r2, [r2, #28]
+ 135:../ChronosRTOS/Core/Src/task.c **** 
+ 537              		.loc 1 135 10 view .LVU147
+ 538 0056 1149     		ldr	r1, .L46+20
+ 539 0058 0A60     		str	r2, [r1]
+ 137:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 540              		.loc 1 137 5 is_stmt 1 view .LVU148
+ 137:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 541              		.loc 1 137 14 is_stmt 0 view .LVU149
+ 542 005a 1149     		ldr	r1, .L46+24
+ 543 005c 0968     		ldr	r1, [r1]
+ 137:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 544              		.loc 1 137 8 view .LVU150
+ 545 005e A142     		cmp	r1, r4
+ 546 0060 0DD0     		beq	.L45
+ 547              	.L39:
+ 140:../ChronosRTOS/Core/Src/task.c **** 
+ 548              		.loc 1 140 5 is_stmt 1 view .LVU151
+ 140:../ChronosRTOS/Core/Src/task.c **** 
+ 549              		.loc 1 140 16 is_stmt 0 view .LVU152
+ 550 0062 DA61     		str	r2, [r3, #28]
+ 142:../ChronosRTOS/Core/Src/task.c ****     task_count--;
+ 551              		.loc 1 142 5 is_stmt 1 view .LVU153
+ 142:../ChronosRTOS/Core/Src/task.c ****     task_count--;
+ 552              		.loc 1 142 22 is_stmt 0 view .LVU154
+ 553 0064 0422     		movs	r2, #4
+ 554 0066 2272     		strb	r2, [r4, #8]
+ 143:../ChronosRTOS/Core/Src/task.c **** 
+ 555              		.loc 1 143 5 is_stmt 1 view .LVU155
+ 143:../ChronosRTOS/Core/Src/task.c **** 
+ 556              		.loc 1 143 15 is_stmt 0 view .LVU156
+ 557 0068 0949     		ldr	r1, .L46+8
+ 558 006a 0A68     		ldr	r2, [r1]
+ 559 006c 013A     		subs	r2, r2, #1
+ 560 006e 0A60     		str	r2, [r1]
+ 145:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 561              		.loc 1 145 5 is_stmt 1 view .LVU157
+ 145:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 562              		.loc 1 145 16 is_stmt 0 view .LVU158
+ 563 0070 DB69     		ldr	r3, [r3, #28]
+ 145:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 564              		.loc 1 145 10 view .LVU159
+ 565 0072 084A     		ldr	r2, .L46+12
+ 566 0074 1360     		str	r3, [r2]
+ 146:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 567              		.loc 1 146 5 is_stmt 1 view .LVU160
+ 146:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 568              		.loc 1 146 16 is_stmt 0 view .LVU161
+ 569 0076 DA69     		ldr	r2, [r3, #28]
+ARM GAS  /tmp/ccvuygcI.s 			page 14
+
+
+ 146:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 570              		.loc 1 146 10 view .LVU162
+ 571 0078 084B     		ldr	r3, .L46+20
+ 572 007a 1A60     		str	r2, [r3]
+ 573              	.LBE5:
+ 574 007c DFE7     		b	.L34
+ 575              	.L45:
+ 576              	.LBB6:
+ 138:../ChronosRTOS/Core/Src/task.c **** 
+ 577              		.loc 1 138 7 is_stmt 1 view .LVU163
+ 138:../ChronosRTOS/Core/Src/task.c **** 
+ 578              		.loc 1 138 12 is_stmt 0 view .LVU164
+ 579 007e 0849     		ldr	r1, .L46+24
+ 580 0080 0B60     		str	r3, [r1]
+ 581 0082 EEE7     		b	.L39
+ 582              	.LVL23:
+ 583              	.L41:
+ 584              	.LCFI5:
+ 585              		.cfi_def_cfa_offset 0
+ 586              		.cfi_restore 4
+ 587              		.cfi_restore 14
+ 138:../ChronosRTOS/Core/Src/task.c **** 
+ 588              		.loc 1 138 12 view .LVU165
+ 589 0084 7047     		bx	lr
+ 590              	.L47:
+ 591 0086 00BF     		.align	2
+ 592              	.L46:
+ 593 0088 00000000 		.word	tcb_pool
+ 594 008c 00000000 		.word	init
+ 595 0090 00000000 		.word	task_count
+ 596 0094 00000000 		.word	curr
+ 597 0098 00000000 		.word	prev
+ 598 009c 00000000 		.word	next
+ 599 00a0 00000000 		.word	tail
+ 600              	.LBE6:
+ 601              		.cfi_endproc
+ 602              	.LFE7:
+ 604              		.section	.text.Task_Suspend,"ax",%progbits
+ 605              		.align	1
+ 606              		.global	Task_Suspend
+ 607              		.syntax unified
+ 608              		.thumb
+ 609              		.thumb_func
+ 611              	Task_Suspend:
+ 612              	.LVL24:
+ 613              	.LFB8:
+ 151:../ChronosRTOS/Core/Src/task.c **** 
+ 152:../ChronosRTOS/Core/Src/task.c **** void Task_Suspend(TCB *temp) {
+ 614              		.loc 1 152 30 is_stmt 1 view -0
+ 615              		.cfi_startproc
+ 616              		@ args = 0, pretend = 0, frame = 0
+ 617              		@ frame_needed = 0, uses_anonymous_args = 0
+ 618              		@ link register save eliminated.
+ 153:../ChronosRTOS/Core/Src/task.c ****   if (temp == NULL || temp == TCB0 || !init) {
+ 619              		.loc 1 153 3 view .LVU167
+ 620              		.loc 1 153 6 is_stmt 0 view .LVU168
+ 621 0000 8446     		mov	ip, r0
+ARM GAS  /tmp/ccvuygcI.s 			page 15
+
+
+ 622 0002 D0B1     		cbz	r0, .L48
+ 623              		.loc 1 153 20 discriminator 1 view .LVU169
+ 624 0004 1A4B     		ldr	r3, .L56
+ 625 0006 9842     		cmp	r0, r3
+ 626 0008 17D0     		beq	.L48
+ 627              		.loc 1 153 39 discriminator 2 view .LVU170
+ 628 000a 1A4B     		ldr	r3, .L56+4
+ 629 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 630              		.loc 1 153 36 discriminator 2 view .LVU171
+ 631 000e A3B1     		cbz	r3, .L48
+ 154:../ChronosRTOS/Core/Src/task.c ****     return;
+ 155:../ChronosRTOS/Core/Src/task.c ****   }
+ 156:../ChronosRTOS/Core/Src/task.c **** 
+ 157:../ChronosRTOS/Core/Src/task.c ****   if (task_count > 0) {
+ 632              		.loc 1 157 3 is_stmt 1 view .LVU172
+ 633              		.loc 1 157 18 is_stmt 0 view .LVU173
+ 634 0010 194B     		ldr	r3, .L56+8
+ 635 0012 1B68     		ldr	r3, [r3]
+ 636              		.loc 1 157 6 view .LVU174
+ 637 0014 002B     		cmp	r3, #0
+ 638 0016 10DD     		ble	.L48
+ 639              	.LBB7:
+ 158:../ChronosRTOS/Core/Src/task.c ****     TCB *check;
+ 640              		.loc 1 158 5 is_stmt 1 view .LVU175
+ 159:../ChronosRTOS/Core/Src/task.c ****     check = curr;
+ 641              		.loc 1 159 5 view .LVU176
+ 642              		.loc 1 159 11 is_stmt 0 view .LVU177
+ 643 0018 184B     		ldr	r3, .L56+12
+ 644 001a 1868     		ldr	r0, [r3]
+ 645              	.LVL25:
+ 160:../ChronosRTOS/Core/Src/task.c ****     int8_t count = 0;
+ 646              		.loc 1 160 5 is_stmt 1 view .LVU178
+ 161:../ChronosRTOS/Core/Src/task.c **** 
+ 162:../ChronosRTOS/Core/Src/task.c ****     while (curr->next != temp) {
+ 647              		.loc 1 162 5 view .LVU179
+ 160:../ChronosRTOS/Core/Src/task.c ****     int8_t count = 0;
+ 648              		.loc 1 160 12 is_stmt 0 view .LVU180
+ 649 001c 0023     		movs	r3, #0
+ 650              		.loc 1 162 11 view .LVU181
+ 651 001e 03E0     		b	.L50
+ 652              	.LVL26:
+ 653              	.L51:
+ 163:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 164:../ChronosRTOS/Core/Src/task.c ****         return;
+ 165:../ChronosRTOS/Core/Src/task.c ****       curr = curr->next;
+ 654              		.loc 1 165 7 is_stmt 1 view .LVU182
+ 655              		.loc 1 165 12 is_stmt 0 view .LVU183
+ 656 0020 164A     		ldr	r2, .L56+12
+ 657 0022 1160     		str	r1, [r2]
+ 166:../ChronosRTOS/Core/Src/task.c ****       count++;
+ 658              		.loc 1 166 7 is_stmt 1 view .LVU184
+ 659              		.loc 1 166 12 is_stmt 0 view .LVU185
+ 660 0024 0133     		adds	r3, r3, #1
+ 661              	.LVL27:
+ 662              		.loc 1 166 12 view .LVU186
+ 663 0026 5BB2     		sxtb	r3, r3
+ 664              	.LVL28:
+ARM GAS  /tmp/ccvuygcI.s 			page 16
+
+
+ 665              	.L50:
+ 162:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 666              		.loc 1 162 23 is_stmt 1 view .LVU187
+ 162:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 667              		.loc 1 162 16 is_stmt 0 view .LVU188
+ 668 0028 144A     		ldr	r2, .L56+12
+ 669 002a 1268     		ldr	r2, [r2]
+ 670 002c D169     		ldr	r1, [r2, #28]
+ 162:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 671              		.loc 1 162 23 view .LVU189
+ 672 002e 6145     		cmp	r1, ip
+ 673 0030 04D0     		beq	.L54
+ 163:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 674              		.loc 1 163 7 is_stmt 1 view .LVU190
+ 163:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 675              		.loc 1 163 10 is_stmt 0 view .LVU191
+ 676 0032 8242     		cmp	r2, r0
+ 677 0034 F4D1     		bne	.L51
+ 163:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 678              		.loc 1 163 25 discriminator 1 view .LVU192
+ 679 0036 002B     		cmp	r3, #0
+ 680 0038 F2D0     		beq	.L51
+ 681              	.LVL29:
+ 682              	.L48:
+ 163:../ChronosRTOS/Core/Src/task.c ****       if (curr == check && count != 0)
+ 683              		.loc 1 163 25 discriminator 1 view .LVU193
+ 684              	.LBE7:
+ 167:../ChronosRTOS/Core/Src/task.c ****     }
+ 168:../ChronosRTOS/Core/Src/task.c **** 
+ 169:../ChronosRTOS/Core/Src/task.c ****     prev = curr;
+ 170:../ChronosRTOS/Core/Src/task.c ****     curr = curr->next;
+ 171:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 172:../ChronosRTOS/Core/Src/task.c **** 
+ 173:../ChronosRTOS/Core/Src/task.c ****     if (temp == tail)
+ 174:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 175:../ChronosRTOS/Core/Src/task.c **** 
+ 176:../ChronosRTOS/Core/Src/task.c ****     prev->next = next;
+ 177:../ChronosRTOS/Core/Src/task.c **** 
+ 178:../ChronosRTOS/Core/Src/task.c ****     temp->task_state = TASK_BLOCKED;
+ 179:../ChronosRTOS/Core/Src/task.c **** 
+ 180:../ChronosRTOS/Core/Src/task.c ****     curr = prev->next;
+ 181:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 182:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 183:../ChronosRTOS/Core/Src/task.c ****     return;
+ 184:../ChronosRTOS/Core/Src/task.c ****   }
+ 185:../ChronosRTOS/Core/Src/task.c **** }
+ 685              		.loc 1 185 1 view .LVU194
+ 686 003a 7047     		bx	lr
+ 687              	.LVL30:
+ 688              	.L54:
+ 689              	.LBB8:
+ 169:../ChronosRTOS/Core/Src/task.c ****     curr = curr->next;
+ 690              		.loc 1 169 5 is_stmt 1 view .LVU195
+ 169:../ChronosRTOS/Core/Src/task.c ****     curr = curr->next;
+ 691              		.loc 1 169 10 is_stmt 0 view .LVU196
+ 692 003c 104B     		ldr	r3, .L56+16
+ 693              	.LVL31:
+ARM GAS  /tmp/ccvuygcI.s 			page 17
+
+
+ 169:../ChronosRTOS/Core/Src/task.c ****     curr = curr->next;
+ 694              		.loc 1 169 10 view .LVU197
+ 695 003e 1A60     		str	r2, [r3]
+ 170:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 696              		.loc 1 170 5 is_stmt 1 view .LVU198
+ 170:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 697              		.loc 1 170 10 is_stmt 0 view .LVU199
+ 698 0040 0E4B     		ldr	r3, .L56+12
+ 699 0042 1960     		str	r1, [r3]
+ 171:../ChronosRTOS/Core/Src/task.c **** 
+ 700              		.loc 1 171 5 is_stmt 1 view .LVU200
+ 171:../ChronosRTOS/Core/Src/task.c **** 
+ 701              		.loc 1 171 16 is_stmt 0 view .LVU201
+ 702 0044 CB69     		ldr	r3, [r1, #28]
+ 171:../ChronosRTOS/Core/Src/task.c **** 
+ 703              		.loc 1 171 10 view .LVU202
+ 704 0046 0F49     		ldr	r1, .L56+20
+ 705 0048 0B60     		str	r3, [r1]
+ 173:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 706              		.loc 1 173 5 is_stmt 1 view .LVU203
+ 173:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 707              		.loc 1 173 14 is_stmt 0 view .LVU204
+ 708 004a 0F49     		ldr	r1, .L56+24
+ 709 004c 0968     		ldr	r1, [r1]
+ 173:../ChronosRTOS/Core/Src/task.c ****       tail = prev;
+ 710              		.loc 1 173 8 view .LVU205
+ 711 004e 6145     		cmp	r1, ip
+ 712 0050 0AD0     		beq	.L55
+ 713              	.L53:
+ 176:../ChronosRTOS/Core/Src/task.c **** 
+ 714              		.loc 1 176 5 is_stmt 1 view .LVU206
+ 176:../ChronosRTOS/Core/Src/task.c **** 
+ 715              		.loc 1 176 16 is_stmt 0 view .LVU207
+ 716 0052 D361     		str	r3, [r2, #28]
+ 178:../ChronosRTOS/Core/Src/task.c **** 
+ 717              		.loc 1 178 5 is_stmt 1 view .LVU208
+ 178:../ChronosRTOS/Core/Src/task.c **** 
+ 718              		.loc 1 178 22 is_stmt 0 view .LVU209
+ 719 0054 0323     		movs	r3, #3
+ 720 0056 8CF80830 		strb	r3, [ip, #8]
+ 180:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 721              		.loc 1 180 5 is_stmt 1 view .LVU210
+ 180:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 722              		.loc 1 180 16 is_stmt 0 view .LVU211
+ 723 005a D369     		ldr	r3, [r2, #28]
+ 180:../ChronosRTOS/Core/Src/task.c ****     next = curr->next;
+ 724              		.loc 1 180 10 view .LVU212
+ 725 005c 074A     		ldr	r2, .L56+12
+ 726 005e 1360     		str	r3, [r2]
+ 181:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 727              		.loc 1 181 5 is_stmt 1 view .LVU213
+ 181:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 728              		.loc 1 181 16 is_stmt 0 view .LVU214
+ 729 0060 DA69     		ldr	r2, [r3, #28]
+ 181:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 730              		.loc 1 181 10 view .LVU215
+ 731 0062 084B     		ldr	r3, .L56+20
+ARM GAS  /tmp/ccvuygcI.s 			page 18
+
+
+ 732 0064 1A60     		str	r2, [r3]
+ 733              	.LBE8:
+ 734 0066 E8E7     		b	.L48
+ 735              	.L55:
+ 736              	.LBB9:
+ 174:../ChronosRTOS/Core/Src/task.c **** 
+ 737              		.loc 1 174 7 is_stmt 1 view .LVU216
+ 174:../ChronosRTOS/Core/Src/task.c **** 
+ 738              		.loc 1 174 12 is_stmt 0 view .LVU217
+ 739 0068 0749     		ldr	r1, .L56+24
+ 740 006a 0A60     		str	r2, [r1]
+ 741 006c F1E7     		b	.L53
+ 742              	.L57:
+ 743 006e 00BF     		.align	2
+ 744              	.L56:
+ 745 0070 00000000 		.word	tcb_pool
+ 746 0074 00000000 		.word	init
+ 747 0078 00000000 		.word	task_count
+ 748 007c 00000000 		.word	curr
+ 749 0080 00000000 		.word	prev
+ 750 0084 00000000 		.word	next
+ 751 0088 00000000 		.word	tail
+ 752              	.LBE9:
+ 753              		.cfi_endproc
+ 754              	.LFE8:
+ 756              		.section	.text.Task_Resume,"ax",%progbits
+ 757              		.align	1
+ 758              		.global	Task_Resume
+ 759              		.syntax unified
+ 760              		.thumb
+ 761              		.thumb_func
+ 763              	Task_Resume:
+ 764              	.LVL32:
+ 765              	.LFB9:
+ 186:../ChronosRTOS/Core/Src/task.c **** 
+ 187:../ChronosRTOS/Core/Src/task.c **** void Task_Resume(TCB *temp) {
+ 766              		.loc 1 187 29 is_stmt 1 view -0
+ 767              		.cfi_startproc
+ 768              		@ args = 0, pretend = 0, frame = 0
+ 769              		@ frame_needed = 0, uses_anonymous_args = 0
+ 770              		@ link register save eliminated.
+ 188:../ChronosRTOS/Core/Src/task.c ****   if (temp == NULL || temp == TCB0 || !init) {
+ 771              		.loc 1 188 3 view .LVU219
+ 772              		.loc 1 188 6 is_stmt 0 view .LVU220
+ 773 0000 A0B1     		cbz	r0, .L58
+ 774              		.loc 1 188 20 discriminator 1 view .LVU221
+ 775 0002 0B4A     		ldr	r2, .L60
+ 776 0004 9042     		cmp	r0, r2
+ 777 0006 11D0     		beq	.L58
+ 778              		.loc 1 188 39 discriminator 2 view .LVU222
+ 779 0008 0A4A     		ldr	r2, .L60+4
+ 780 000a 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 781              		.loc 1 188 36 discriminator 2 view .LVU223
+ 782 000c 72B1     		cbz	r2, .L58
+ 189:../ChronosRTOS/Core/Src/task.c ****     return;
+ 190:../ChronosRTOS/Core/Src/task.c ****   }
+ 191:../ChronosRTOS/Core/Src/task.c **** 
+ARM GAS  /tmp/ccvuygcI.s 			page 19
+
+
+ 192:../ChronosRTOS/Core/Src/task.c ****   if (temp->task_state != TASK_BLOCKED) {
+ 783              		.loc 1 192 3 is_stmt 1 view .LVU224
+ 784              		.loc 1 192 11 is_stmt 0 view .LVU225
+ 785 000e 027A     		ldrb	r2, [r0, #8]	@ zero_extendqisi2
+ 786              		.loc 1 192 6 view .LVU226
+ 787 0010 032A     		cmp	r2, #3
+ 788 0012 0BD1     		bne	.L58
+ 193:../ChronosRTOS/Core/Src/task.c ****     return;
+ 194:../ChronosRTOS/Core/Src/task.c ****   }
+ 195:../ChronosRTOS/Core/Src/task.c **** 
+ 196:../ChronosRTOS/Core/Src/task.c ****   if (task_count > 0) {
+ 789              		.loc 1 196 3 is_stmt 1 view .LVU227
+ 790              		.loc 1 196 18 is_stmt 0 view .LVU228
+ 791 0014 084A     		ldr	r2, .L60+8
+ 792 0016 1268     		ldr	r2, [r2]
+ 793              		.loc 1 196 6 view .LVU229
+ 794 0018 002A     		cmp	r2, #0
+ 795 001a 07DD     		ble	.L58
+ 197:../ChronosRTOS/Core/Src/task.c ****     tail->next = temp;
+ 796              		.loc 1 197 5 is_stmt 1 view .LVU230
+ 797              		.loc 1 197 9 is_stmt 0 view .LVU231
+ 798 001c 074A     		ldr	r2, .L60+12
+ 799 001e 1168     		ldr	r1, [r2]
+ 800              		.loc 1 197 16 view .LVU232
+ 801 0020 C861     		str	r0, [r1, #28]
+ 198:../ChronosRTOS/Core/Src/task.c ****     temp->next = TCB0;
+ 802              		.loc 1 198 5 is_stmt 1 view .LVU233
+ 803              		.loc 1 198 16 is_stmt 0 view .LVU234
+ 804 0022 0349     		ldr	r1, .L60
+ 805 0024 C161     		str	r1, [r0, #28]
+ 199:../ChronosRTOS/Core/Src/task.c ****     tail = temp;
+ 806              		.loc 1 199 5 is_stmt 1 view .LVU235
+ 807              		.loc 1 199 10 is_stmt 0 view .LVU236
+ 808 0026 1060     		str	r0, [r2]
+ 200:../ChronosRTOS/Core/Src/task.c **** 
+ 201:../ChronosRTOS/Core/Src/task.c ****     tail->task_state = TASK_READY;
+ 809              		.loc 1 201 5 is_stmt 1 view .LVU237
+ 810              		.loc 1 201 22 is_stmt 0 view .LVU238
+ 811 0028 0122     		movs	r2, #1
+ 812 002a 0272     		strb	r2, [r0, #8]
+ 813              	.L58:
+ 202:../ChronosRTOS/Core/Src/task.c ****   } else {
+ 203:../ChronosRTOS/Core/Src/task.c ****     return;
+ 204:../ChronosRTOS/Core/Src/task.c ****   }
+ 205:../ChronosRTOS/Core/Src/task.c **** }
+ 814              		.loc 1 205 1 view .LVU239
+ 815 002c 7047     		bx	lr
+ 816              	.L61:
+ 817 002e 00BF     		.align	2
+ 818              	.L60:
+ 819 0030 00000000 		.word	tcb_pool
+ 820 0034 00000000 		.word	init
+ 821 0038 00000000 		.word	task_count
+ 822 003c 00000000 		.word	tail
+ 823              		.cfi_endproc
+ 824              	.LFE9:
+ 826              		.section	.text.Task_Get_Current,"ax",%progbits
+ARM GAS  /tmp/ccvuygcI.s 			page 20
+
+
+ 827              		.align	1
+ 828              		.global	Task_Get_Current
+ 829              		.syntax unified
+ 830              		.thumb
+ 831              		.thumb_func
+ 833              	Task_Get_Current:
+ 834              	.LFB10:
+ 206:../ChronosRTOS/Core/Src/task.c **** 
+ 207:../ChronosRTOS/Core/Src/task.c **** TCB *Task_Get_Current() { return curr; }
+ 835              		.loc 1 207 25 is_stmt 1 view -0
+ 836              		.cfi_startproc
+ 837              		@ args = 0, pretend = 0, frame = 0
+ 838              		@ frame_needed = 0, uses_anonymous_args = 0
+ 839              		@ link register save eliminated.
+ 840              		.loc 1 207 27 view .LVU241
+ 841              		.loc 1 207 40 is_stmt 0 view .LVU242
+ 842 0000 014B     		ldr	r3, .L63
+ 843 0002 1868     		ldr	r0, [r3]
+ 844 0004 7047     		bx	lr
+ 845              	.L64:
+ 846 0006 00BF     		.align	2
+ 847              	.L63:
+ 848 0008 00000000 		.word	curr
+ 849              		.cfi_endproc
+ 850              	.LFE10:
+ 852              		.section	.text.Task_Get_Idle,"ax",%progbits
+ 853              		.align	1
+ 854              		.global	Task_Get_Idle
+ 855              		.syntax unified
+ 856              		.thumb
+ 857              		.thumb_func
+ 859              	Task_Get_Idle:
+ 860              	.LFB11:
+ 208:../ChronosRTOS/Core/Src/task.c **** 
+ 209:../ChronosRTOS/Core/Src/task.c **** TCB *Task_Get_Idle() { return TCB0; }
+ 861              		.loc 1 209 22 is_stmt 1 view -0
+ 862              		.cfi_startproc
+ 863              		@ args = 0, pretend = 0, frame = 0
+ 864              		@ frame_needed = 0, uses_anonymous_args = 0
+ 865              		@ link register save eliminated.
+ 866              		.loc 1 209 24 view .LVU244
+ 867              		.loc 1 209 37 is_stmt 0 view .LVU245
+ 868 0000 0048     		ldr	r0, .L66
+ 869 0002 7047     		bx	lr
+ 870              	.L67:
+ 871              		.align	2
+ 872              	.L66:
+ 873 0004 00000000 		.word	tcb_pool
+ 874              		.cfi_endproc
+ 875              	.LFE11:
+ 877              		.section	.text.Task_Is_Initialized,"ax",%progbits
+ 878              		.align	1
+ 879              		.global	Task_Is_Initialized
+ 880              		.syntax unified
+ 881              		.thumb
+ 882              		.thumb_func
+ 884              	Task_Is_Initialized:
+ARM GAS  /tmp/ccvuygcI.s 			page 21
+
+
+ 885              	.LFB12:
+ 210:../ChronosRTOS/Core/Src/task.c **** bool Task_Is_Initialized(void) { return init; }...
+ 886              		.loc 1 210 32 is_stmt 1 view -0
+ 887              		.cfi_startproc
+ 888              		@ args = 0, pretend = 0, frame = 0
+ 889              		@ frame_needed = 0, uses_anonymous_args = 0
+ 890              		@ link register save eliminated.
+ 891              		.loc 1 210 34 view .LVU247
+ 892              		.loc 1 210 47 is_stmt 0 view .LVU248
+ 893 0000 014B     		ldr	r3, .L69
+ 894 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 895 0004 7047     		bx	lr
+ 896              	.L70:
+ 897 0006 00BF     		.align	2
+ 898              	.L69:
+ 899 0008 00000000 		.word	init
+ 900              		.cfi_endproc
+ 901              	.LFE12:
+ 903              		.section	.bss.free_slot,"aw",%nobits
+ 904              		.align	2
+ 907              	free_slot:
+ 908 0000 00000000 		.space	7
+ 908      000000
+ 909              		.section	.bss.init,"aw",%nobits
+ 912              	init:
+ 913 0000 00       		.space	1
+ 914              		.section	.bss.tail,"aw",%nobits
+ 915              		.align	2
+ 918              	tail:
+ 919 0000 00000000 		.space	4
+ 920              		.section	.bss.next,"aw",%nobits
+ 921              		.align	2
+ 924              	next:
+ 925 0000 00000000 		.space	4
+ 926              		.section	.bss.prev,"aw",%nobits
+ 927              		.align	2
+ 930              	prev:
+ 931 0000 00000000 		.space	4
+ 932              		.section	.bss.curr,"aw",%nobits
+ 933              		.align	2
+ 936              	curr:
+ 937 0000 00000000 		.space	4
+ 938              		.section	.bss.tcb_pool,"aw",%nobits
+ 939              		.align	2
+ 942              	tcb_pool:
+ 943 0000 00000000 		.space	192
+ 943      00000000 
+ 943      00000000 
+ 943      00000000 
+ 943      00000000 
+ 944              		.section	.bss.task_count,"aw",%nobits
+ 945              		.align	2
+ 948              	task_count:
+ 949 0000 00000000 		.space	4
+ 950              		.text
+ 951              	.Letext0:
+ 952              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ARM GAS  /tmp/ccvuygcI.s 			page 22
+
+
+ 953              		.file 3 "../ChronosRTOS/Core/Inc/task.h"
+ 954              		.file 4 "../ChronosRTOS/Core/Inc/idle.h"
+ 955              		.file 5 "../ChronosRTOS/Core/Inc/memory.h"
+ARM GAS  /tmp/ccvuygcI.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 task.c
+     /tmp/ccvuygcI.s:19     .text.Free_Stack_Init:00000000 $t
+     /tmp/ccvuygcI.s:25     .text.Free_Stack_Init:00000000 Free_Stack_Init
+     /tmp/ccvuygcI.s:42     .text.Free_Stack_Init:00000008 $d
+     /tmp/ccvuygcI.s:907    .bss.free_slot:00000000 free_slot
+     /tmp/ccvuygcI.s:47     .text.Free_Stack_Push:00000000 $t
+     /tmp/ccvuygcI.s:53     .text.Free_Stack_Push:00000000 Free_Stack_Push
+     /tmp/ccvuygcI.s:84     .text.Free_Stack_Push:00000018 $d
+     /tmp/ccvuygcI.s:89     .text.Free_Stack_Empty:00000000 $t
+     /tmp/ccvuygcI.s:95     .text.Free_Stack_Empty:00000000 Free_Stack_Empty
+     /tmp/ccvuygcI.s:120    .text.Free_Stack_Empty:00000014 $d
+     /tmp/ccvuygcI.s:125    .text.Free_Stack_Top:00000000 $t
+     /tmp/ccvuygcI.s:131    .text.Free_Stack_Top:00000000 Free_Stack_Top
+     /tmp/ccvuygcI.s:158    .text.Free_Stack_Top:00000018 $d
+     /tmp/ccvuygcI.s:163    .text.Free_Stack_Pop:00000000 $t
+     /tmp/ccvuygcI.s:169    .text.Free_Stack_Pop:00000000 Free_Stack_Pop
+     /tmp/ccvuygcI.s:194    .text.Free_Stack_Pop:00000014 $d
+     /tmp/ccvuygcI.s:199    .text.Task_Create:00000000 $t
+     /tmp/ccvuygcI.s:205    .text.Task_Create:00000000 Task_Create
+     /tmp/ccvuygcI.s:311    .text.Task_Create:00000058 $d
+     /tmp/ccvuygcI.s:912    .bss.init:00000000 init
+     /tmp/ccvuygcI.s:948    .bss.task_count:00000000 task_count
+     /tmp/ccvuygcI.s:942    .bss.tcb_pool:00000000 tcb_pool
+     /tmp/ccvuygcI.s:918    .bss.tail:00000000 tail
+     /tmp/ccvuygcI.s:936    .bss.curr:00000000 curr
+     /tmp/ccvuygcI.s:320    .text.Task_Init:00000000 $t
+     /tmp/ccvuygcI.s:326    .text.Task_Init:00000000 Task_Init
+     /tmp/ccvuygcI.s:414    .text.Task_Init:00000044 $d
+     /tmp/ccvuygcI.s:930    .bss.prev:00000000 prev
+     /tmp/ccvuygcI.s:924    .bss.next:00000000 next
+     /tmp/ccvuygcI.s:426    .text.Task_Terminate:00000000 $t
+     /tmp/ccvuygcI.s:432    .text.Task_Terminate:00000000 Task_Terminate
+     /tmp/ccvuygcI.s:593    .text.Task_Terminate:00000088 $d
+     /tmp/ccvuygcI.s:605    .text.Task_Suspend:00000000 $t
+     /tmp/ccvuygcI.s:611    .text.Task_Suspend:00000000 Task_Suspend
+     /tmp/ccvuygcI.s:745    .text.Task_Suspend:00000070 $d
+     /tmp/ccvuygcI.s:757    .text.Task_Resume:00000000 $t
+     /tmp/ccvuygcI.s:763    .text.Task_Resume:00000000 Task_Resume
+     /tmp/ccvuygcI.s:819    .text.Task_Resume:00000030 $d
+     /tmp/ccvuygcI.s:827    .text.Task_Get_Current:00000000 $t
+     /tmp/ccvuygcI.s:833    .text.Task_Get_Current:00000000 Task_Get_Current
+     /tmp/ccvuygcI.s:848    .text.Task_Get_Current:00000008 $d
+     /tmp/ccvuygcI.s:853    .text.Task_Get_Idle:00000000 $t
+     /tmp/ccvuygcI.s:859    .text.Task_Get_Idle:00000000 Task_Get_Idle
+     /tmp/ccvuygcI.s:873    .text.Task_Get_Idle:00000004 $d
+     /tmp/ccvuygcI.s:878    .text.Task_Is_Initialized:00000000 $t
+     /tmp/ccvuygcI.s:884    .text.Task_Is_Initialized:00000000 Task_Is_Initialized
+     /tmp/ccvuygcI.s:899    .text.Task_Is_Initialized:00000008 $d
+     /tmp/ccvuygcI.s:904    .bss.free_slot:00000000 $d
+     /tmp/ccvuygcI.s:913    .bss.init:00000000 $d
+     /tmp/ccvuygcI.s:915    .bss.tail:00000000 $d
+     /tmp/ccvuygcI.s:921    .bss.next:00000000 $d
+     /tmp/ccvuygcI.s:927    .bss.prev:00000000 $d
+     /tmp/ccvuygcI.s:933    .bss.curr:00000000 $d
+     /tmp/ccvuygcI.s:939    .bss.tcb_pool:00000000 $d
+     /tmp/ccvuygcI.s:945    .bss.task_count:00000000 $d
+ARM GAS  /tmp/ccvuygcI.s 			page 24
+
+
+
+UNDEFINED SYMBOLS
+Mem_Stack_Base
+Idle_Function

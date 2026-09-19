@@ -11,9 +11,11 @@
 
 #include "task.h"
 
-void Scheduler_Init(void) ;
+void Scheduler_Init(void);
 
-TCB *Scheduler_Select_Next(void) ;
+TCB *Scheduler_Select_Next(void);
+
+void Scheduler_Set_Current(TCB *task);
 
 // void Scheduler_Start(void) ;
 

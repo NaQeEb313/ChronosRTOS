@@ -1,0 +1,251 @@
+ARM GAS  /tmp/ccFg5SBH.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"memory.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../ChronosRTOS/Core/Src/memory.c"
+  18              		.section	.text.Mem_Init,"ax",%progbits
+  19              		.align	1
+  20              		.global	Mem_Init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	Mem_Init:
+  26              	.LFB0:
+   1:../ChronosRTOS/Core/Src/memory.c **** /******************************************************************************
+   2:../ChronosRTOS/Core/Src/memory.c ****  * File        : memory.c
+   3:../ChronosRTOS/Core/Src/memory.c ****  * Project     : ChronosRTOS
+   4:../ChronosRTOS/Core/Src/memory.c ****  * Module      : Memory
+   5:../ChronosRTOS/Core/Src/memory.c ****  ******************************************************************************/
+   6:../ChronosRTOS/Core/Src/memory.c **** 
+   7:../ChronosRTOS/Core/Src/memory.c **** #include "memory.h"
+   8:../ChronosRTOS/Core/Src/memory.c **** #include "error.h"
+   9:../ChronosRTOS/Core/Src/memory.c **** #include <stddef.h>
+  10:../ChronosRTOS/Core/Src/memory.c **** #include <stdint.h>
+  11:../ChronosRTOS/Core/Src/memory.c **** 
+  12:../ChronosRTOS/Core/Src/memory.c **** // #define MEM_FREE_SLOT_CAPACITY (MAX_TASKS - 1U)
+  13:../ChronosRTOS/Core/Src/memory.c **** 
+  14:../ChronosRTOS/Core/Src/memory.c **** /*
+  15:../ChronosRTOS/Core/Src/memory.c **** typedef struct {
+  16:../ChronosRTOS/Core/Src/memory.c ****   int8_t top;
+  17:../ChronosRTOS/Core/Src/memory.c ****   int8_t arr[MEM_FREE_SLOT_CAPACITY];
+  18:../ChronosRTOS/Core/Src/memory.c **** } Free_Slot_Stack;
+  19:../ChronosRTOS/Core/Src/memory.c ****  */
+  20:../ChronosRTOS/Core/Src/memory.c **** 
+  21:../ChronosRTOS/Core/Src/memory.c **** /*
+  22:../ChronosRTOS/Core/Src/memory.c **** static Slot_State slot_state[MAX_TASKS];
+  23:../ChronosRTOS/Core/Src/memory.c **** static Free_Slot_Stack free_slots;
+  24:../ChronosRTOS/Core/Src/memory.c **** 
+  25:../ChronosRTOS/Core/Src/memory.c **** static int8_t next_new_slot;
+  26:../ChronosRTOS/Core/Src/memory.c **** static uint8_t used_count;
+  27:../ChronosRTOS/Core/Src/memory.c **** */
+  28:../ChronosRTOS/Core/Src/memory.c **** 
+  29:../ChronosRTOS/Core/Src/memory.c **** static uint32_t task_stacks[MAX_TASKS][TASK_STACK_SIZE_WORDS];
+  30:../ChronosRTOS/Core/Src/memory.c **** 
+  31:../ChronosRTOS/Core/Src/memory.c **** Error Mem_Init(void) {
+  27              		.loc 1 31 22 view -0
+ARM GAS  /tmp/ccFg5SBH.s 			page 2
+
+
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32:../ChronosRTOS/Core/Src/memory.c ****   /*free_slots.top = -1;
+  33:../ChronosRTOS/Core/Src/memory.c ****   next_new_slot = 1;
+  34:../ChronosRTOS/Core/Src/memory.c ****   used_count = 0;
+  35:../ChronosRTOS/Core/Src/memory.c **** 
+  36:../ChronosRTOS/Core/Src/memory.c ****   for (uint8_t i = 0; i < MAX_TASKS; i++) {
+  37:../ChronosRTOS/Core/Src/memory.c ****     slot_state[i] = SLOT_NEVER_USED;
+  38:../ChronosRTOS/Core/Src/memory.c ****   }
+  39:../ChronosRTOS/Core/Src/memory.c **** 
+  40:../ChronosRTOS/Core/Src/memory.c ****   slot_state[MEM_IDLE_SLOT] = SLOT_ALLOCATED;
+  41:../ChronosRTOS/Core/Src/memory.c **** */
+  42:../ChronosRTOS/Core/Src/memory.c ****   return ERR_OK;
+  32              		.loc 1 42 3 view .LVU1
+  43:../ChronosRTOS/Core/Src/memory.c **** }
+  33              		.loc 1 43 1 is_stmt 0 view .LVU2
+  34 0000 0020     		movs	r0, #0
+  35 0002 7047     		bx	lr
+  36              		.cfi_endproc
+  37              	.LFE0:
+  39              		.section	.text.Mem_Stack_Base,"ax",%progbits
+  40              		.align	1
+  41              		.global	Mem_Stack_Base
+  42              		.syntax unified
+  43              		.thumb
+  44              		.thumb_func
+  46              	Mem_Stack_Base:
+  47              	.LVL0:
+  48              	.LFB1:
+  44:../ChronosRTOS/Core/Src/memory.c **** 
+  45:../ChronosRTOS/Core/Src/memory.c **** /*
+  46:../ChronosRTOS/Core/Src/memory.c **** Error Mem_Slot_Alloc(int8_t *out_slot) {
+  47:../ChronosRTOS/Core/Src/memory.c ****   if (out_slot == NULL) {
+  48:../ChronosRTOS/Core/Src/memory.c ****     return ERR_MEM_INVALID_SLOT;
+  49:../ChronosRTOS/Core/Src/memory.c ****   }
+  50:../ChronosRTOS/Core/Src/memory.c **** 
+  51:../ChronosRTOS/Core/Src/memory.c ****   int8_t slot;
+  52:../ChronosRTOS/Core/Src/memory.c **** 
+  53:../ChronosRTOS/Core/Src/memory.c ****   if (free_slots.top >= 0) {
+  54:../ChronosRTOS/Core/Src/memory.c ****     slot = free_slots.arr[free_slots.top];
+  55:../ChronosRTOS/Core/Src/memory.c ****     free_slots.top--;
+  56:../ChronosRTOS/Core/Src/memory.c ****   } else if (next_new_slot < MAX_TASKS) {
+  57:../ChronosRTOS/Core/Src/memory.c ****     slot = next_new_slot;
+  58:../ChronosRTOS/Core/Src/memory.c ****     next_new_slot++;
+  59:../ChronosRTOS/Core/Src/memory.c ****   } else {
+  60:../ChronosRTOS/Core/Src/memory.c ****     return ERR_MEM_EXHAUSTED;
+  61:../ChronosRTOS/Core/Src/memory.c ****   }
+  62:../ChronosRTOS/Core/Src/memory.c **** 
+  63:../ChronosRTOS/Core/Src/memory.c ****   slot_state[slot] = SLOT_ALLOCATED;
+  64:../ChronosRTOS/Core/Src/memory.c ****   used_count++;
+  65:../ChronosRTOS/Core/Src/memory.c **** 
+  66:../ChronosRTOS/Core/Src/memory.c ****   *out_slot = slot;
+  67:../ChronosRTOS/Core/Src/memory.c **** 
+  68:../ChronosRTOS/Core/Src/memory.c ****   return ERR_OK;
+  69:../ChronosRTOS/Core/Src/memory.c **** }
+ARM GAS  /tmp/ccFg5SBH.s 			page 3
+
+
+  70:../ChronosRTOS/Core/Src/memory.c **** */
+  71:../ChronosRTOS/Core/Src/memory.c **** /*Error Mem_Slot_Release(int8_t *slot) {
+  72:../ChronosRTOS/Core/Src/memory.c ****   if (slot == NULL) {
+  73:../ChronosRTOS/Core/Src/memory.c ****     return ERR_MEM_INVALID_SLOT;
+  74:../ChronosRTOS/Core/Src/memory.c ****   }
+  75:../ChronosRTOS/Core/Src/memory.c **** 
+  76:../ChronosRTOS/Core/Src/memory.c ****   if (*slot <= MEM_IDLE_SLOT || *slot >= MAX_TASKS) {
+  77:../ChronosRTOS/Core/Src/memory.c ****     return ERR_MEM_INVALID_SLOT;
+  78:../ChronosRTOS/Core/Src/memory.c ****   }
+  79:../ChronosRTOS/Core/Src/memory.c **** 
+  80:../ChronosRTOS/Core/Src/memory.c ****   if (slot_state[*slot] != SLOT_ALLOCATED) {
+  81:../ChronosRTOS/Core/Src/memory.c ****     return ERR_MEM_SLOT_NOT_ALLOCATED;
+  82:../ChronosRTOS/Core/Src/memory.c ****   }
+  83:../ChronosRTOS/Core/Src/memory.c **** 
+  84:../ChronosRTOS/Core/Src/memory.c ****   slot_state[*slot] = SLOT_FREE;
+  85:../ChronosRTOS/Core/Src/memory.c **** 
+  86:../ChronosRTOS/Core/Src/memory.c ****   free_slots.top++;
+  87:../ChronosRTOS/Core/Src/memory.c ****   free_slots.arr[free_slots.top] = *slot;
+  88:../ChronosRTOS/Core/Src/memory.c **** 
+  89:../ChronosRTOS/Core/Src/memory.c ****   used_count--;
+  90:../ChronosRTOS/Core/Src/memory.c **** 
+  91:../ChronosRTOS/Core/Src/memory.c ****   return ERR_OK;
+  92:../ChronosRTOS/Core/Src/memory.c **** }
+  93:../ChronosRTOS/Core/Src/memory.c ****   */
+  94:../ChronosRTOS/Core/Src/memory.c **** 
+  95:../ChronosRTOS/Core/Src/memory.c **** uint32_t *Mem_Stack_Base(int8_t *slot) {
+  49              		.loc 1 95 40 is_stmt 1 view -0
+  50              		.cfi_startproc
+  51              		@ args = 0, pretend = 0, frame = 0
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+  53              		@ link register save eliminated.
+  96:../ChronosRTOS/Core/Src/memory.c ****   if (slot == NULL) {
+  54              		.loc 1 96 3 view .LVU4
+  55              		.loc 1 96 6 is_stmt 0 view .LVU5
+  56 0000 40B1     		cbz	r0, .L4
+  97:../ChronosRTOS/Core/Src/memory.c ****     return NULL;
+  98:../ChronosRTOS/Core/Src/memory.c ****   }
+  99:../ChronosRTOS/Core/Src/memory.c **** 
+ 100:../ChronosRTOS/Core/Src/memory.c ****   if (*slot < 0 || *slot >= MAX_TASKS) {
+  57              		.loc 1 100 3 is_stmt 1 view .LVU6
+  58              		.loc 1 100 7 is_stmt 0 view .LVU7
+  59 0002 90F90030 		ldrsb	r3, [r0]
+  60              		.loc 1 100 17 view .LVU8
+  61 0006 DAB2     		uxtb	r2, r3
+  62              		.loc 1 100 6 view .LVU9
+  63 0008 052A     		cmp	r2, #5
+  64 000a 04D8     		bhi	.L5
+ 101:../ChronosRTOS/Core/Src/memory.c ****     return NULL;
+ 102:../ChronosRTOS/Core/Src/memory.c ****   }
+ 103:../ChronosRTOS/Core/Src/memory.c **** 
+ 104:../ChronosRTOS/Core/Src/memory.c ****   return &task_stacks[*slot][0];
+  65              		.loc 1 104 3 is_stmt 1 view .LVU10
+  66              		.loc 1 104 10 is_stmt 0 view .LVU11
+  67 000c 0348     		ldr	r0, .L6
+  68              	.LVL1:
+  69              		.loc 1 104 10 view .LVU12
+  70 000e 00EB8320 		add	r0, r0, r3, lsl #10
+ARM GAS  /tmp/ccFg5SBH.s 			page 4
+
+
+  71 0012 7047     		bx	lr
+  72              	.LVL2:
+  73              	.L4:
+  74              		.loc 1 104 10 view .LVU13
+  75 0014 7047     		bx	lr
+  76              	.L5:
+ 101:../ChronosRTOS/Core/Src/memory.c ****     return NULL;
+  77              		.loc 1 101 12 view .LVU14
+  78 0016 0020     		movs	r0, #0
+  79              	.LVL3:
+ 105:../ChronosRTOS/Core/Src/memory.c **** }
+  80              		.loc 1 105 1 view .LVU15
+  81 0018 7047     		bx	lr
+  82              	.L7:
+  83 001a 00BF     		.align	2
+  84              	.L6:
+  85 001c 00000000 		.word	task_stacks
+  86              		.cfi_endproc
+  87              	.LFE1:
+  89              		.section	.text.Mem_Stack_Size_Words,"ax",%progbits
+  90              		.align	1
+  91              		.global	Mem_Stack_Size_Words
+  92              		.syntax unified
+  93              		.thumb
+  94              		.thumb_func
+  96              	Mem_Stack_Size_Words:
+  97              	.LFB2:
+ 106:../ChronosRTOS/Core/Src/memory.c **** 
+ 107:../ChronosRTOS/Core/Src/memory.c **** uint32_t Mem_Stack_Size_Words(void) { return TASK_STACK_SIZE_WORDS; }
+  98              		.loc 1 107 37 is_stmt 1 view -0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 0
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102              		@ link register save eliminated.
+ 103              		.loc 1 107 39 view .LVU17
+ 104              		.loc 1 107 69 is_stmt 0 view .LVU18
+ 105 0000 4FF48070 		mov	r0, #256
+ 106 0004 7047     		bx	lr
+ 107              		.cfi_endproc
+ 108              	.LFE2:
+ 110              		.section	.bss.task_stacks,"aw",%nobits
+ 111              		.align	2
+ 114              	task_stacks:
+ 115 0000 00000000 		.space	6144
+ 115      00000000 
+ 115      00000000 
+ 115      00000000 
+ 115      00000000 
+ 116              		.text
+ 117              	.Letext0:
+ 118              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ 119              		.file 3 "../ChronosRTOS/Core/Inc/error.h"
+ARM GAS  /tmp/ccFg5SBH.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 memory.c
+     /tmp/ccFg5SBH.s:19     .text.Mem_Init:00000000 $t
+     /tmp/ccFg5SBH.s:25     .text.Mem_Init:00000000 Mem_Init
+     /tmp/ccFg5SBH.s:40     .text.Mem_Stack_Base:00000000 $t
+     /tmp/ccFg5SBH.s:46     .text.Mem_Stack_Base:00000000 Mem_Stack_Base
+     /tmp/ccFg5SBH.s:85     .text.Mem_Stack_Base:0000001c $d
+     /tmp/ccFg5SBH.s:114    .bss.task_stacks:00000000 task_stacks
+     /tmp/ccFg5SBH.s:90     .text.Mem_Stack_Size_Words:00000000 $t
+     /tmp/ccFg5SBH.s:96     .text.Mem_Stack_Size_Words:00000000 Mem_Stack_Size_Words
+     /tmp/ccFg5SBH.s:111    .bss.task_stacks:00000000 $d
+
+NO UNDEFINED SYMBOLS

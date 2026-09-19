@@ -3,51 +3,48 @@
  * Project     : ChronosRTOS
  * Module      : Scheduler
  * Group       :
- * Description : Round-robin scheduler implementation.
+ * Description : Priority-based scheduler — selects the highest-priority
+ *runnable task.
  ******************************************************************************/
 
-
-#include "task.h"
 #include "scheduler.h"
+#include "task.h"
 #include <stddef.h>
 
-TCB *current_task = NULL ;
-TCB *next_task = NULL ;
-TCB *idle_task = NULL ;
-
+TCB *current_task = NULL;
+TCB *next_task = NULL;
+TCB *idle_task = NULL;
 
 void Scheduler_Init(void) {
-    current_task = Task_Get_Current() ;
-    idle_task = Task_Get_Idle() ;
-} ;
+  if (!Task_Is_Initialized())
+    return;
+
+  current_task = Task_Get_Current();
+  idle_task = Task_Get_Idle();
+}
+void Scheduler_Set_Current(TCB *task) { current_task = task; }
 
 TCB *Scheduler_Select_Next(void) {
-    TCB* start = NULL ;
-    TCB* node = NULL ;
-    TCB *highest = NULL ;
+  next_task = NULL;
 
-    start = current_task ;
-    node = start->next ;
-    highest = start->next ;
+  if (current_task == NULL || idle_task == NULL) {
+    return NULL;
+  }
 
-    do {
-        if((highest->task_priority) < (node->task_priority)) {
-            highest = node ;
-            next_task = highest ;
-            node = node->next ;
-            continue ;
-        }
+  TCB *start = current_task;
+  TCB *node = current_task->next;
+  TCB *highest = current_task;
 
-        if (node == idle_task && start == idle_task) {
-            highest = idle_task ;
-            next_task = highest ;
-            return next_task ;
-        }
-        node = node->next ;
-    } while(node != start) ;
-    
-    if(next_task == NULL) {
-        next_task = highest ;
+  do {
+    if (node->task_priority > highest->task_priority) {
+      highest = node;
     }
-    return next_task ;
-} ;
+
+    node = node->next;
+
+  } while (node != start);
+
+  next_task = highest;
+
+  return next_task;
+}

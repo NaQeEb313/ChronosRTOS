@@ -1,0 +1,142 @@
+ARM GAS  /tmp/ccnRgyn0.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"kernel.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../ChronosRTOS/Core/Src/kernel.c"
+  18              		.section	.text.Kernel_Init,"ax",%progbits
+  19              		.align	1
+  20              		.global	Kernel_Init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	Kernel_Init:
+  26              	.LFB0:
+   1:../ChronosRTOS/Core/Src/kernel.c **** /******************************************************************************
+   2:../ChronosRTOS/Core/Src/kernel.c ****  * File        : kernel.c
+   3:../ChronosRTOS/Core/Src/kernel.c ****  * Project     : ChronosRTOS
+   4:../ChronosRTOS/Core/Src/kernel.c ****  * Module      : Kernel
+   5:../ChronosRTOS/Core/Src/kernel.c ****  * Group       :
+   6:../ChronosRTOS/Core/Src/kernel.c ****  * Description : Kernel initialization and startup.
+   7:../ChronosRTOS/Core/Src/kernel.c ****  ******************************************************************************/
+   8:../ChronosRTOS/Core/Src/kernel.c **** #include "kernel.h"
+   9:../ChronosRTOS/Core/Src/kernel.c **** #include "memory.h"
+  10:../ChronosRTOS/Core/Src/kernel.c **** #include "scheduler.h"
+  11:../ChronosRTOS/Core/Src/kernel.c **** #include "task.h"
+  12:../ChronosRTOS/Core/Src/kernel.c **** 
+  13:../ChronosRTOS/Core/Src/kernel.c **** void Kernel_Init(void) {
+  27              		.loc 1 13 24 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  14:../ChronosRTOS/Core/Src/kernel.c ****   Mem_Init();
+  36              		.loc 1 14 3 view .LVU1
+  37 0002 FFF7FEFF 		bl	Mem_Init
+  38              	.LVL0:
+  15:../ChronosRTOS/Core/Src/kernel.c ****   Task_Init();
+  39              		.loc 1 15 3 view .LVU2
+  40 0006 FFF7FEFF 		bl	Task_Init
+  41              	.LVL1:
+  16:../ChronosRTOS/Core/Src/kernel.c ****   Scheduler_Init();
+  42              		.loc 1 16 3 view .LVU3
+ARM GAS  /tmp/ccnRgyn0.s 			page 2
+
+
+  43 000a FFF7FEFF 		bl	Scheduler_Init
+  44              	.LVL2:
+  17:../ChronosRTOS/Core/Src/kernel.c **** }
+  45              		.loc 1 17 1 is_stmt 0 view .LVU4
+  46 000e 08BD     		pop	{r3, pc}
+  47              		.cfi_endproc
+  48              	.LFE0:
+  50              		.section	.text.Kernel_Start,"ax",%progbits
+  51              		.align	1
+  52              		.global	Kernel_Start
+  53              		.syntax unified
+  54              		.thumb
+  55              		.thumb_func
+  57              	Kernel_Start:
+  58              	.LFB1:
+  18:../ChronosRTOS/Core/Src/kernel.c **** 
+  19:../ChronosRTOS/Core/Src/kernel.c **** void Kernel_Start(void) { Scheduler_Select_Next(); }
+  59              		.loc 1 19 25 is_stmt 1 view -0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63 0000 08B5     		push	{r3, lr}
+  64              	.LCFI1:
+  65              		.cfi_def_cfa_offset 8
+  66              		.cfi_offset 3, -8
+  67              		.cfi_offset 14, -4
+  68              		.loc 1 19 27 view .LVU6
+  69 0002 FFF7FEFF 		bl	Scheduler_Select_Next
+  70              	.LVL3:
+  71              		.loc 1 19 52 is_stmt 0 view .LVU7
+  72 0006 08BD     		pop	{r3, pc}
+  73              		.cfi_endproc
+  74              	.LFE1:
+  76              		.section	.text.Kernel_Tick,"ax",%progbits
+  77              		.align	1
+  78              		.global	Kernel_Tick
+  79              		.syntax unified
+  80              		.thumb
+  81              		.thumb_func
+  83              	Kernel_Tick:
+  84              	.LFB2:
+  20:../ChronosRTOS/Core/Src/kernel.c **** 
+  21:../ChronosRTOS/Core/Src/kernel.c **** void Kernel_Tick(void) {}
+  85              		.loc 1 21 24 is_stmt 1 view -0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89              		@ link register save eliminated.
+  90              		.loc 1 21 25 view .LVU9
+  91 0000 7047     		bx	lr
+  92              		.cfi_endproc
+  93              	.LFE2:
+  95              		.text
+  96              	.Letext0:
+  97              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+  98              		.file 3 "../ChronosRTOS/Core/Inc/error.h"
+  99              		.file 4 "../ChronosRTOS/Core/Inc/task.h"
+ARM GAS  /tmp/ccnRgyn0.s 			page 3
+
+
+ 100              		.file 5 "../ChronosRTOS/Core/Inc/scheduler.h"
+ 101              		.file 6 "../ChronosRTOS/Core/Inc/memory.h"
+ARM GAS  /tmp/ccnRgyn0.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 kernel.c
+     /tmp/ccnRgyn0.s:19     .text.Kernel_Init:00000000 $t
+     /tmp/ccnRgyn0.s:25     .text.Kernel_Init:00000000 Kernel_Init
+     /tmp/ccnRgyn0.s:51     .text.Kernel_Start:00000000 $t
+     /tmp/ccnRgyn0.s:57     .text.Kernel_Start:00000000 Kernel_Start
+     /tmp/ccnRgyn0.s:77     .text.Kernel_Tick:00000000 $t
+     /tmp/ccnRgyn0.s:83     .text.Kernel_Tick:00000000 Kernel_Tick
+
+UNDEFINED SYMBOLS
+Mem_Init
+Task_Init
+Scheduler_Init
+Scheduler_Select_Next
