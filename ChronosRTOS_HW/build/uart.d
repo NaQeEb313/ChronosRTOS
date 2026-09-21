@@ -1,5 +1,4 @@
-build/uart.o: ../ChronosRTOS/Drivers/Src/uart.c \
- ../ChronosRTOS/Drivers/Inc/uart.h \
+build/uart.o: ../Drivers/Src/uart.c ../Drivers/Inc/uart.h \
  Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h \
  Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h \
  Drivers/CMSIS/Include/core_cm3.h Drivers/CMSIS/Include/cmsis_version.h \
@@ -21,7 +20,7 @@ build/uart.o: ../ChronosRTOS/Drivers/Src/uart.c \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-../ChronosRTOS/Drivers/Inc/uart.h:
+../Drivers/Inc/uart.h:
 Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:
 Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h:
 Drivers/CMSIS/Include/core_cm3.h:

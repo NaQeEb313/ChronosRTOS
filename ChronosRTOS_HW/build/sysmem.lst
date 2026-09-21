@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccrXnWq0.s 			page 1
+ARM GAS  /tmp/ccwtYcsD.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
   29:Core/Src/sysmem.c ****  * Pointer to the current high watermark of the heap usage
   30:Core/Src/sysmem.c ****  */
   31:Core/Src/sysmem.c **** static uint8_t *__sbrk_heap_end = NULL;
-ARM GAS  /tmp/ccrXnWq0.s 			page 2
+ARM GAS  /tmp/ccwtYcsD.s 			page 2
 
 
   32:Core/Src/sysmem.c **** 
@@ -90,10 +90,10 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
   30              		@ args = 0, pretend = 0, frame = 0
   31              		@ frame_needed = 0, uses_anonymous_args = 0
   32              		.loc 1 55 1 is_stmt 0 view .LVU1
-  33 0000 10B5     		push	{r4, lr}
+  33 0000 08B5     		push	{r3, lr}
   34              	.LCFI0:
   35              		.cfi_def_cfa_offset 8
-  36              		.cfi_offset 4, -8
+  36              		.cfi_offset 3, -8
   37              		.cfi_offset 14, -4
   38 0002 0346     		mov	r3, r0
   56:Core/Src/sysmem.c ****   extern uint8_t _end; /* Symbol defined in the linker script */
@@ -109,8 +109,8 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
   44              		.loc 1 60 3 view .LVU6
   59:Core/Src/sysmem.c ****   const uint32_t stack_limit = (uint32_t)&_estack - (uint32_t)&_Min_Stack_Size;
   45              		.loc 1 59 51 is_stmt 0 view .LVU7
-  46 0004 0C4A     		ldr	r2, .L8
-  47 0006 0D49     		ldr	r1, .L8+4
+  46 0004 0D4A     		ldr	r2, .L8
+  47 0006 0E49     		ldr	r1, .L8+4
   48              	.LVL2:
   61:Core/Src/sysmem.c ****   uint8_t *prev_heap_end;
   49              		.loc 1 61 3 is_stmt 1 view .LVU8
@@ -118,11 +118,11 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
   63:Core/Src/sysmem.c ****   /* Initialize heap end at first call */
   64:Core/Src/sysmem.c ****   if (NULL == __sbrk_heap_end)
   50              		.loc 1 64 3 view .LVU9
-ARM GAS  /tmp/ccrXnWq0.s 			page 3
+ARM GAS  /tmp/ccwtYcsD.s 			page 3
 
 
   51              		.loc 1 64 12 is_stmt 0 view .LVU10
-  52 0008 0D48     		ldr	r0, .L8+8
+  52 0008 0E48     		ldr	r0, .L8+8
   53              	.LVL3:
   54              		.loc 1 64 12 view .LVU11
   55 000a 0068     		ldr	r0, [r0]
@@ -137,14 +137,14 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
   70:Core/Src/sysmem.c ****   if (__sbrk_heap_end + incr > max_heap)
   59              		.loc 1 70 3 is_stmt 1 view .LVU13
   60              		.loc 1 70 23 is_stmt 0 view .LVU14
-  61 000e 0C48     		ldr	r0, .L8+8
+  61 000e 0D48     		ldr	r0, .L8+8
   62 0010 0068     		ldr	r0, [r0]
   63 0012 0344     		add	r3, r3, r0
   64              	.LVL4:
   65              		.loc 1 70 6 view .LVU15
   66 0014 521A     		subs	r2, r2, r1
   67 0016 9342     		cmp	r3, r2
-  68 0018 06D8     		bhi	.L7
+  68 0018 08D8     		bhi	.L7
   71:Core/Src/sysmem.c ****   {
   72:Core/Src/sysmem.c ****     errno = ENOMEM;
   73:Core/Src/sysmem.c ****     return (void *)-1;
@@ -156,7 +156,7 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
   77:Core/Src/sysmem.c ****   __sbrk_heap_end += incr;
   71              		.loc 1 77 3 view .LVU17
   72              		.loc 1 77 19 is_stmt 0 view .LVU18
-  73 001a 094A     		ldr	r2, .L8+8
+  73 001a 0A4A     		ldr	r2, .L8+8
   74 001c 1360     		str	r3, [r2]
   78:Core/Src/sysmem.c **** 
   79:Core/Src/sysmem.c ****   return (void *)prev_heap_end;
@@ -165,43 +165,43 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
   77              	.L1:
   80:Core/Src/sysmem.c **** }
   78              		.loc 1 80 1 is_stmt 0 view .LVU20
-  79 001e 10BD     		pop	{r4, pc}
+  79 001e 08BD     		pop	{r3, pc}
   80              	.LVL7:
   81              	.L6:
   66:Core/Src/sysmem.c ****   }
   82              		.loc 1 66 5 is_stmt 1 view .LVU21
   66:Core/Src/sysmem.c ****   }
   83              		.loc 1 66 21 is_stmt 0 view .LVU22
-  84 0020 0748     		ldr	r0, .L8+8
-  85 0022 084C     		ldr	r4, .L8+12
-  86 0024 0460     		str	r4, [r0]
-  87 0026 F2E7     		b	.L2
+  84 0020 0848     		ldr	r0, .L8+8
+  85 0022 DFF824C0 		ldr	ip, .L8+12
+  86 0026 C0F800C0 		str	ip, [r0]
+  87 002a F0E7     		b	.L2
   88              	.LVL8:
   89              	.L7:
-ARM GAS  /tmp/ccrXnWq0.s 			page 4
+ARM GAS  /tmp/ccwtYcsD.s 			page 4
 
 
   72:Core/Src/sysmem.c ****     return (void *)-1;
   90              		.loc 1 72 5 is_stmt 1 view .LVU23
-  91 0028 FFF7FEFF 		bl	__errno
+  91 002c FFF7FEFF 		bl	__errno
   92              	.LVL9:
   72:Core/Src/sysmem.c ****     return (void *)-1;
   93              		.loc 1 72 11 is_stmt 0 discriminator 1 view .LVU24
-  94 002c 0C23     		movs	r3, #12
-  95 002e 0360     		str	r3, [r0]
+  94 0030 0C23     		movs	r3, #12
+  95 0032 0360     		str	r3, [r0]
   73:Core/Src/sysmem.c ****   }
   96              		.loc 1 73 5 is_stmt 1 view .LVU25
   73:Core/Src/sysmem.c ****   }
   97              		.loc 1 73 12 is_stmt 0 view .LVU26
-  98 0030 4FF0FF30 		mov	r0, #-1
-  99 0034 F3E7     		b	.L1
+  98 0034 4FF0FF30 		mov	r0, #-1
+  99 0038 F1E7     		b	.L1
  100              	.L9:
- 101 0036 00BF     		.align	2
+ 101 003a 00BF     		.align	2
  102              	.L8:
- 103 0038 00000000 		.word	_estack
- 104 003c 00000000 		.word	_Min_Stack_Size
- 105 0040 00000000 		.word	__sbrk_heap_end
- 106 0044 00000000 		.word	_end
+ 103 003c 00000000 		.word	_estack
+ 104 0040 00000000 		.word	_Min_Stack_Size
+ 105 0044 00000000 		.word	__sbrk_heap_end
+ 106 0048 00000000 		.word	_end
  107              		.cfi_endproc
  108              	.LFE0:
  110              		.section	.bss.__sbrk_heap_end,"aw",%nobits
@@ -210,19 +210,20 @@ ARM GAS  /tmp/ccrXnWq0.s 			page 1
  115 0000 00000000 		.space	4
  116              		.text
  117              	.Letext0:
- 118              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h"
- 119              		.file 3 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
- 120              		.file 4 "/usr/include/newlib/sys/errno.h"
-ARM GAS  /tmp/ccrXnWq0.s 			page 5
+ 118              		.file 2 "/usr/lib/gcc/arm-none-eabi/16.2.0/include/stddef.h"
+ 119              		.file 3 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 120              		.file 4 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 121              		.file 5 "/usr/arm-none-eabi/include/sys/errno.h"
+ARM GAS  /tmp/ccwtYcsD.s 			page 5
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 sysmem.c
-     /tmp/ccrXnWq0.s:19     .text._sbrk:00000000 $t
-     /tmp/ccrXnWq0.s:25     .text._sbrk:00000000 _sbrk
-     /tmp/ccrXnWq0.s:103    .text._sbrk:00000038 $d
-     /tmp/ccrXnWq0.s:114    .bss.__sbrk_heap_end:00000000 __sbrk_heap_end
-     /tmp/ccrXnWq0.s:111    .bss.__sbrk_heap_end:00000000 $d
+     /tmp/ccwtYcsD.s:19     .text._sbrk:00000000 $t
+     /tmp/ccwtYcsD.s:25     .text._sbrk:00000000 _sbrk
+     /tmp/ccwtYcsD.s:103    .text._sbrk:0000003c $d
+     /tmp/ccwtYcsD.s:114    .bss.__sbrk_heap_end:00000000 __sbrk_heap_end
+     /tmp/ccwtYcsD.s:111    .bss.__sbrk_heap_end:00000000 $d
 
 UNDEFINED SYMBOLS
 __errno

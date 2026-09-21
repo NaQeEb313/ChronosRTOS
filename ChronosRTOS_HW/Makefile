@@ -54,13 +54,17 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c \
 Core/Src/system_stm32f1xx.c \
 Core/Src/sysmem.c \
 Core/Src/syscalls.c \
-../ChronosRTOS/Core/Src/kernel.c \
-../ChronosRTOS/Core/Src/task.c \
-../ChronosRTOS/Core/Src/scheduler.c \
-../ChronosRTOS/Core/Src/memory.c \
-../ChronosRTOS/Core/Src/idle.c \
-../ChronosRTOS/Drivers/Src/gpio.c \
-../ChronosRTOS/Drivers/Src/uart.c
+../Core/Src/kernel.c \
+../Core/Src/task.c \
+../Core/Src/scheduler.c \
+../Core/Src/memory.c \
+../Core/Src/idle.c \
+../Core/Src/dispatcher.c \
+../Drivers/Src/gpio.c \
+../Drivers/Src/uart.c \
+../Demo/demo_tasks.c \
+../Core/Src/debug.c \
+
 # ASM sources
 ASM_SOURCES =  \
 startup_stm32f103xb.s
@@ -125,9 +129,10 @@ C_INCLUDES =  \
 -IDrivers/STM32F1xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F1xx/Include \
 -IDrivers/CMSIS/Include \
--I../ChronosRTOS/Core/Inc \
--I../ChronosRTOS/Drivers/Inc \
--I../ChronosRTOS/Port/ARM_CM3/Inc
+-I../Core/Inc \
+-I../Drivers/Inc \
+-I../Port/ARM_CM3/Inc \
+-I../Demo \
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 

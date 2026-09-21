@@ -1,0 +1,23 @@
+{
+  "configurations": [
+    {
+      "name": "linux-gcc-x64",
+
+      "includePath": [
+        "${workspaceFolder}/Core/Inc",
+        "${workspaceFolder}/Drivers/Inc",
+        "${workspaceFolder}/Demo",
+        "${workspaceFolder}/**"
+      ],
+
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "${default}",
+      "cppStandard": "${default}",
+      "intelliSenseMode": "linux-gcc-x64",
+
+      "compilerArgs": []
+    }
+  ],
+
+  "version": 4
+}

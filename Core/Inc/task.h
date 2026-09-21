@@ -42,5 +42,6 @@ TCB *Task_Get_Current();
 TCB *Task_Get_Idle();
 bool Task_Is_Initialized(void);
 void Task_Exit_Handler(void);
+void Task_Set_Current(TCB *task);
 
 #endif /* TASK_H */

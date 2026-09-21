@@ -6,11 +6,29 @@
  * Description : Demo task implementations.
  ******************************************************************************/
 #include "demo_tasks.h"
+#include "uart.h"
 
-void LED_ON_TASK(void) {
-  // on led
+void TASK_A(void)
+{
+    USART_SendString(USART1, "Task A: RUNNING\r\n");
 }
 
-void LED_BLINK_TASK(void) {
-  // blinks led
+void TASK_B(void)
+{
+    USART_SendString(USART1, "Task B: RUNNING\r\n");
+}
+
+void TASK_C(void)
+{
+    USART_SendString(USART1, "Task C: RUNNING\r\n");
+}
+
+void TASK_D(void)
+{
+    USART_SendString(USART1, "Task D: RUNNING\r\n");
+}
+
+void TASK_E(void)
+{
+    USART_SendString(USART1, "Task E: RUNNING\r\n");
 }

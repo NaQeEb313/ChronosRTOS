@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccnRgyn0.s 			page 1
+ARM GAS  /tmp/ccJYvnYY.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -17,126 +17,323 @@ ARM GAS  /tmp/ccnRgyn0.s 			page 1
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.file 1 "../ChronosRTOS/Core/Src/kernel.c"
-  18              		.section	.text.Kernel_Init,"ax",%progbits
-  19              		.align	1
-  20              		.global	Kernel_Init
-  21              		.syntax unified
-  22              		.thumb
-  23              		.thumb_func
-  25              	Kernel_Init:
-  26              	.LFB0:
-   1:../ChronosRTOS/Core/Src/kernel.c **** /******************************************************************************
-   2:../ChronosRTOS/Core/Src/kernel.c ****  * File        : kernel.c
-   3:../ChronosRTOS/Core/Src/kernel.c ****  * Project     : ChronosRTOS
-   4:../ChronosRTOS/Core/Src/kernel.c ****  * Module      : Kernel
-   5:../ChronosRTOS/Core/Src/kernel.c ****  * Group       :
-   6:../ChronosRTOS/Core/Src/kernel.c ****  * Description : Kernel initialization and startup.
-   7:../ChronosRTOS/Core/Src/kernel.c ****  ******************************************************************************/
-   8:../ChronosRTOS/Core/Src/kernel.c **** #include "kernel.h"
-   9:../ChronosRTOS/Core/Src/kernel.c **** #include "memory.h"
-  10:../ChronosRTOS/Core/Src/kernel.c **** #include "scheduler.h"
-  11:../ChronosRTOS/Core/Src/kernel.c **** #include "task.h"
-  12:../ChronosRTOS/Core/Src/kernel.c **** 
-  13:../ChronosRTOS/Core/Src/kernel.c **** void Kernel_Init(void) {
-  27              		.loc 1 13 24 view -0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31 0000 08B5     		push	{r3, lr}
-  32              	.LCFI0:
-  33              		.cfi_def_cfa_offset 8
-  34              		.cfi_offset 3, -8
-  35              		.cfi_offset 14, -4
-  14:../ChronosRTOS/Core/Src/kernel.c ****   Mem_Init();
-  36              		.loc 1 14 3 view .LVU1
-  37 0002 FFF7FEFF 		bl	Mem_Init
-  38              	.LVL0:
-  15:../ChronosRTOS/Core/Src/kernel.c ****   Task_Init();
-  39              		.loc 1 15 3 view .LVU2
-  40 0006 FFF7FEFF 		bl	Task_Init
-  41              	.LVL1:
-  16:../ChronosRTOS/Core/Src/kernel.c ****   Scheduler_Init();
-  42              		.loc 1 16 3 view .LVU3
-ARM GAS  /tmp/ccnRgyn0.s 			page 2
+  17              		.file 1 "../Core/Src/kernel.c"
+  18              		.section	.rodata.Kernel_Init.str1.4,"aMS",%progbits,1
+  19              		.align	2
+  20              	.LC0:
+  21 0000 5B4B6572 		.ascii	"[Kernel] Initializing memory...\012\000"
+  21      6E656C5D 
+  21      20496E69 
+  21      7469616C 
+  21      697A696E 
+  22 0021 000000   		.align	2
+  23              	.LC1:
+  24 0024 5B4B6572 		.ascii	"[Kernel] Initializing task manager...\012\000"
+  24      6E656C5D 
+  24      20496E69 
+  24      7469616C 
+  24      697A696E 
+  25 004b 00       		.align	2
+  26              	.LC2:
+  27 004c 5B4B6572 		.ascii	"[Kernel] Initializing scheduler...\012\000"
+  27      6E656C5D 
+  27      20496E69 
+  27      7469616C 
+  27      697A696E 
+  28              		.align	2
+  29              	.LC3:
+  30 0070 5B4B6572 		.ascii	"[Kernel] Initialization complete.\012\000"
+  30      6E656C5D 
+  30      20496E69 
+  30      7469616C 
+  30      697A6174 
+  31              		.section	.text.Kernel_Init,"ax",%progbits
+  32              		.align	1
+  33              		.global	Kernel_Init
+  34              		.syntax unified
+  35              		.thumb
+  36              		.thumb_func
+  38              	Kernel_Init:
+  39              	.LFB0:
+   1:../Core/Src/kernel.c **** /******************************************************************************
+   2:../Core/Src/kernel.c ****  * File        : kernel.c
+   3:../Core/Src/kernel.c ****  * Project     : ChronosRTOS
+ARM GAS  /tmp/ccJYvnYY.s 			page 2
 
 
-  43 000a FFF7FEFF 		bl	Scheduler_Init
-  44              	.LVL2:
-  17:../ChronosRTOS/Core/Src/kernel.c **** }
-  45              		.loc 1 17 1 is_stmt 0 view .LVU4
-  46 000e 08BD     		pop	{r3, pc}
-  47              		.cfi_endproc
-  48              	.LFE0:
-  50              		.section	.text.Kernel_Start,"ax",%progbits
-  51              		.align	1
-  52              		.global	Kernel_Start
-  53              		.syntax unified
-  54              		.thumb
-  55              		.thumb_func
-  57              	Kernel_Start:
-  58              	.LFB1:
-  18:../ChronosRTOS/Core/Src/kernel.c **** 
-  19:../ChronosRTOS/Core/Src/kernel.c **** void Kernel_Start(void) { Scheduler_Select_Next(); }
-  59              		.loc 1 19 25 is_stmt 1 view -0
-  60              		.cfi_startproc
-  61              		@ args = 0, pretend = 0, frame = 0
-  62              		@ frame_needed = 0, uses_anonymous_args = 0
-  63 0000 08B5     		push	{r3, lr}
-  64              	.LCFI1:
-  65              		.cfi_def_cfa_offset 8
-  66              		.cfi_offset 3, -8
-  67              		.cfi_offset 14, -4
-  68              		.loc 1 19 27 view .LVU6
-  69 0002 FFF7FEFF 		bl	Scheduler_Select_Next
-  70              	.LVL3:
-  71              		.loc 1 19 52 is_stmt 0 view .LVU7
-  72 0006 08BD     		pop	{r3, pc}
-  73              		.cfi_endproc
-  74              	.LFE1:
-  76              		.section	.text.Kernel_Tick,"ax",%progbits
-  77              		.align	1
-  78              		.global	Kernel_Tick
-  79              		.syntax unified
-  80              		.thumb
-  81              		.thumb_func
-  83              	Kernel_Tick:
-  84              	.LFB2:
-  20:../ChronosRTOS/Core/Src/kernel.c **** 
-  21:../ChronosRTOS/Core/Src/kernel.c **** void Kernel_Tick(void) {}
-  85              		.loc 1 21 24 is_stmt 1 view -0
-  86              		.cfi_startproc
-  87              		@ args = 0, pretend = 0, frame = 0
-  88              		@ frame_needed = 0, uses_anonymous_args = 0
-  89              		@ link register save eliminated.
-  90              		.loc 1 21 25 view .LVU9
-  91 0000 7047     		bx	lr
-  92              		.cfi_endproc
-  93              	.LFE2:
-  95              		.text
-  96              	.Letext0:
-  97              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
-  98              		.file 3 "../ChronosRTOS/Core/Inc/error.h"
-  99              		.file 4 "../ChronosRTOS/Core/Inc/task.h"
-ARM GAS  /tmp/ccnRgyn0.s 			page 3
+   4:../Core/Src/kernel.c ****  * Module      : Kernel
+   5:../Core/Src/kernel.c ****  * Group       :
+   6:../Core/Src/kernel.c ****  * Description : Kernel initialization and startup.
+   7:../Core/Src/kernel.c ****  ******************************************************************************/
+   8:../Core/Src/kernel.c **** 
+   9:../Core/Src/kernel.c **** #include "kernel.h"
+  10:../Core/Src/kernel.c **** #include "memory.h"
+  11:../Core/Src/kernel.c **** #include "scheduler.h"
+  12:../Core/Src/kernel.c **** #include "task.h"
+  13:../Core/Src/kernel.c **** #include "dispatcher.h"
+  14:../Core/Src/kernel.c **** #include "debug.h"
+  15:../Core/Src/kernel.c **** 
+  16:../Core/Src/kernel.c **** void Kernel_Init(void)
+  17:../Core/Src/kernel.c **** {
+  40              		.loc 1 17 1 view -0
+  41              		.cfi_startproc
+  42              		@ args = 0, pretend = 0, frame = 0
+  43              		@ frame_needed = 0, uses_anonymous_args = 0
+  44 0000 08B5     		push	{r3, lr}
+  45              	.LCFI0:
+  46              		.cfi_def_cfa_offset 8
+  47              		.cfi_offset 3, -8
+  48              		.cfi_offset 14, -4
+  18:../Core/Src/kernel.c ****   Debug_Print("[Kernel] Initializing memory...\n");
+  49              		.loc 1 18 3 view .LVU1
+  50 0002 0948     		ldr	r0, .L3
+  51 0004 FFF7FEFF 		bl	Debug_Print
+  52              	.LVL0:
+  19:../Core/Src/kernel.c **** 
+  20:../Core/Src/kernel.c ****   Mem_Init();
+  53              		.loc 1 20 3 view .LVU2
+  54 0008 FFF7FEFF 		bl	Mem_Init
+  55              	.LVL1:
+  21:../Core/Src/kernel.c **** 
+  22:../Core/Src/kernel.c ****   Debug_Print("[Kernel] Initializing task manager...\n");
+  56              		.loc 1 22 3 view .LVU3
+  57 000c 0748     		ldr	r0, .L3+4
+  58 000e FFF7FEFF 		bl	Debug_Print
+  59              	.LVL2:
+  23:../Core/Src/kernel.c **** 
+  24:../Core/Src/kernel.c ****   Task_Init();
+  60              		.loc 1 24 3 view .LVU4
+  61 0012 FFF7FEFF 		bl	Task_Init
+  62              	.LVL3:
+  25:../Core/Src/kernel.c **** 
+  26:../Core/Src/kernel.c ****   Debug_Print("[Kernel] Initializing scheduler...\n");
+  63              		.loc 1 26 3 view .LVU5
+  64 0016 0648     		ldr	r0, .L3+8
+  65 0018 FFF7FEFF 		bl	Debug_Print
+  66              	.LVL4:
+  27:../Core/Src/kernel.c **** 
+  28:../Core/Src/kernel.c ****   Scheduler_Init();
+  67              		.loc 1 28 3 view .LVU6
+  68 001c FFF7FEFF 		bl	Scheduler_Init
+  69              	.LVL5:
+  29:../Core/Src/kernel.c **** 
+  30:../Core/Src/kernel.c ****   Debug_Print("[Kernel] Initialization complete.\n");
+ARM GAS  /tmp/ccJYvnYY.s 			page 3
 
 
- 100              		.file 5 "../ChronosRTOS/Core/Inc/scheduler.h"
- 101              		.file 6 "../ChronosRTOS/Core/Inc/memory.h"
-ARM GAS  /tmp/ccnRgyn0.s 			page 4
+  70              		.loc 1 30 3 view .LVU7
+  71 0020 0448     		ldr	r0, .L3+12
+  72 0022 FFF7FEFF 		bl	Debug_Print
+  73              	.LVL6:
+  31:../Core/Src/kernel.c **** }
+  74              		.loc 1 31 1 is_stmt 0 view .LVU8
+  75 0026 08BD     		pop	{r3, pc}
+  76              	.L4:
+  77              		.align	2
+  78              	.L3:
+  79 0028 00000000 		.word	.LC0
+  80 002c 24000000 		.word	.LC1
+  81 0030 4C000000 		.word	.LC2
+  82 0034 70000000 		.word	.LC3
+  83              		.cfi_endproc
+  84              	.LFE0:
+  86              		.section	.rodata.Kernel_Start.str1.4,"aMS",%progbits,1
+  87              		.align	2
+  88              	.LC4:
+  89 0000 5B4B6572 		.ascii	"[Kernel] Starting scheduler...\012\000"
+  89      6E656C5D 
+  89      20537461 
+  89      7274696E 
+  89      67207363 
+  90              		.section	.text.Kernel_Start,"ax",%progbits
+  91              		.align	1
+  92              		.global	Kernel_Start
+  93              		.syntax unified
+  94              		.thumb
+  95              		.thumb_func
+  97              	Kernel_Start:
+  98              	.LFB1:
+  32:../Core/Src/kernel.c **** 
+  33:../Core/Src/kernel.c **** void Kernel_Start(void)
+  34:../Core/Src/kernel.c **** {
+  99              		.loc 1 34 1 is_stmt 1 view -0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103 0000 10B5     		push	{r4, lr}
+ 104              	.LCFI1:
+ 105              		.cfi_def_cfa_offset 8
+ 106              		.cfi_offset 4, -8
+ 107              		.cfi_offset 14, -4
+  35:../Core/Src/kernel.c ****   TCB *selected_task;
+ 108              		.loc 1 35 3 view .LVU10
+  36:../Core/Src/kernel.c **** 
+  37:../Core/Src/kernel.c ****   Debug_Print("[Kernel] Starting scheduler...\n");
+ 109              		.loc 1 37 3 view .LVU11
+ 110 0002 1248     		ldr	r0, .L11
+ 111 0004 FFF7FEFF 		bl	Debug_Print
+ 112              	.LVL7:
+ 113 0008 01E0     		b	.L6
+ 114              	.LVL8:
+ 115              	.L10:
+  38:../Core/Src/kernel.c **** 
+  39:../Core/Src/kernel.c ****   while(1)
+ARM GAS  /tmp/ccJYvnYY.s 			page 4
+
+
+  40:../Core/Src/kernel.c ****   {
+  41:../Core/Src/kernel.c ****     selected_task = Scheduler_Select_Next();
+  42:../Core/Src/kernel.c **** 
+  43:../Core/Src/kernel.c ****     if (selected_task == NULL)
+  44:../Core/Src/kernel.c ****     {
+  45:../Core/Src/kernel.c ****       Debug_Scheduler_Null();
+ 116              		.loc 1 45 7 view .LVU12
+ 117 000a FFF7FEFF 		bl	Debug_Scheduler_Null
+ 118              	.LVL9:
+  46:../Core/Src/kernel.c ****       continue;
+ 119              		.loc 1 46 7 view .LVU13
+ 120              	.L6:
+  39:../Core/Src/kernel.c ****   {
+ 121              		.loc 1 39 3 view .LVU14
+  41:../Core/Src/kernel.c **** 
+ 122              		.loc 1 41 5 view .LVU15
+  41:../Core/Src/kernel.c **** 
+ 123              		.loc 1 41 21 is_stmt 0 view .LVU16
+ 124 000e FFF7FEFF 		bl	Scheduler_Select_Next
+ 125              	.LVL10:
+  43:../Core/Src/kernel.c ****     {
+ 126              		.loc 1 43 5 is_stmt 1 view .LVU17
+  43:../Core/Src/kernel.c ****     {
+ 127              		.loc 1 43 8 is_stmt 0 view .LVU18
+ 128 0012 0446     		mov	r4, r0
+ 129 0014 0028     		cmp	r0, #0
+ 130 0016 F8D0     		beq	.L10
+  47:../Core/Src/kernel.c ****     }
+  48:../Core/Src/kernel.c **** 
+  49:../Core/Src/kernel.c ****     Debug_Task_Scheduled(selected_task->tid,
+ 131              		.loc 1 49 5 is_stmt 1 view .LVU19
+ 132 0018 417A     		ldrb	r1, [r0, #9]	@ zero_extendqisi2
+ 133 001a 0068     		ldr	r0, [r0]
+ 134              	.LVL11:
+ 135              		.loc 1 49 5 is_stmt 0 view .LVU20
+ 136 001c FFF7FEFF 		bl	Debug_Task_Scheduled
+ 137              	.LVL12:
+  50:../Core/Src/kernel.c ****                          selected_task->task_priority);
+  51:../Core/Src/kernel.c **** 
+  52:../Core/Src/kernel.c ****     Scheduler_Set_Current(selected_task);
+ 138              		.loc 1 52 5 is_stmt 1 view .LVU21
+ 139 0020 2046     		mov	r0, r4
+ 140 0022 FFF7FEFF 		bl	Scheduler_Set_Current
+ 141              	.LVL13:
+  53:../Core/Src/kernel.c **** 
+  54:../Core/Src/kernel.c ****     Task_Set_Current(selected_task);
+ 142              		.loc 1 54 5 view .LVU22
+ 143 0026 2046     		mov	r0, r4
+ 144 0028 FFF7FEFF 		bl	Task_Set_Current
+ 145              	.LVL14:
+  55:../Core/Src/kernel.c **** 
+  56:../Core/Src/kernel.c ****     Dispatcher_Run(selected_task);
+ 146              		.loc 1 56 5 view .LVU23
+ 147 002c 2046     		mov	r0, r4
+ 148 002e FFF7FEFF 		bl	Dispatcher_Run
+ 149              	.LVL15:
+  57:../Core/Src/kernel.c **** 
+ARM GAS  /tmp/ccJYvnYY.s 			page 5
+
+
+  58:../Core/Src/kernel.c ****     if (selected_task != Task_Get_Idle())
+ 150              		.loc 1 58 5 view .LVU24
+ 151              		.loc 1 58 26 is_stmt 0 view .LVU25
+ 152 0032 FFF7FEFF 		bl	Task_Get_Idle
+ 153              	.LVL16:
+ 154              		.loc 1 58 8 discriminator 1 view .LVU26
+ 155 0036 A042     		cmp	r0, r4
+ 156 0038 E9D0     		beq	.L6
+  59:../Core/Src/kernel.c ****     {
+  60:../Core/Src/kernel.c ****       Task_Terminate(selected_task);
+ 157              		.loc 1 60 7 is_stmt 1 view .LVU27
+ 158 003a 2046     		mov	r0, r4
+ 159 003c FFF7FEFF 		bl	Task_Terminate
+ 160              	.LVL17:
+  61:../Core/Src/kernel.c **** 
+  62:../Core/Src/kernel.c ****       Scheduler_Set_Current(Task_Get_Current());
+ 161              		.loc 1 62 7 view .LVU28
+ 162 0040 FFF7FEFF 		bl	Task_Get_Current
+ 163              	.LVL18:
+ 164              		.loc 1 62 7 is_stmt 0 discriminator 1 view .LVU29
+ 165 0044 FFF7FEFF 		bl	Scheduler_Set_Current
+ 166              	.LVL19:
+ 167 0048 E1E7     		b	.L6
+ 168              	.L12:
+ 169 004a 00BF     		.align	2
+ 170              	.L11:
+ 171 004c 00000000 		.word	.LC4
+ 172              		.cfi_endproc
+ 173              	.LFE1:
+ 175              		.section	.text.Kernel_Tick,"ax",%progbits
+ 176              		.align	1
+ 177              		.global	Kernel_Tick
+ 178              		.syntax unified
+ 179              		.thumb
+ 180              		.thumb_func
+ 182              	Kernel_Tick:
+ 183              	.LFB2:
+  63:../Core/Src/kernel.c ****     }
+  64:../Core/Src/kernel.c ****   }
+  65:../Core/Src/kernel.c **** }
+  66:../Core/Src/kernel.c **** 
+  67:../Core/Src/kernel.c **** void Kernel_Tick(void)
+  68:../Core/Src/kernel.c **** {
+ 184              		.loc 1 68 1 is_stmt 1 view -0
+ 185              		.cfi_startproc
+ 186              		@ args = 0, pretend = 0, frame = 0
+ 187              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188              		@ link register save eliminated.
+  69:../Core/Src/kernel.c **** }...
+ 189              		.loc 1 69 1 view .LVU31
+ 190 0000 7047     		bx	lr
+ 191              		.cfi_endproc
+ 192              	.LFE2:
+ 194              		.text
+ 195              	.Letext0:
+ 196              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 197              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ARM GAS  /tmp/ccJYvnYY.s 			page 6
+
+
+ 198              		.file 4 "../Core/Inc/error.h"
+ 199              		.file 5 "../Core/Inc/task.h"
+ 200              		.file 6 "../Core/Inc/dispatcher.h"
+ 201              		.file 7 "../Core/Inc/scheduler.h"
+ 202              		.file 8 "../Core/Inc/debug.h"
+ 203              		.file 9 "../Core/Inc/memory.h"
+ARM GAS  /tmp/ccJYvnYY.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 kernel.c
-     /tmp/ccnRgyn0.s:19     .text.Kernel_Init:00000000 $t
-     /tmp/ccnRgyn0.s:25     .text.Kernel_Init:00000000 Kernel_Init
-     /tmp/ccnRgyn0.s:51     .text.Kernel_Start:00000000 $t
-     /tmp/ccnRgyn0.s:57     .text.Kernel_Start:00000000 Kernel_Start
-     /tmp/ccnRgyn0.s:77     .text.Kernel_Tick:00000000 $t
-     /tmp/ccnRgyn0.s:83     .text.Kernel_Tick:00000000 Kernel_Tick
+     /tmp/ccJYvnYY.s:19     .rodata.Kernel_Init.str1.4:00000000 $d
+     /tmp/ccJYvnYY.s:32     .text.Kernel_Init:00000000 $t
+     /tmp/ccJYvnYY.s:38     .text.Kernel_Init:00000000 Kernel_Init
+     /tmp/ccJYvnYY.s:79     .text.Kernel_Init:00000028 $d
+     /tmp/ccJYvnYY.s:87     .rodata.Kernel_Start.str1.4:00000000 $d
+     /tmp/ccJYvnYY.s:91     .text.Kernel_Start:00000000 $t
+     /tmp/ccJYvnYY.s:97     .text.Kernel_Start:00000000 Kernel_Start
+     /tmp/ccJYvnYY.s:171    .text.Kernel_Start:0000004c $d
+     /tmp/ccJYvnYY.s:176    .text.Kernel_Tick:00000000 $t
+     /tmp/ccJYvnYY.s:182    .text.Kernel_Tick:00000000 Kernel_Tick
 
 UNDEFINED SYMBOLS
+Debug_Print
 Mem_Init
 Task_Init
 Scheduler_Init
+Debug_Scheduler_Null
 Scheduler_Select_Next
+Debug_Task_Scheduled
+Scheduler_Set_Current
+Task_Set_Current
+Dispatcher_Run
+Task_Get_Idle
+Task_Terminate
+Task_Get_Current

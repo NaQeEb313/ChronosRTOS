@@ -1,0 +1,295 @@
+ARM GAS  /tmp/cchyNuLf.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"demo_tasks.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../Demo/demo_tasks.c"
+  18              		.section	.rodata.TASK_A.str1.4,"aMS",%progbits,1
+  19              		.align	2
+  20              	.LC0:
+  21 0000 5461736B 		.ascii	"Task A: RUNNING\015\012\000"
+  21      20413A20 
+  21      52554E4E 
+  21      494E470D 
+  21      0A00
+  22              		.section	.text.TASK_A,"ax",%progbits
+  23              		.align	1
+  24              		.global	TASK_A
+  25              		.syntax unified
+  26              		.thumb
+  27              		.thumb_func
+  29              	TASK_A:
+  30              	.LFB65:
+   1:../Demo/demo_tasks.c **** /******************************************************************************
+   2:../Demo/demo_tasks.c ****  * File        : demo_tasks.c
+   3:../Demo/demo_tasks.c ****  * Project     : ChronosRTOS
+   4:../Demo/demo_tasks.c ****  * Module      : Demo Tasks
+   5:../Demo/demo_tasks.c ****  * Group       :
+   6:../Demo/demo_tasks.c ****  * Description : Demo task implementations.
+   7:../Demo/demo_tasks.c ****  ******************************************************************************/
+   8:../Demo/demo_tasks.c **** #include "demo_tasks.h"
+   9:../Demo/demo_tasks.c **** #include "uart.h"
+  10:../Demo/demo_tasks.c **** 
+  11:../Demo/demo_tasks.c **** void TASK_A(void)
+  12:../Demo/demo_tasks.c **** {
+  31              		.loc 1 12 1 view -0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 0
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35 0000 08B5     		push	{r3, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 3, -8
+  39              		.cfi_offset 14, -4
+  13:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task A: RUNNING\r\n");
+  40              		.loc 1 13 5 view .LVU1
+  41 0002 0249     		ldr	r1, .L3
+ARM GAS  /tmp/cchyNuLf.s 			page 2
+
+
+  42 0004 0248     		ldr	r0, .L3+4
+  43 0006 FFF7FEFF 		bl	USART_SendString
+  44              	.LVL0:
+  14:../Demo/demo_tasks.c **** }
+  45              		.loc 1 14 1 is_stmt 0 view .LVU2
+  46 000a 08BD     		pop	{r3, pc}
+  47              	.L4:
+  48              		.align	2
+  49              	.L3:
+  50 000c 00000000 		.word	.LC0
+  51 0010 00380140 		.word	1073821696
+  52              		.cfi_endproc
+  53              	.LFE65:
+  55              		.section	.rodata.TASK_B.str1.4,"aMS",%progbits,1
+  56              		.align	2
+  57              	.LC1:
+  58 0000 5461736B 		.ascii	"Task B: RUNNING\015\012\000"
+  58      20423A20 
+  58      52554E4E 
+  58      494E470D 
+  58      0A00
+  59              		.section	.text.TASK_B,"ax",%progbits
+  60              		.align	1
+  61              		.global	TASK_B
+  62              		.syntax unified
+  63              		.thumb
+  64              		.thumb_func
+  66              	TASK_B:
+  67              	.LFB66:
+  15:../Demo/demo_tasks.c **** 
+  16:../Demo/demo_tasks.c **** void TASK_B(void)
+  17:../Demo/demo_tasks.c **** {
+  68              		.loc 1 17 1 is_stmt 1 view -0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72 0000 08B5     		push	{r3, lr}
+  73              	.LCFI1:
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 3, -8
+  76              		.cfi_offset 14, -4
+  18:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task B: RUNNING\r\n");
+  77              		.loc 1 18 5 view .LVU4
+  78 0002 0249     		ldr	r1, .L7
+  79 0004 0248     		ldr	r0, .L7+4
+  80 0006 FFF7FEFF 		bl	USART_SendString
+  81              	.LVL1:
+  19:../Demo/demo_tasks.c **** }
+  82              		.loc 1 19 1 is_stmt 0 view .LVU5
+  83 000a 08BD     		pop	{r3, pc}
+  84              	.L8:
+  85              		.align	2
+  86              	.L7:
+  87 000c 00000000 		.word	.LC1
+  88 0010 00380140 		.word	1073821696
+  89              		.cfi_endproc
+  90              	.LFE66:
+ARM GAS  /tmp/cchyNuLf.s 			page 3
+
+
+  92              		.section	.rodata.TASK_C.str1.4,"aMS",%progbits,1
+  93              		.align	2
+  94              	.LC2:
+  95 0000 5461736B 		.ascii	"Task C: RUNNING\015\012\000"
+  95      20433A20 
+  95      52554E4E 
+  95      494E470D 
+  95      0A00
+  96              		.section	.text.TASK_C,"ax",%progbits
+  97              		.align	1
+  98              		.global	TASK_C
+  99              		.syntax unified
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	TASK_C:
+ 104              	.LFB67:
+  20:../Demo/demo_tasks.c **** 
+  21:../Demo/demo_tasks.c **** void TASK_C(void)
+  22:../Demo/demo_tasks.c **** {
+ 105              		.loc 1 22 1 is_stmt 1 view -0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109 0000 08B5     		push	{r3, lr}
+ 110              	.LCFI2:
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 3, -8
+ 113              		.cfi_offset 14, -4
+  23:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task C: RUNNING\r\n");
+ 114              		.loc 1 23 5 view .LVU7
+ 115 0002 0249     		ldr	r1, .L11
+ 116 0004 0248     		ldr	r0, .L11+4
+ 117 0006 FFF7FEFF 		bl	USART_SendString
+ 118              	.LVL2:
+  24:../Demo/demo_tasks.c **** }
+ 119              		.loc 1 24 1 is_stmt 0 view .LVU8
+ 120 000a 08BD     		pop	{r3, pc}
+ 121              	.L12:
+ 122              		.align	2
+ 123              	.L11:
+ 124 000c 00000000 		.word	.LC2
+ 125 0010 00380140 		.word	1073821696
+ 126              		.cfi_endproc
+ 127              	.LFE67:
+ 129              		.section	.rodata.TASK_D.str1.4,"aMS",%progbits,1
+ 130              		.align	2
+ 131              	.LC3:
+ 132 0000 5461736B 		.ascii	"Task D: RUNNING\015\012\000"
+ 132      20443A20 
+ 132      52554E4E 
+ 132      494E470D 
+ 132      0A00
+ 133              		.section	.text.TASK_D,"ax",%progbits
+ 134              		.align	1
+ 135              		.global	TASK_D
+ 136              		.syntax unified
+ 137              		.thumb
+ARM GAS  /tmp/cchyNuLf.s 			page 4
+
+
+ 138              		.thumb_func
+ 140              	TASK_D:
+ 141              	.LFB68:
+  25:../Demo/demo_tasks.c **** 
+  26:../Demo/demo_tasks.c **** void TASK_D(void)
+  27:../Demo/demo_tasks.c **** {
+ 142              		.loc 1 27 1 is_stmt 1 view -0
+ 143              		.cfi_startproc
+ 144              		@ args = 0, pretend = 0, frame = 0
+ 145              		@ frame_needed = 0, uses_anonymous_args = 0
+ 146 0000 08B5     		push	{r3, lr}
+ 147              	.LCFI3:
+ 148              		.cfi_def_cfa_offset 8
+ 149              		.cfi_offset 3, -8
+ 150              		.cfi_offset 14, -4
+  28:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task D: RUNNING\r\n");
+ 151              		.loc 1 28 5 view .LVU10
+ 152 0002 0249     		ldr	r1, .L15
+ 153 0004 0248     		ldr	r0, .L15+4
+ 154 0006 FFF7FEFF 		bl	USART_SendString
+ 155              	.LVL3:
+  29:../Demo/demo_tasks.c **** }
+ 156              		.loc 1 29 1 is_stmt 0 view .LVU11
+ 157 000a 08BD     		pop	{r3, pc}
+ 158              	.L16:
+ 159              		.align	2
+ 160              	.L15:
+ 161 000c 00000000 		.word	.LC3
+ 162 0010 00380140 		.word	1073821696
+ 163              		.cfi_endproc
+ 164              	.LFE68:
+ 166              		.section	.rodata.TASK_E.str1.4,"aMS",%progbits,1
+ 167              		.align	2
+ 168              	.LC4:
+ 169 0000 5461736B 		.ascii	"Task E: RUNNING\015\012\000"
+ 169      20453A20 
+ 169      52554E4E 
+ 169      494E470D 
+ 169      0A00
+ 170              		.section	.text.TASK_E,"ax",%progbits
+ 171              		.align	1
+ 172              		.global	TASK_E
+ 173              		.syntax unified
+ 174              		.thumb
+ 175              		.thumb_func
+ 177              	TASK_E:
+ 178              	.LFB69:
+  30:../Demo/demo_tasks.c **** 
+  31:../Demo/demo_tasks.c **** void TASK_E(void)
+  32:../Demo/demo_tasks.c **** {
+ 179              		.loc 1 32 1 is_stmt 1 view -0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183 0000 08B5     		push	{r3, lr}
+ 184              	.LCFI4:
+ 185              		.cfi_def_cfa_offset 8
+ARM GAS  /tmp/cchyNuLf.s 			page 5
+
+
+ 186              		.cfi_offset 3, -8
+ 187              		.cfi_offset 14, -4
+  33:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task E: RUNNING\r\n");
+ 188              		.loc 1 33 5 view .LVU13
+ 189 0002 0249     		ldr	r1, .L19
+ 190 0004 0248     		ldr	r0, .L19+4
+ 191 0006 FFF7FEFF 		bl	USART_SendString
+ 192              	.LVL4:
+  34:../Demo/demo_tasks.c **** }...
+ 193              		.loc 1 34 1 is_stmt 0 view .LVU14
+ 194 000a 08BD     		pop	{r3, pc}
+ 195              	.L20:
+ 196              		.align	2
+ 197              	.L19:
+ 198 000c 00000000 		.word	.LC4
+ 199 0010 00380140 		.word	1073821696
+ 200              		.cfi_endproc
+ 201              	.LFE69:
+ 203              		.text
+ 204              	.Letext0:
+ 205              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 206              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 207              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 208              		.file 5 "../Drivers/Inc/uart.h"
+ARM GAS  /tmp/cchyNuLf.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 demo_tasks.c
+     /tmp/cchyNuLf.s:19     .rodata.TASK_A.str1.4:00000000 $d
+     /tmp/cchyNuLf.s:23     .text.TASK_A:00000000 $t
+     /tmp/cchyNuLf.s:29     .text.TASK_A:00000000 TASK_A
+     /tmp/cchyNuLf.s:50     .text.TASK_A:0000000c $d
+     /tmp/cchyNuLf.s:56     .rodata.TASK_B.str1.4:00000000 $d
+     /tmp/cchyNuLf.s:60     .text.TASK_B:00000000 $t
+     /tmp/cchyNuLf.s:66     .text.TASK_B:00000000 TASK_B
+     /tmp/cchyNuLf.s:87     .text.TASK_B:0000000c $d
+     /tmp/cchyNuLf.s:93     .rodata.TASK_C.str1.4:00000000 $d
+     /tmp/cchyNuLf.s:97     .text.TASK_C:00000000 $t
+     /tmp/cchyNuLf.s:103    .text.TASK_C:00000000 TASK_C
+     /tmp/cchyNuLf.s:124    .text.TASK_C:0000000c $d
+     /tmp/cchyNuLf.s:130    .rodata.TASK_D.str1.4:00000000 $d
+     /tmp/cchyNuLf.s:134    .text.TASK_D:00000000 $t
+     /tmp/cchyNuLf.s:140    .text.TASK_D:00000000 TASK_D
+     /tmp/cchyNuLf.s:161    .text.TASK_D:0000000c $d
+     /tmp/cchyNuLf.s:167    .rodata.TASK_E.str1.4:00000000 $d
+     /tmp/cchyNuLf.s:171    .text.TASK_E:00000000 $t
+     /tmp/cchyNuLf.s:177    .text.TASK_E:00000000 TASK_E
+     /tmp/cchyNuLf.s:198    .text.TASK_E:0000000c $d
+
+UNDEFINED SYMBOLS
+USART_SendString

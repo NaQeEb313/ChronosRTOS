@@ -1,0 +1,1548 @@
+ARM GAS  /tmp/ccyb8xSm.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"debug.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../Core/Src/debug.c"
+  18              		.section	.text.Debug_Print_Number,"ax",%progbits
+  19              		.align	1
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	Debug_Print_Number:
+  25              	.LVL0:
+  26              	.LFB67:
+   1:../Core/Src/debug.c **** /******************************************************************************
+   2:../Core/Src/debug.c ****  * File        : debug.c
+   3:../Core/Src/debug.c ****  * Project     : ChronosRTOS
+   4:../Core/Src/debug.c ****  * Module      : Debug
+   5:../Core/Src/debug.c ****  * Description : Diagnostic output implementation.
+   6:../Core/Src/debug.c ****  ******************************************************************************/
+   7:../Core/Src/debug.c **** 
+   8:../Core/Src/debug.c **** #include "debug.h"
+   9:../Core/Src/debug.c **** 
+  10:../Core/Src/debug.c **** #ifdef CHRONOS_HOST
+  11:../Core/Src/debug.c **** 
+  12:../Core/Src/debug.c **** #include <stdio.h>
+  13:../Core/Src/debug.c **** 
+  14:../Core/Src/debug.c **** void Debug_Init(void)
+  15:../Core/Src/debug.c **** {
+  16:../Core/Src/debug.c **** }
+  17:../Core/Src/debug.c **** 
+  18:../Core/Src/debug.c **** void Debug_Print(const char *message)
+  19:../Core/Src/debug.c **** {
+  20:../Core/Src/debug.c ****     printf("%s", message);
+  21:../Core/Src/debug.c **** }
+  22:../Core/Src/debug.c **** 
+  23:../Core/Src/debug.c **** void Debug_Task_Created(uint32_t tid, uint8_t priority)
+  24:../Core/Src/debug.c **** {
+  25:../Core/Src/debug.c ****     printf("[Task] Created TID=%lu | Priority=%u\n",
+  26:../Core/Src/debug.c ****            (unsigned long)tid,
+  27:../Core/Src/debug.c ****            priority);
+  28:../Core/Src/debug.c **** }
+  29:../Core/Src/debug.c **** 
+  30:../Core/Src/debug.c **** void Debug_Task_Scheduled(uint32_t tid, uint8_t priority)
+  31:../Core/Src/debug.c **** {
+  32:../Core/Src/debug.c ****     printf("[Scheduler] Scheduled TID=%lu | Priority=%u\n",
+ARM GAS  /tmp/ccyb8xSm.s 			page 2
+
+
+  33:../Core/Src/debug.c ****            (unsigned long)tid,
+  34:../Core/Src/debug.c ****            priority);
+  35:../Core/Src/debug.c **** }
+  36:../Core/Src/debug.c **** 
+  37:../Core/Src/debug.c **** void Debug_Task_Running(uint32_t tid)
+  38:../Core/Src/debug.c **** {
+  39:../Core/Src/debug.c ****     printf("[Task] TID=%lu RUNNING\n",
+  40:../Core/Src/debug.c ****            (unsigned long)tid);
+  41:../Core/Src/debug.c **** }
+  42:../Core/Src/debug.c **** 
+  43:../Core/Src/debug.c **** void Debug_Task_Finished(uint32_t tid)
+  44:../Core/Src/debug.c **** {
+  45:../Core/Src/debug.c ****     printf("[Task] TID=%lu FINISHED\n",
+  46:../Core/Src/debug.c ****            (unsigned long)tid);
+  47:../Core/Src/debug.c **** }
+  48:../Core/Src/debug.c **** 
+  49:../Core/Src/debug.c **** void Debug_Task_Terminated(uint32_t tid)
+  50:../Core/Src/debug.c **** {
+  51:../Core/Src/debug.c ****     printf("[Task] TID=%lu -> TERMINATED\n",
+  52:../Core/Src/debug.c ****            (unsigned long)tid);
+  53:../Core/Src/debug.c **** }
+  54:../Core/Src/debug.c **** 
+  55:../Core/Src/debug.c **** void Debug_Task_Blocked(uint32_t tid)
+  56:../Core/Src/debug.c **** {
+  57:../Core/Src/debug.c ****     printf("[Task] TID=%lu -> BLOCKED\n",
+  58:../Core/Src/debug.c ****            (unsigned long)tid);
+  59:../Core/Src/debug.c **** }
+  60:../Core/Src/debug.c **** 
+  61:../Core/Src/debug.c **** void Debug_Task_Ready(uint32_t tid)
+  62:../Core/Src/debug.c **** {
+  63:../Core/Src/debug.c ****     printf("[Task] TID=%lu -> READY\n",
+  64:../Core/Src/debug.c ****            (unsigned long)tid);
+  65:../Core/Src/debug.c **** }
+  66:../Core/Src/debug.c **** 
+  67:../Core/Src/debug.c **** void Debug_Edge_Null_Task(const char *operation)
+  68:../Core/Src/debug.c **** {
+  69:../Core/Src/debug.c ****     printf("[Edge Case] %s rejected: NULL task\n",
+  70:../Core/Src/debug.c ****            operation);
+  71:../Core/Src/debug.c **** }
+  72:../Core/Src/debug.c **** 
+  73:../Core/Src/debug.c **** void Debug_Edge_Idle_Task(const char *operation)
+  74:../Core/Src/debug.c **** {
+  75:../Core/Src/debug.c ****     printf("[Edge Case] %s rejected: TCB0/Idle task cannot be used\n",
+  76:../Core/Src/debug.c ****            operation);
+  77:../Core/Src/debug.c **** }
+  78:../Core/Src/debug.c **** 
+  79:../Core/Src/debug.c **** void Debug_Edge_Not_Initialized(const char *operation)
+  80:../Core/Src/debug.c **** {
+  81:../Core/Src/debug.c ****     printf("[Edge Case] %s rejected: task system not initialized\n",
+  82:../Core/Src/debug.c ****            operation);
+  83:../Core/Src/debug.c **** }
+  84:../Core/Src/debug.c **** 
+  85:../Core/Src/debug.c **** void Debug_Edge_No_Tasks(const char *operation)
+  86:../Core/Src/debug.c **** {
+  87:../Core/Src/debug.c ****     printf("[Edge Case] %s rejected: no user tasks available\n",
+  88:../Core/Src/debug.c ****            operation);
+  89:../Core/Src/debug.c **** }
+ARM GAS  /tmp/ccyb8xSm.s 			page 3
+
+
+  90:../Core/Src/debug.c **** 
+  91:../Core/Src/debug.c **** void Debug_Edge_Invalid_Resume(uint32_t tid)
+  92:../Core/Src/debug.c **** {
+  93:../Core/Src/debug.c ****     printf("[Edge Case] Resume rejected: TID=%lu is not BLOCKED\n",
+  94:../Core/Src/debug.c ****            (unsigned long)tid);
+  95:../Core/Src/debug.c **** }
+  96:../Core/Src/debug.c **** 
+  97:../Core/Src/debug.c **** void Debug_Edge_Invalid_Allocation(void)
+  98:../Core/Src/debug.c **** {
+  99:../Core/Src/debug.c ****     printf("[Edge Case] Task creation rejected: no free task slot\n");
+ 100:../Core/Src/debug.c **** }
+ 101:../Core/Src/debug.c **** 
+ 102:../Core/Src/debug.c **** void Debug_Scheduler_Null(void)
+ 103:../Core/Src/debug.c **** {
+ 104:../Core/Src/debug.c ****     printf("[Scheduler] No task selected\n");
+ 105:../Core/Src/debug.c **** }
+ 106:../Core/Src/debug.c **** 
+ 107:../Core/Src/debug.c **** #else
+ 108:../Core/Src/debug.c **** 
+ 109:../Core/Src/debug.c **** #include "uart.h"
+ 110:../Core/Src/debug.c **** 
+ 111:../Core/Src/debug.c **** void Debug_Init(void)
+ 112:../Core/Src/debug.c **** {
+ 113:../Core/Src/debug.c **** }
+ 114:../Core/Src/debug.c **** 
+ 115:../Core/Src/debug.c **** void Debug_Print(const char *message)
+ 116:../Core/Src/debug.c **** {
+ 117:../Core/Src/debug.c ****     USART_SendString(USART1, (char *)message);
+ 118:../Core/Src/debug.c **** }
+ 119:../Core/Src/debug.c **** 
+ 120:../Core/Src/debug.c **** static void Debug_Print_Number(uint32_t value)
+ 121:../Core/Src/debug.c **** {
+  27              		.loc 1 121 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 24
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		.loc 1 121 1 is_stmt 0 view .LVU1
+  32 0000 00B5     		push	{lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 87B0     		sub	sp, sp, #28
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 32
+ 122:../Core/Src/debug.c ****     char buffer[12];
+  39              		.loc 1 122 5 is_stmt 1 view .LVU2
+ 123:../Core/Src/debug.c ****     int index = 0;
+  40              		.loc 1 123 5 view .LVU3
+  41              	.LVL1:
+ 124:../Core/Src/debug.c **** 
+ 125:../Core/Src/debug.c ****     if (value == 0)
+  42              		.loc 1 125 5 view .LVU4
+  43              		.loc 1 125 8 is_stmt 0 view .LVU5
+  44 0004 18BB     		cbnz	r0, .L7
+ 126:../Core/Src/debug.c ****     {
+ 127:../Core/Src/debug.c ****         buffer[index++] = '0';
+  45              		.loc 1 127 9 is_stmt 1 view .LVU6
+ARM GAS  /tmp/ccyb8xSm.s 			page 4
+
+
+  46              	.LVL2:
+  47              		.loc 1 127 25 is_stmt 0 view .LVU7
+  48 0006 3023     		movs	r3, #48
+  49 0008 8DF80C30 		strb	r3, [sp, #12]
+  50              		.loc 1 127 21 view .LVU8
+  51 000c 0123     		movs	r3, #1
+  52              	.LVL3:
+  53              	.L3:
+ 128:../Core/Src/debug.c ****     }
+ 129:../Core/Src/debug.c ****     else
+ 130:../Core/Src/debug.c ****     {
+ 131:../Core/Src/debug.c ****         char reverse[12];
+ 132:../Core/Src/debug.c ****         int reverse_index = 0;
+ 133:../Core/Src/debug.c **** 
+ 134:../Core/Src/debug.c ****         while (value > 0)
+ 135:../Core/Src/debug.c ****         {
+ 136:../Core/Src/debug.c ****             reverse[reverse_index++] =
+ 137:../Core/Src/debug.c ****                 (char)('0' + (value % 10));
+ 138:../Core/Src/debug.c **** 
+ 139:../Core/Src/debug.c ****             value /= 10;
+ 140:../Core/Src/debug.c ****         }
+ 141:../Core/Src/debug.c **** 
+ 142:../Core/Src/debug.c ****         while (reverse_index > 0)
+ 143:../Core/Src/debug.c ****         {
+ 144:../Core/Src/debug.c ****             buffer[index++] = reverse[--reverse_index];
+ 145:../Core/Src/debug.c ****         }
+ 146:../Core/Src/debug.c ****     }
+ 147:../Core/Src/debug.c **** 
+ 148:../Core/Src/debug.c ****     buffer[index] = '\0';
+  54              		.loc 1 148 5 is_stmt 1 view .LVU9
+  55              		.loc 1 148 19 is_stmt 0 view .LVU10
+  56 000e 1833     		adds	r3, r3, #24
+  57              	.LVL4:
+  58              		.loc 1 148 19 view .LVU11
+  59 0010 6B44     		add	r3, sp, r3
+  60              	.LVL5:
+  61              		.loc 1 148 19 view .LVU12
+  62 0012 0022     		movs	r2, #0
+  63 0014 03F80C2C 		strb	r2, [r3, #-12]
+ 149:../Core/Src/debug.c **** 
+ 150:../Core/Src/debug.c ****     USART_SendString(USART1, buffer);
+  64              		.loc 1 150 5 is_stmt 1 view .LVU13
+  65 0018 03A9     		add	r1, sp, #12
+  66 001a 1648     		ldr	r0, .L9
+  67 001c FFF7FEFF 		bl	USART_SendString
+  68              	.LVL6:
+ 151:../Core/Src/debug.c **** }
+  69              		.loc 1 151 1 is_stmt 0 view .LVU14
+  70 0020 07B0     		add	sp, sp, #28
+  71              	.LCFI2:
+  72              		.cfi_remember_state
+  73              		.cfi_def_cfa_offset 4
+  74              		@ sp needed
+  75 0022 00BD     		pop	{pc}
+  76              	.LVL7:
+  77              	.L4:
+  78              	.LCFI3:
+ARM GAS  /tmp/ccyb8xSm.s 			page 5
+
+
+  79              		.cfi_restore_state
+  80              	.LBB2:
+ 136:../Core/Src/debug.c ****                 (char)('0' + (value % 10));
+  81              		.loc 1 136 13 is_stmt 1 view .LVU15
+ 137:../Core/Src/debug.c **** 
+  82              		.loc 1 137 37 is_stmt 0 view .LVU16
+  83 0024 144B     		ldr	r3, .L9+4
+  84 0026 A3FB0103 		umull	r0, r3, r3, r1
+  85 002a DB08     		lsrs	r3, r3, #3
+  86 002c 1846     		mov	r0, r3
+  87 002e 03EB8303 		add	r3, r3, r3, lsl #2
+  88 0032 A1EB4303 		sub	r3, r1, r3, lsl #1
+  89              	.LVL8:
+ 137:../Core/Src/debug.c **** 
+  90              		.loc 1 137 17 view .LVU17
+  91 0036 3033     		adds	r3, r3, #48
+ 136:../Core/Src/debug.c ****                 (char)('0' + (value % 10));
+  92              		.loc 1 136 38 view .LVU18
+  93 0038 02F11801 		add	r1, r2, #24
+  94              	.LVL9:
+ 136:../Core/Src/debug.c ****                 (char)('0' + (value % 10));
+  95              		.loc 1 136 38 view .LVU19
+  96 003c 6944     		add	r1, sp, r1
+  97 003e 01F8183C 		strb	r3, [r1, #-24]
+ 139:../Core/Src/debug.c ****         }
+  98              		.loc 1 139 13 is_stmt 1 view .LVU20
+ 139:../Core/Src/debug.c ****         }
+  99              		.loc 1 139 19 is_stmt 0 view .LVU21
+ 100 0042 0146     		mov	r1, r0
+ 101              	.LVL10:
+ 136:../Core/Src/debug.c ****                 (char)('0' + (value % 10));
+ 102              		.loc 1 136 34 view .LVU22
+ 103 0044 0132     		adds	r2, r2, #1
+ 104              	.LVL11:
+ 105              	.L2:
+ 134:../Core/Src/debug.c ****         {
+ 106              		.loc 1 134 22 is_stmt 1 discriminator 1 view .LVU23
+ 107 0046 0029     		cmp	r1, #0
+ 108 0048 ECD1     		bne	.L4
+ 109              	.LBE2:
+ 123:../Core/Src/debug.c **** 
+ 110              		.loc 1 123 9 is_stmt 0 view .LVU24
+ 111 004a 0B46     		mov	r3, r1
+ 112 004c 0EE0     		b	.L5
+ 113              	.LVL12:
+ 114              	.L7:
+ 123:../Core/Src/debug.c **** 
+ 115              		.loc 1 123 9 view .LVU25
+ 116 004e 0146     		mov	r1, r0
+ 117              	.LBB3:
+ 132:../Core/Src/debug.c **** 
+ 118              		.loc 1 132 13 view .LVU26
+ 119 0050 0022     		movs	r2, #0
+ 120 0052 F8E7     		b	.L2
+ 121              	.LVL13:
+ 122              	.L6:
+ 144:../Core/Src/debug.c ****         }
+ARM GAS  /tmp/ccyb8xSm.s 			page 6
+
+
+ 123              		.loc 1 144 13 is_stmt 1 view .LVU27
+ 144:../Core/Src/debug.c ****         }
+ 124              		.loc 1 144 29 is_stmt 0 view .LVU28
+ 125 0054 013A     		subs	r2, r2, #1
+ 126              	.LVL14:
+ 144:../Core/Src/debug.c ****         }
+ 127              		.loc 1 144 38 view .LVU29
+ 128 0056 02F11801 		add	r1, r2, #24
+ 129 005a 6944     		add	r1, sp, r1
+ 130 005c 11F8180C 		ldrb	r0, [r1, #-24]	@ zero_extendqisi2
+ 144:../Core/Src/debug.c ****         }
+ 131              		.loc 1 144 29 view .LVU30
+ 132 0060 03F11801 		add	r1, r3, #24
+ 133 0064 6944     		add	r1, sp, r1
+ 134 0066 01F80C0C 		strb	r0, [r1, #-12]
+ 144:../Core/Src/debug.c ****         }
+ 135              		.loc 1 144 25 view .LVU31
+ 136 006a 0133     		adds	r3, r3, #1
+ 137              	.LVL15:
+ 138              	.L5:
+ 142:../Core/Src/debug.c ****         {
+ 139              		.loc 1 142 30 is_stmt 1 discriminator 1 view .LVU32
+ 140 006c 002A     		cmp	r2, #0
+ 141 006e F1DC     		bgt	.L6
+ 142:../Core/Src/debug.c ****         {
+ 142              		.loc 1 142 30 is_stmt 0 discriminator 1 view .LVU33
+ 143 0070 CDE7     		b	.L3
+ 144              	.L10:
+ 145 0072 00BF     		.align	2
+ 146              	.L9:
+ 147 0074 00380140 		.word	1073821696
+ 148 0078 CDCCCCCC 		.word	-858993459
+ 149              	.LBE3:
+ 150              		.cfi_endproc
+ 151              	.LFE67:
+ 153              		.section	.rodata.Debug_Print_TID_Priority.str1.4,"aMS",%progbits,1
+ 154              		.align	2
+ 155              	.LC0:
+ 156 0000 5449443D 		.ascii	"TID=\000"
+ 156      00
+ 157 0005 000000   		.align	2
+ 158              	.LC1:
+ 159 0008 207C2050 		.ascii	" | Priority=\000"
+ 159      72696F72 
+ 159      6974793D 
+ 159      00
+ 160 0015 000000   		.align	2
+ 161              	.LC2:
+ 162 0018 0D0A00   		.ascii	"\015\012\000"
+ 163              		.section	.text.Debug_Print_TID_Priority,"ax",%progbits
+ 164              		.align	1
+ 165              		.syntax unified
+ 166              		.thumb
+ 167              		.thumb_func
+ 169              	Debug_Print_TID_Priority:
+ 170              	.LVL16:
+ 171              	.LFB68:
+ARM GAS  /tmp/ccyb8xSm.s 			page 7
+
+
+ 152:../Core/Src/debug.c **** 
+ 153:../Core/Src/debug.c **** static void Debug_Print_TID_Priority(uint32_t tid,
+ 154:../Core/Src/debug.c ****                                      uint8_t priority)
+ 155:../Core/Src/debug.c **** {
+ 172              		.loc 1 155 1 is_stmt 1 view -0
+ 173              		.cfi_startproc
+ 174              		@ args = 0, pretend = 0, frame = 0
+ 175              		@ frame_needed = 0, uses_anonymous_args = 0
+ 176              		.loc 1 155 1 is_stmt 0 view .LVU35
+ 177 0000 70B5     		push	{r4, r5, r6, lr}
+ 178              	.LCFI4:
+ 179              		.cfi_def_cfa_offset 16
+ 180              		.cfi_offset 4, -16
+ 181              		.cfi_offset 5, -12
+ 182              		.cfi_offset 6, -8
+ 183              		.cfi_offset 14, -4
+ 184 0002 0646     		mov	r6, r0
+ 185 0004 0D46     		mov	r5, r1
+ 156:../Core/Src/debug.c ****     USART_SendString(USART1, "TID=");
+ 186              		.loc 1 156 5 is_stmt 1 view .LVU36
+ 187 0006 0A4C     		ldr	r4, .L13
+ 188 0008 0A49     		ldr	r1, .L13+4
+ 189              	.LVL17:
+ 190              		.loc 1 156 5 is_stmt 0 view .LVU37
+ 191 000a 2046     		mov	r0, r4
+ 192              	.LVL18:
+ 193              		.loc 1 156 5 view .LVU38
+ 194 000c FFF7FEFF 		bl	USART_SendString
+ 195              	.LVL19:
+ 157:../Core/Src/debug.c **** 
+ 158:../Core/Src/debug.c ****     Debug_Print_Number(tid);
+ 196              		.loc 1 158 5 is_stmt 1 view .LVU39
+ 197 0010 3046     		mov	r0, r6
+ 198 0012 FFF7FEFF 		bl	Debug_Print_Number
+ 199              	.LVL20:
+ 159:../Core/Src/debug.c **** 
+ 160:../Core/Src/debug.c ****     USART_SendString(USART1, " | Priority=");
+ 200              		.loc 1 160 5 view .LVU40
+ 201 0016 0849     		ldr	r1, .L13+8
+ 202 0018 2046     		mov	r0, r4
+ 203 001a FFF7FEFF 		bl	USART_SendString
+ 204              	.LVL21:
+ 161:../Core/Src/debug.c **** 
+ 162:../Core/Src/debug.c ****     Debug_Print_Number(priority);
+ 205              		.loc 1 162 5 view .LVU41
+ 206 001e 2846     		mov	r0, r5
+ 207 0020 FFF7FEFF 		bl	Debug_Print_Number
+ 208              	.LVL22:
+ 163:../Core/Src/debug.c **** 
+ 164:../Core/Src/debug.c ****     USART_SendString(USART1, "\r\n");
+ 209              		.loc 1 164 5 view .LVU42
+ 210 0024 0549     		ldr	r1, .L13+12
+ 211 0026 2046     		mov	r0, r4
+ 212 0028 FFF7FEFF 		bl	USART_SendString
+ 213              	.LVL23:
+ 165:../Core/Src/debug.c **** }
+ 214              		.loc 1 165 1 is_stmt 0 view .LVU43
+ARM GAS  /tmp/ccyb8xSm.s 			page 8
+
+
+ 215 002c 70BD     		pop	{r4, r5, r6, pc}
+ 216              	.LVL24:
+ 217              	.L14:
+ 218              		.loc 1 165 1 view .LVU44
+ 219 002e 00BF     		.align	2
+ 220              	.L13:
+ 221 0030 00380140 		.word	1073821696
+ 222 0034 00000000 		.word	.LC0
+ 223 0038 08000000 		.word	.LC1
+ 224 003c 18000000 		.word	.LC2
+ 225              		.cfi_endproc
+ 226              	.LFE68:
+ 228              		.section	.text.Debug_Init,"ax",%progbits
+ 229              		.align	1
+ 230              		.global	Debug_Init
+ 231              		.syntax unified
+ 232              		.thumb
+ 233              		.thumb_func
+ 235              	Debug_Init:
+ 236              	.LFB65:
+ 112:../Core/Src/debug.c **** }
+ 237              		.loc 1 112 1 is_stmt 1 view -0
+ 238              		.cfi_startproc
+ 239              		@ args = 0, pretend = 0, frame = 0
+ 240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 241              		@ link register save eliminated.
+ 113:../Core/Src/debug.c **** 
+ 242              		.loc 1 113 1 view .LVU46
+ 243 0000 7047     		bx	lr
+ 244              		.cfi_endproc
+ 245              	.LFE65:
+ 247              		.section	.text.Debug_Print,"ax",%progbits
+ 248              		.align	1
+ 249              		.global	Debug_Print
+ 250              		.syntax unified
+ 251              		.thumb
+ 252              		.thumb_func
+ 254              	Debug_Print:
+ 255              	.LVL25:
+ 256              	.LFB66:
+ 116:../Core/Src/debug.c ****     USART_SendString(USART1, (char *)message);
+ 257              		.loc 1 116 1 view -0
+ 258              		.cfi_startproc
+ 259              		@ args = 0, pretend = 0, frame = 0
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116:../Core/Src/debug.c ****     USART_SendString(USART1, (char *)message);
+ 261              		.loc 1 116 1 is_stmt 0 view .LVU48
+ 262 0000 08B5     		push	{r3, lr}
+ 263              	.LCFI5:
+ 264              		.cfi_def_cfa_offset 8
+ 265              		.cfi_offset 3, -8
+ 266              		.cfi_offset 14, -4
+ 267 0002 0146     		mov	r1, r0
+ 117:../Core/Src/debug.c **** }
+ 268              		.loc 1 117 5 is_stmt 1 view .LVU49
+ 269 0004 0148     		ldr	r0, .L18
+ 270              	.LVL26:
+ARM GAS  /tmp/ccyb8xSm.s 			page 9
+
+
+ 117:../Core/Src/debug.c **** }
+ 271              		.loc 1 117 5 is_stmt 0 view .LVU50
+ 272 0006 FFF7FEFF 		bl	USART_SendString
+ 273              	.LVL27:
+ 118:../Core/Src/debug.c **** 
+ 274              		.loc 1 118 1 view .LVU51
+ 275 000a 08BD     		pop	{r3, pc}
+ 276              	.L19:
+ 277              		.align	2
+ 278              	.L18:
+ 279 000c 00380140 		.word	1073821696
+ 280              		.cfi_endproc
+ 281              	.LFE66:
+ 283              		.section	.rodata.Debug_Task_Created.str1.4,"aMS",%progbits,1
+ 284              		.align	2
+ 285              	.LC3:
+ 286 0000 5B546173 		.ascii	"[Task] Created \000"
+ 286      6B5D2043 
+ 286      72656174 
+ 286      65642000 
+ 287              		.section	.text.Debug_Task_Created,"ax",%progbits
+ 288              		.align	1
+ 289              		.global	Debug_Task_Created
+ 290              		.syntax unified
+ 291              		.thumb
+ 292              		.thumb_func
+ 294              	Debug_Task_Created:
+ 295              	.LVL28:
+ 296              	.LFB69:
+ 166:../Core/Src/debug.c **** 
+ 167:../Core/Src/debug.c **** void Debug_Task_Created(uint32_t tid, uint8_t priority)
+ 168:../Core/Src/debug.c **** {
+ 297              		.loc 1 168 1 is_stmt 1 view -0
+ 298              		.cfi_startproc
+ 299              		@ args = 0, pretend = 0, frame = 0
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301              		.loc 1 168 1 is_stmt 0 view .LVU53
+ 302 0000 38B5     		push	{r3, r4, r5, lr}
+ 303              	.LCFI6:
+ 304              		.cfi_def_cfa_offset 16
+ 305              		.cfi_offset 3, -16
+ 306              		.cfi_offset 4, -12
+ 307              		.cfi_offset 5, -8
+ 308              		.cfi_offset 14, -4
+ 309 0002 0546     		mov	r5, r0
+ 310 0004 0C46     		mov	r4, r1
+ 169:../Core/Src/debug.c ****     USART_SendString(USART1, "[Task] Created ");
+ 311              		.loc 1 169 5 is_stmt 1 view .LVU54
+ 312 0006 0449     		ldr	r1, .L22
+ 313              	.LVL29:
+ 314              		.loc 1 169 5 is_stmt 0 view .LVU55
+ 315 0008 0448     		ldr	r0, .L22+4
+ 316              	.LVL30:
+ 317              		.loc 1 169 5 view .LVU56
+ 318 000a FFF7FEFF 		bl	USART_SendString
+ 319              	.LVL31:
+ 170:../Core/Src/debug.c **** 
+ARM GAS  /tmp/ccyb8xSm.s 			page 10
+
+
+ 171:../Core/Src/debug.c ****     Debug_Print_TID_Priority(tid, priority);
+ 320              		.loc 1 171 5 is_stmt 1 view .LVU57
+ 321 000e 2146     		mov	r1, r4
+ 322 0010 2846     		mov	r0, r5
+ 323 0012 FFF7FEFF 		bl	Debug_Print_TID_Priority
+ 324              	.LVL32:
+ 172:../Core/Src/debug.c **** }
+ 325              		.loc 1 172 1 is_stmt 0 view .LVU58
+ 326 0016 38BD     		pop	{r3, r4, r5, pc}
+ 327              	.LVL33:
+ 328              	.L23:
+ 329              		.loc 1 172 1 view .LVU59
+ 330              		.align	2
+ 331              	.L22:
+ 332 0018 00000000 		.word	.LC3
+ 333 001c 00380140 		.word	1073821696
+ 334              		.cfi_endproc
+ 335              	.LFE69:
+ 337              		.section	.rodata.Debug_Task_Scheduled.str1.4,"aMS",%progbits,1
+ 338              		.align	2
+ 339              	.LC4:
+ 340 0000 5B536368 		.ascii	"[Scheduler] Scheduled \000"
+ 340      6564756C 
+ 340      65725D20 
+ 340      53636865 
+ 340      64756C65 
+ 341              		.section	.text.Debug_Task_Scheduled,"ax",%progbits
+ 342              		.align	1
+ 343              		.global	Debug_Task_Scheduled
+ 344              		.syntax unified
+ 345              		.thumb
+ 346              		.thumb_func
+ 348              	Debug_Task_Scheduled:
+ 349              	.LVL34:
+ 350              	.LFB70:
+ 173:../Core/Src/debug.c **** 
+ 174:../Core/Src/debug.c **** void Debug_Task_Scheduled(uint32_t tid, uint8_t priority)
+ 175:../Core/Src/debug.c **** {
+ 351              		.loc 1 175 1 is_stmt 1 view -0
+ 352              		.cfi_startproc
+ 353              		@ args = 0, pretend = 0, frame = 0
+ 354              		@ frame_needed = 0, uses_anonymous_args = 0
+ 355              		.loc 1 175 1 is_stmt 0 view .LVU61
+ 356 0000 38B5     		push	{r3, r4, r5, lr}
+ 357              	.LCFI7:
+ 358              		.cfi_def_cfa_offset 16
+ 359              		.cfi_offset 3, -16
+ 360              		.cfi_offset 4, -12
+ 361              		.cfi_offset 5, -8
+ 362              		.cfi_offset 14, -4
+ 363 0002 0546     		mov	r5, r0
+ 364 0004 0C46     		mov	r4, r1
+ 176:../Core/Src/debug.c ****     USART_SendString(USART1, "[Scheduler] Scheduled ");
+ 365              		.loc 1 176 5 is_stmt 1 view .LVU62
+ 366 0006 0449     		ldr	r1, .L26
+ 367              	.LVL35:
+ 368              		.loc 1 176 5 is_stmt 0 view .LVU63
+ARM GAS  /tmp/ccyb8xSm.s 			page 11
+
+
+ 369 0008 0448     		ldr	r0, .L26+4
+ 370              	.LVL36:
+ 371              		.loc 1 176 5 view .LVU64
+ 372 000a FFF7FEFF 		bl	USART_SendString
+ 373              	.LVL37:
+ 177:../Core/Src/debug.c **** 
+ 178:../Core/Src/debug.c ****     Debug_Print_TID_Priority(tid, priority);
+ 374              		.loc 1 178 5 is_stmt 1 view .LVU65
+ 375 000e 2146     		mov	r1, r4
+ 376 0010 2846     		mov	r0, r5
+ 377 0012 FFF7FEFF 		bl	Debug_Print_TID_Priority
+ 378              	.LVL38:
+ 179:../Core/Src/debug.c **** }
+ 379              		.loc 1 179 1 is_stmt 0 view .LVU66
+ 380 0016 38BD     		pop	{r3, r4, r5, pc}
+ 381              	.LVL39:
+ 382              	.L27:
+ 383              		.loc 1 179 1 view .LVU67
+ 384              		.align	2
+ 385              	.L26:
+ 386 0018 00000000 		.word	.LC4
+ 387 001c 00380140 		.word	1073821696
+ 388              		.cfi_endproc
+ 389              	.LFE70:
+ 391              		.section	.rodata.Debug_Task_Running.str1.4,"aMS",%progbits,1
+ 392              		.align	2
+ 393              	.LC5:
+ 394 0000 5B546173 		.ascii	"[Task] TID=\000"
+ 394      6B5D2054 
+ 394      49443D00 
+ 395              		.align	2
+ 396              	.LC6:
+ 397 000c 2052554E 		.ascii	" RUNNING\015\012\000"
+ 397      4E494E47 
+ 397      0D0A00
+ 398              		.section	.text.Debug_Task_Running,"ax",%progbits
+ 399              		.align	1
+ 400              		.global	Debug_Task_Running
+ 401              		.syntax unified
+ 402              		.thumb
+ 403              		.thumb_func
+ 405              	Debug_Task_Running:
+ 406              	.LVL40:
+ 407              	.LFB71:
+ 180:../Core/Src/debug.c **** 
+ 181:../Core/Src/debug.c **** void Debug_Task_Running(uint32_t tid)
+ 182:../Core/Src/debug.c **** {
+ 408              		.loc 1 182 1 is_stmt 1 view -0
+ 409              		.cfi_startproc
+ 410              		@ args = 0, pretend = 0, frame = 0
+ 411              		@ frame_needed = 0, uses_anonymous_args = 0
+ 412              		.loc 1 182 1 is_stmt 0 view .LVU69
+ 413 0000 38B5     		push	{r3, r4, r5, lr}
+ 414              	.LCFI8:
+ 415              		.cfi_def_cfa_offset 16
+ 416              		.cfi_offset 3, -16
+ 417              		.cfi_offset 4, -12
+ARM GAS  /tmp/ccyb8xSm.s 			page 12
+
+
+ 418              		.cfi_offset 5, -8
+ 419              		.cfi_offset 14, -4
+ 420 0002 0546     		mov	r5, r0
+ 183:../Core/Src/debug.c ****     USART_SendString(USART1, "[Task] TID=");
+ 421              		.loc 1 183 5 is_stmt 1 view .LVU70
+ 422 0004 064C     		ldr	r4, .L30
+ 423 0006 0749     		ldr	r1, .L30+4
+ 424 0008 2046     		mov	r0, r4
+ 425              	.LVL41:
+ 426              		.loc 1 183 5 is_stmt 0 view .LVU71
+ 427 000a FFF7FEFF 		bl	USART_SendString
+ 428              	.LVL42:
+ 184:../Core/Src/debug.c **** 
+ 185:../Core/Src/debug.c ****     Debug_Print_Number(tid);
+ 429              		.loc 1 185 5 is_stmt 1 view .LVU72
+ 430 000e 2846     		mov	r0, r5
+ 431 0010 FFF7FEFF 		bl	Debug_Print_Number
+ 432              	.LVL43:
+ 186:../Core/Src/debug.c **** 
+ 187:../Core/Src/debug.c ****     USART_SendString(USART1, " RUNNING\r\n");
+ 433              		.loc 1 187 5 view .LVU73
+ 434 0014 0449     		ldr	r1, .L30+8
+ 435 0016 2046     		mov	r0, r4
+ 436 0018 FFF7FEFF 		bl	USART_SendString
+ 437              	.LVL44:
+ 188:../Core/Src/debug.c **** }
+ 438              		.loc 1 188 1 is_stmt 0 view .LVU74
+ 439 001c 38BD     		pop	{r3, r4, r5, pc}
+ 440              	.LVL45:
+ 441              	.L31:
+ 442              		.loc 1 188 1 view .LVU75
+ 443 001e 00BF     		.align	2
+ 444              	.L30:
+ 445 0020 00380140 		.word	1073821696
+ 446 0024 00000000 		.word	.LC5
+ 447 0028 0C000000 		.word	.LC6
+ 448              		.cfi_endproc
+ 449              	.LFE71:
+ 451              		.section	.rodata.Debug_Task_Finished.str1.4,"aMS",%progbits,1
+ 452              		.align	2
+ 453              	.LC7:
+ 454 0000 2046494E 		.ascii	" FINISHED\015\012\000"
+ 454      49534845 
+ 454      440D0A00 
+ 455              		.section	.text.Debug_Task_Finished,"ax",%progbits
+ 456              		.align	1
+ 457              		.global	Debug_Task_Finished
+ 458              		.syntax unified
+ 459              		.thumb
+ 460              		.thumb_func
+ 462              	Debug_Task_Finished:
+ 463              	.LVL46:
+ 464              	.LFB72:
+ 189:../Core/Src/debug.c **** 
+ 190:../Core/Src/debug.c **** void Debug_Task_Finished(uint32_t tid)
+ 191:../Core/Src/debug.c **** {
+ 465              		.loc 1 191 1 is_stmt 1 view -0
+ARM GAS  /tmp/ccyb8xSm.s 			page 13
+
+
+ 466              		.cfi_startproc
+ 467              		@ args = 0, pretend = 0, frame = 0
+ 468              		@ frame_needed = 0, uses_anonymous_args = 0
+ 469              		.loc 1 191 1 is_stmt 0 view .LVU77
+ 470 0000 38B5     		push	{r3, r4, r5, lr}
+ 471              	.LCFI9:
+ 472              		.cfi_def_cfa_offset 16
+ 473              		.cfi_offset 3, -16
+ 474              		.cfi_offset 4, -12
+ 475              		.cfi_offset 5, -8
+ 476              		.cfi_offset 14, -4
+ 477 0002 0546     		mov	r5, r0
+ 192:../Core/Src/debug.c ****     USART_SendString(USART1, "[Task] TID=");
+ 478              		.loc 1 192 5 is_stmt 1 view .LVU78
+ 479 0004 064C     		ldr	r4, .L34
+ 480 0006 0749     		ldr	r1, .L34+4
+ 481 0008 2046     		mov	r0, r4
+ 482              	.LVL47:
+ 483              		.loc 1 192 5 is_stmt 0 view .LVU79
+ 484 000a FFF7FEFF 		bl	USART_SendString
+ 485              	.LVL48:
+ 193:../Core/Src/debug.c **** 
+ 194:../Core/Src/debug.c ****     Debug_Print_Number(tid);
+ 486              		.loc 1 194 5 is_stmt 1 view .LVU80
+ 487 000e 2846     		mov	r0, r5
+ 488 0010 FFF7FEFF 		bl	Debug_Print_Number
+ 489              	.LVL49:
+ 195:../Core/Src/debug.c **** 
+ 196:../Core/Src/debug.c ****     USART_SendString(USART1, " FINISHED\r\n");
+ 490              		.loc 1 196 5 view .LVU81
+ 491 0014 0449     		ldr	r1, .L34+8
+ 492 0016 2046     		mov	r0, r4
+ 493 0018 FFF7FEFF 		bl	USART_SendString
+ 494              	.LVL50:
+ 197:../Core/Src/debug.c **** }
+ 495              		.loc 1 197 1 is_stmt 0 view .LVU82
+ 496 001c 38BD     		pop	{r3, r4, r5, pc}
+ 497              	.LVL51:
+ 498              	.L35:
+ 499              		.loc 1 197 1 view .LVU83
+ 500 001e 00BF     		.align	2
+ 501              	.L34:
+ 502 0020 00380140 		.word	1073821696
+ 503 0024 00000000 		.word	.LC5
+ 504 0028 00000000 		.word	.LC7
+ 505              		.cfi_endproc
+ 506              	.LFE72:
+ 508              		.section	.rodata.Debug_Task_Terminated.str1.4,"aMS",%progbits,1
+ 509              		.align	2
+ 510              	.LC8:
+ 511 0000 202D3E20 		.ascii	" -> TERMINATED\015\012\000"
+ 511      5445524D 
+ 511      494E4154 
+ 511      45440D0A 
+ 511      00
+ 512              		.section	.text.Debug_Task_Terminated,"ax",%progbits
+ 513              		.align	1
+ARM GAS  /tmp/ccyb8xSm.s 			page 14
+
+
+ 514              		.global	Debug_Task_Terminated
+ 515              		.syntax unified
+ 516              		.thumb
+ 517              		.thumb_func
+ 519              	Debug_Task_Terminated:
+ 520              	.LVL52:
+ 521              	.LFB73:
+ 198:../Core/Src/debug.c **** 
+ 199:../Core/Src/debug.c **** void Debug_Task_Terminated(uint32_t tid)
+ 200:../Core/Src/debug.c **** {
+ 522              		.loc 1 200 1 is_stmt 1 view -0
+ 523              		.cfi_startproc
+ 524              		@ args = 0, pretend = 0, frame = 0
+ 525              		@ frame_needed = 0, uses_anonymous_args = 0
+ 526              		.loc 1 200 1 is_stmt 0 view .LVU85
+ 527 0000 38B5     		push	{r3, r4, r5, lr}
+ 528              	.LCFI10:
+ 529              		.cfi_def_cfa_offset 16
+ 530              		.cfi_offset 3, -16
+ 531              		.cfi_offset 4, -12
+ 532              		.cfi_offset 5, -8
+ 533              		.cfi_offset 14, -4
+ 534 0002 0546     		mov	r5, r0
+ 201:../Core/Src/debug.c ****     USART_SendString(USART1, "[Task] TID=");
+ 535              		.loc 1 201 5 is_stmt 1 view .LVU86
+ 536 0004 064C     		ldr	r4, .L38
+ 537 0006 0749     		ldr	r1, .L38+4
+ 538 0008 2046     		mov	r0, r4
+ 539              	.LVL53:
+ 540              		.loc 1 201 5 is_stmt 0 view .LVU87
+ 541 000a FFF7FEFF 		bl	USART_SendString
+ 542              	.LVL54:
+ 202:../Core/Src/debug.c **** 
+ 203:../Core/Src/debug.c ****     Debug_Print_Number(tid);
+ 543              		.loc 1 203 5 is_stmt 1 view .LVU88
+ 544 000e 2846     		mov	r0, r5
+ 545 0010 FFF7FEFF 		bl	Debug_Print_Number
+ 546              	.LVL55:
+ 204:../Core/Src/debug.c **** 
+ 205:../Core/Src/debug.c ****     USART_SendString(USART1, " -> TERMINATED\r\n");
+ 547              		.loc 1 205 5 view .LVU89
+ 548 0014 0449     		ldr	r1, .L38+8
+ 549 0016 2046     		mov	r0, r4
+ 550 0018 FFF7FEFF 		bl	USART_SendString
+ 551              	.LVL56:
+ 206:../Core/Src/debug.c **** }
+ 552              		.loc 1 206 1 is_stmt 0 view .LVU90
+ 553 001c 38BD     		pop	{r3, r4, r5, pc}
+ 554              	.LVL57:
+ 555              	.L39:
+ 556              		.loc 1 206 1 view .LVU91
+ 557 001e 00BF     		.align	2
+ 558              	.L38:
+ 559 0020 00380140 		.word	1073821696
+ 560 0024 00000000 		.word	.LC5
+ 561 0028 00000000 		.word	.LC8
+ 562              		.cfi_endproc
+ARM GAS  /tmp/ccyb8xSm.s 			page 15
+
+
+ 563              	.LFE73:
+ 565              		.section	.rodata.Debug_Task_Blocked.str1.4,"aMS",%progbits,1
+ 566              		.align	2
+ 567              	.LC9:
+ 568 0000 202D3E20 		.ascii	" -> BLOCKED\015\012\000"
+ 568      424C4F43 
+ 568      4B45440D 
+ 568      0A00
+ 569              		.section	.text.Debug_Task_Blocked,"ax",%progbits
+ 570              		.align	1
+ 571              		.global	Debug_Task_Blocked
+ 572              		.syntax unified
+ 573              		.thumb
+ 574              		.thumb_func
+ 576              	Debug_Task_Blocked:
+ 577              	.LVL58:
+ 578              	.LFB74:
+ 207:../Core/Src/debug.c **** 
+ 208:../Core/Src/debug.c **** void Debug_Task_Blocked(uint32_t tid)
+ 209:../Core/Src/debug.c **** {
+ 579              		.loc 1 209 1 is_stmt 1 view -0
+ 580              		.cfi_startproc
+ 581              		@ args = 0, pretend = 0, frame = 0
+ 582              		@ frame_needed = 0, uses_anonymous_args = 0
+ 583              		.loc 1 209 1 is_stmt 0 view .LVU93
+ 584 0000 38B5     		push	{r3, r4, r5, lr}
+ 585              	.LCFI11:
+ 586              		.cfi_def_cfa_offset 16
+ 587              		.cfi_offset 3, -16
+ 588              		.cfi_offset 4, -12
+ 589              		.cfi_offset 5, -8
+ 590              		.cfi_offset 14, -4
+ 591 0002 0546     		mov	r5, r0
+ 210:../Core/Src/debug.c ****     USART_SendString(USART1, "[Task] TID=");
+ 592              		.loc 1 210 5 is_stmt 1 view .LVU94
+ 593 0004 064C     		ldr	r4, .L42
+ 594 0006 0749     		ldr	r1, .L42+4
+ 595 0008 2046     		mov	r0, r4
+ 596              	.LVL59:
+ 597              		.loc 1 210 5 is_stmt 0 view .LVU95
+ 598 000a FFF7FEFF 		bl	USART_SendString
+ 599              	.LVL60:
+ 211:../Core/Src/debug.c **** 
+ 212:../Core/Src/debug.c ****     Debug_Print_Number(tid);
+ 600              		.loc 1 212 5 is_stmt 1 view .LVU96
+ 601 000e 2846     		mov	r0, r5
+ 602 0010 FFF7FEFF 		bl	Debug_Print_Number
+ 603              	.LVL61:
+ 213:../Core/Src/debug.c **** 
+ 214:../Core/Src/debug.c ****     USART_SendString(USART1, " -> BLOCKED\r\n");
+ 604              		.loc 1 214 5 view .LVU97
+ 605 0014 0449     		ldr	r1, .L42+8
+ 606 0016 2046     		mov	r0, r4
+ 607 0018 FFF7FEFF 		bl	USART_SendString
+ 608              	.LVL62:
+ 215:../Core/Src/debug.c **** }
+ 609              		.loc 1 215 1 is_stmt 0 view .LVU98
+ARM GAS  /tmp/ccyb8xSm.s 			page 16
+
+
+ 610 001c 38BD     		pop	{r3, r4, r5, pc}
+ 611              	.LVL63:
+ 612              	.L43:
+ 613              		.loc 1 215 1 view .LVU99
+ 614 001e 00BF     		.align	2
+ 615              	.L42:
+ 616 0020 00380140 		.word	1073821696
+ 617 0024 00000000 		.word	.LC5
+ 618 0028 00000000 		.word	.LC9
+ 619              		.cfi_endproc
+ 620              	.LFE74:
+ 622              		.section	.rodata.Debug_Task_Ready.str1.4,"aMS",%progbits,1
+ 623              		.align	2
+ 624              	.LC10:
+ 625 0000 202D3E20 		.ascii	" -> READY\015\012\000"
+ 625      52454144 
+ 625      590D0A00 
+ 626              		.section	.text.Debug_Task_Ready,"ax",%progbits
+ 627              		.align	1
+ 628              		.global	Debug_Task_Ready
+ 629              		.syntax unified
+ 630              		.thumb
+ 631              		.thumb_func
+ 633              	Debug_Task_Ready:
+ 634              	.LVL64:
+ 635              	.LFB75:
+ 216:../Core/Src/debug.c **** 
+ 217:../Core/Src/debug.c **** void Debug_Task_Ready(uint32_t tid)
+ 218:../Core/Src/debug.c **** {
+ 636              		.loc 1 218 1 is_stmt 1 view -0
+ 637              		.cfi_startproc
+ 638              		@ args = 0, pretend = 0, frame = 0
+ 639              		@ frame_needed = 0, uses_anonymous_args = 0
+ 640              		.loc 1 218 1 is_stmt 0 view .LVU101
+ 641 0000 38B5     		push	{r3, r4, r5, lr}
+ 642              	.LCFI12:
+ 643              		.cfi_def_cfa_offset 16
+ 644              		.cfi_offset 3, -16
+ 645              		.cfi_offset 4, -12
+ 646              		.cfi_offset 5, -8
+ 647              		.cfi_offset 14, -4
+ 648 0002 0546     		mov	r5, r0
+ 219:../Core/Src/debug.c ****     USART_SendString(USART1, "[Task] TID=");
+ 649              		.loc 1 219 5 is_stmt 1 view .LVU102
+ 650 0004 064C     		ldr	r4, .L46
+ 651 0006 0749     		ldr	r1, .L46+4
+ 652 0008 2046     		mov	r0, r4
+ 653              	.LVL65:
+ 654              		.loc 1 219 5 is_stmt 0 view .LVU103
+ 655 000a FFF7FEFF 		bl	USART_SendString
+ 656              	.LVL66:
+ 220:../Core/Src/debug.c **** 
+ 221:../Core/Src/debug.c ****     Debug_Print_Number(tid);
+ 657              		.loc 1 221 5 is_stmt 1 view .LVU104
+ 658 000e 2846     		mov	r0, r5
+ 659 0010 FFF7FEFF 		bl	Debug_Print_Number
+ 660              	.LVL67:
+ARM GAS  /tmp/ccyb8xSm.s 			page 17
+
+
+ 222:../Core/Src/debug.c **** 
+ 223:../Core/Src/debug.c ****     USART_SendString(USART1, " -> READY\r\n");
+ 661              		.loc 1 223 5 view .LVU105
+ 662 0014 0449     		ldr	r1, .L46+8
+ 663 0016 2046     		mov	r0, r4
+ 664 0018 FFF7FEFF 		bl	USART_SendString
+ 665              	.LVL68:
+ 224:../Core/Src/debug.c **** }
+ 666              		.loc 1 224 1 is_stmt 0 view .LVU106
+ 667 001c 38BD     		pop	{r3, r4, r5, pc}
+ 668              	.LVL69:
+ 669              	.L47:
+ 670              		.loc 1 224 1 view .LVU107
+ 671 001e 00BF     		.align	2
+ 672              	.L46:
+ 673 0020 00380140 		.word	1073821696
+ 674 0024 00000000 		.word	.LC5
+ 675 0028 00000000 		.word	.LC10
+ 676              		.cfi_endproc
+ 677              	.LFE75:
+ 679              		.section	.rodata.Debug_Edge_Null_Task.str1.4,"aMS",%progbits,1
+ 680              		.align	2
+ 681              	.LC11:
+ 682 0000 5B456467 		.ascii	"[Edge Case] \000"
+ 682      65204361 
+ 682      73655D20 
+ 682      00
+ 683 000d 000000   		.align	2
+ 684              	.LC12:
+ 685 0010 2072656A 		.ascii	" rejected: NULL task\015\012\000"
+ 685      65637465 
+ 685      643A204E 
+ 685      554C4C20 
+ 685      7461736B 
+ 686              		.section	.text.Debug_Edge_Null_Task,"ax",%progbits
+ 687              		.align	1
+ 688              		.global	Debug_Edge_Null_Task
+ 689              		.syntax unified
+ 690              		.thumb
+ 691              		.thumb_func
+ 693              	Debug_Edge_Null_Task:
+ 694              	.LVL70:
+ 695              	.LFB76:
+ 225:../Core/Src/debug.c **** 
+ 226:../Core/Src/debug.c **** void Debug_Edge_Null_Task(const char *operation)
+ 227:../Core/Src/debug.c **** {
+ 696              		.loc 1 227 1 is_stmt 1 view -0
+ 697              		.cfi_startproc
+ 698              		@ args = 0, pretend = 0, frame = 0
+ 699              		@ frame_needed = 0, uses_anonymous_args = 0
+ 700              		.loc 1 227 1 is_stmt 0 view .LVU109
+ 701 0000 38B5     		push	{r3, r4, r5, lr}
+ 702              	.LCFI13:
+ 703              		.cfi_def_cfa_offset 16
+ 704              		.cfi_offset 3, -16
+ 705              		.cfi_offset 4, -12
+ 706              		.cfi_offset 5, -8
+ARM GAS  /tmp/ccyb8xSm.s 			page 18
+
+
+ 707              		.cfi_offset 14, -4
+ 708 0002 0546     		mov	r5, r0
+ 228:../Core/Src/debug.c ****     USART_SendString(USART1, "[Edge Case] ");
+ 709              		.loc 1 228 5 is_stmt 1 view .LVU110
+ 710 0004 064C     		ldr	r4, .L50
+ 711 0006 0749     		ldr	r1, .L50+4
+ 712 0008 2046     		mov	r0, r4
+ 713              	.LVL71:
+ 714              		.loc 1 228 5 is_stmt 0 view .LVU111
+ 715 000a FFF7FEFF 		bl	USART_SendString
+ 716              	.LVL72:
+ 229:../Core/Src/debug.c **** 
+ 230:../Core/Src/debug.c ****     USART_SendString(USART1, (char *)operation);
+ 717              		.loc 1 230 5 is_stmt 1 view .LVU112
+ 718 000e 2946     		mov	r1, r5
+ 719 0010 2046     		mov	r0, r4
+ 720 0012 FFF7FEFF 		bl	USART_SendString
+ 721              	.LVL73:
+ 231:../Core/Src/debug.c **** 
+ 232:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 722              		.loc 1 232 5 view .LVU113
+ 723 0016 0449     		ldr	r1, .L50+8
+ 724 0018 2046     		mov	r0, r4
+ 725 001a FFF7FEFF 		bl	USART_SendString
+ 726              	.LVL74:
+ 233:../Core/Src/debug.c ****                      " rejected: NULL task\r\n");
+ 234:../Core/Src/debug.c **** }
+ 727              		.loc 1 234 1 is_stmt 0 view .LVU114
+ 728 001e 38BD     		pop	{r3, r4, r5, pc}
+ 729              	.LVL75:
+ 730              	.L51:
+ 731              		.loc 1 234 1 view .LVU115
+ 732              		.align	2
+ 733              	.L50:
+ 734 0020 00380140 		.word	1073821696
+ 735 0024 00000000 		.word	.LC11
+ 736 0028 10000000 		.word	.LC12
+ 737              		.cfi_endproc
+ 738              	.LFE76:
+ 740              		.section	.rodata.Debug_Edge_Idle_Task.str1.4,"aMS",%progbits,1
+ 741              		.align	2
+ 742              	.LC13:
+ 743 0000 2072656A 		.ascii	" rejected: TCB0/Idle task cannot be used\015\012\000"
+ 743      65637465 
+ 743      643A2054 
+ 743      4342302F 
+ 743      49646C65 
+ 744              		.section	.text.Debug_Edge_Idle_Task,"ax",%progbits
+ 745              		.align	1
+ 746              		.global	Debug_Edge_Idle_Task
+ 747              		.syntax unified
+ 748              		.thumb
+ 749              		.thumb_func
+ 751              	Debug_Edge_Idle_Task:
+ 752              	.LVL76:
+ 753              	.LFB77:
+ 235:../Core/Src/debug.c **** 
+ARM GAS  /tmp/ccyb8xSm.s 			page 19
+
+
+ 236:../Core/Src/debug.c **** void Debug_Edge_Idle_Task(const char *operation)
+ 237:../Core/Src/debug.c **** {
+ 754              		.loc 1 237 1 is_stmt 1 view -0
+ 755              		.cfi_startproc
+ 756              		@ args = 0, pretend = 0, frame = 0
+ 757              		@ frame_needed = 0, uses_anonymous_args = 0
+ 758              		.loc 1 237 1 is_stmt 0 view .LVU117
+ 759 0000 38B5     		push	{r3, r4, r5, lr}
+ 760              	.LCFI14:
+ 761              		.cfi_def_cfa_offset 16
+ 762              		.cfi_offset 3, -16
+ 763              		.cfi_offset 4, -12
+ 764              		.cfi_offset 5, -8
+ 765              		.cfi_offset 14, -4
+ 766 0002 0546     		mov	r5, r0
+ 238:../Core/Src/debug.c ****     USART_SendString(USART1, "[Edge Case] ");
+ 767              		.loc 1 238 5 is_stmt 1 view .LVU118
+ 768 0004 064C     		ldr	r4, .L54
+ 769 0006 0749     		ldr	r1, .L54+4
+ 770 0008 2046     		mov	r0, r4
+ 771              	.LVL77:
+ 772              		.loc 1 238 5 is_stmt 0 view .LVU119
+ 773 000a FFF7FEFF 		bl	USART_SendString
+ 774              	.LVL78:
+ 239:../Core/Src/debug.c **** 
+ 240:../Core/Src/debug.c ****     USART_SendString(USART1, (char *)operation);
+ 775              		.loc 1 240 5 is_stmt 1 view .LVU120
+ 776 000e 2946     		mov	r1, r5
+ 777 0010 2046     		mov	r0, r4
+ 778 0012 FFF7FEFF 		bl	USART_SendString
+ 779              	.LVL79:
+ 241:../Core/Src/debug.c **** 
+ 242:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 780              		.loc 1 242 5 view .LVU121
+ 781 0016 0449     		ldr	r1, .L54+8
+ 782 0018 2046     		mov	r0, r4
+ 783 001a FFF7FEFF 		bl	USART_SendString
+ 784              	.LVL80:
+ 243:../Core/Src/debug.c ****                      " rejected: TCB0/Idle task cannot be used\r\n");
+ 244:../Core/Src/debug.c **** }
+ 785              		.loc 1 244 1 is_stmt 0 view .LVU122
+ 786 001e 38BD     		pop	{r3, r4, r5, pc}
+ 787              	.LVL81:
+ 788              	.L55:
+ 789              		.loc 1 244 1 view .LVU123
+ 790              		.align	2
+ 791              	.L54:
+ 792 0020 00380140 		.word	1073821696
+ 793 0024 00000000 		.word	.LC11
+ 794 0028 00000000 		.word	.LC13
+ 795              		.cfi_endproc
+ 796              	.LFE77:
+ 798              		.section	.rodata.Debug_Edge_Not_Initialized.str1.4,"aMS",%progbits,1
+ 799              		.align	2
+ 800              	.LC14:
+ 801 0000 2072656A 		.ascii	" rejected: task system not initialized\015\012\000"
+ 801      65637465 
+ARM GAS  /tmp/ccyb8xSm.s 			page 20
+
+
+ 801      643A2074 
+ 801      61736B20 
+ 801      73797374 
+ 802              		.section	.text.Debug_Edge_Not_Initialized,"ax",%progbits
+ 803              		.align	1
+ 804              		.global	Debug_Edge_Not_Initialized
+ 805              		.syntax unified
+ 806              		.thumb
+ 807              		.thumb_func
+ 809              	Debug_Edge_Not_Initialized:
+ 810              	.LVL82:
+ 811              	.LFB78:
+ 245:../Core/Src/debug.c **** 
+ 246:../Core/Src/debug.c **** void Debug_Edge_Not_Initialized(const char *operation)
+ 247:../Core/Src/debug.c **** {
+ 812              		.loc 1 247 1 is_stmt 1 view -0
+ 813              		.cfi_startproc
+ 814              		@ args = 0, pretend = 0, frame = 0
+ 815              		@ frame_needed = 0, uses_anonymous_args = 0
+ 816              		.loc 1 247 1 is_stmt 0 view .LVU125
+ 817 0000 38B5     		push	{r3, r4, r5, lr}
+ 818              	.LCFI15:
+ 819              		.cfi_def_cfa_offset 16
+ 820              		.cfi_offset 3, -16
+ 821              		.cfi_offset 4, -12
+ 822              		.cfi_offset 5, -8
+ 823              		.cfi_offset 14, -4
+ 824 0002 0546     		mov	r5, r0
+ 248:../Core/Src/debug.c ****     USART_SendString(USART1, "[Edge Case] ");
+ 825              		.loc 1 248 5 is_stmt 1 view .LVU126
+ 826 0004 064C     		ldr	r4, .L58
+ 827 0006 0749     		ldr	r1, .L58+4
+ 828 0008 2046     		mov	r0, r4
+ 829              	.LVL83:
+ 830              		.loc 1 248 5 is_stmt 0 view .LVU127
+ 831 000a FFF7FEFF 		bl	USART_SendString
+ 832              	.LVL84:
+ 249:../Core/Src/debug.c **** 
+ 250:../Core/Src/debug.c ****     USART_SendString(USART1, (char *)operation);
+ 833              		.loc 1 250 5 is_stmt 1 view .LVU128
+ 834 000e 2946     		mov	r1, r5
+ 835 0010 2046     		mov	r0, r4
+ 836 0012 FFF7FEFF 		bl	USART_SendString
+ 837              	.LVL85:
+ 251:../Core/Src/debug.c **** 
+ 252:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 838              		.loc 1 252 5 view .LVU129
+ 839 0016 0449     		ldr	r1, .L58+8
+ 840 0018 2046     		mov	r0, r4
+ 841 001a FFF7FEFF 		bl	USART_SendString
+ 842              	.LVL86:
+ 253:../Core/Src/debug.c ****                      " rejected: task system not initialized\r\n");
+ 254:../Core/Src/debug.c **** }
+ 843              		.loc 1 254 1 is_stmt 0 view .LVU130
+ 844 001e 38BD     		pop	{r3, r4, r5, pc}
+ 845              	.LVL87:
+ 846              	.L59:
+ARM GAS  /tmp/ccyb8xSm.s 			page 21
+
+
+ 847              		.loc 1 254 1 view .LVU131
+ 848              		.align	2
+ 849              	.L58:
+ 850 0020 00380140 		.word	1073821696
+ 851 0024 00000000 		.word	.LC11
+ 852 0028 00000000 		.word	.LC14
+ 853              		.cfi_endproc
+ 854              	.LFE78:
+ 856              		.section	.rodata.Debug_Edge_No_Tasks.str1.4,"aMS",%progbits,1
+ 857              		.align	2
+ 858              	.LC15:
+ 859 0000 2072656A 		.ascii	" rejected: no user tasks available\015\012\000"
+ 859      65637465 
+ 859      643A206E 
+ 859      6F207573 
+ 859      65722074 
+ 860              		.section	.text.Debug_Edge_No_Tasks,"ax",%progbits
+ 861              		.align	1
+ 862              		.global	Debug_Edge_No_Tasks
+ 863              		.syntax unified
+ 864              		.thumb
+ 865              		.thumb_func
+ 867              	Debug_Edge_No_Tasks:
+ 868              	.LVL88:
+ 869              	.LFB79:
+ 255:../Core/Src/debug.c **** 
+ 256:../Core/Src/debug.c **** void Debug_Edge_No_Tasks(const char *operation)
+ 257:../Core/Src/debug.c **** {
+ 870              		.loc 1 257 1 is_stmt 1 view -0
+ 871              		.cfi_startproc
+ 872              		@ args = 0, pretend = 0, frame = 0
+ 873              		@ frame_needed = 0, uses_anonymous_args = 0
+ 874              		.loc 1 257 1 is_stmt 0 view .LVU133
+ 875 0000 38B5     		push	{r3, r4, r5, lr}
+ 876              	.LCFI16:
+ 877              		.cfi_def_cfa_offset 16
+ 878              		.cfi_offset 3, -16
+ 879              		.cfi_offset 4, -12
+ 880              		.cfi_offset 5, -8
+ 881              		.cfi_offset 14, -4
+ 882 0002 0546     		mov	r5, r0
+ 258:../Core/Src/debug.c ****     USART_SendString(USART1, "[Edge Case] ");
+ 883              		.loc 1 258 5 is_stmt 1 view .LVU134
+ 884 0004 064C     		ldr	r4, .L62
+ 885 0006 0749     		ldr	r1, .L62+4
+ 886 0008 2046     		mov	r0, r4
+ 887              	.LVL89:
+ 888              		.loc 1 258 5 is_stmt 0 view .LVU135
+ 889 000a FFF7FEFF 		bl	USART_SendString
+ 890              	.LVL90:
+ 259:../Core/Src/debug.c **** 
+ 260:../Core/Src/debug.c ****     USART_SendString(USART1, (char *)operation);
+ 891              		.loc 1 260 5 is_stmt 1 view .LVU136
+ 892 000e 2946     		mov	r1, r5
+ 893 0010 2046     		mov	r0, r4
+ 894 0012 FFF7FEFF 		bl	USART_SendString
+ 895              	.LVL91:
+ARM GAS  /tmp/ccyb8xSm.s 			page 22
+
+
+ 261:../Core/Src/debug.c **** 
+ 262:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 896              		.loc 1 262 5 view .LVU137
+ 897 0016 0449     		ldr	r1, .L62+8
+ 898 0018 2046     		mov	r0, r4
+ 899 001a FFF7FEFF 		bl	USART_SendString
+ 900              	.LVL92:
+ 263:../Core/Src/debug.c ****                      " rejected: no user tasks available\r\n");
+ 264:../Core/Src/debug.c **** }
+ 901              		.loc 1 264 1 is_stmt 0 view .LVU138
+ 902 001e 38BD     		pop	{r3, r4, r5, pc}
+ 903              	.LVL93:
+ 904              	.L63:
+ 905              		.loc 1 264 1 view .LVU139
+ 906              		.align	2
+ 907              	.L62:
+ 908 0020 00380140 		.word	1073821696
+ 909 0024 00000000 		.word	.LC11
+ 910 0028 00000000 		.word	.LC15
+ 911              		.cfi_endproc
+ 912              	.LFE79:
+ 914              		.section	.rodata.Debug_Edge_Invalid_Resume.str1.4,"aMS",%progbits,1
+ 915              		.align	2
+ 916              	.LC16:
+ 917 0000 5B456467 		.ascii	"[Edge Case] Resume rejected: TID=\000"
+ 917      65204361 
+ 917      73655D20 
+ 917      52657375 
+ 917      6D652072 
+ 918 0022 0000     		.align	2
+ 919              	.LC17:
+ 920 0024 20697320 		.ascii	" is not BLOCKED\015\012\000"
+ 920      6E6F7420 
+ 920      424C4F43 
+ 920      4B45440D 
+ 920      0A00
+ 921              		.section	.text.Debug_Edge_Invalid_Resume,"ax",%progbits
+ 922              		.align	1
+ 923              		.global	Debug_Edge_Invalid_Resume
+ 924              		.syntax unified
+ 925              		.thumb
+ 926              		.thumb_func
+ 928              	Debug_Edge_Invalid_Resume:
+ 929              	.LVL94:
+ 930              	.LFB80:
+ 265:../Core/Src/debug.c **** 
+ 266:../Core/Src/debug.c **** void Debug_Edge_Invalid_Resume(uint32_t tid)
+ 267:../Core/Src/debug.c **** {
+ 931              		.loc 1 267 1 is_stmt 1 view -0
+ 932              		.cfi_startproc
+ 933              		@ args = 0, pretend = 0, frame = 0
+ 934              		@ frame_needed = 0, uses_anonymous_args = 0
+ 935              		.loc 1 267 1 is_stmt 0 view .LVU141
+ 936 0000 38B5     		push	{r3, r4, r5, lr}
+ 937              	.LCFI17:
+ 938              		.cfi_def_cfa_offset 16
+ 939              		.cfi_offset 3, -16
+ARM GAS  /tmp/ccyb8xSm.s 			page 23
+
+
+ 940              		.cfi_offset 4, -12
+ 941              		.cfi_offset 5, -8
+ 942              		.cfi_offset 14, -4
+ 943 0002 0546     		mov	r5, r0
+ 268:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 944              		.loc 1 268 5 is_stmt 1 view .LVU142
+ 945 0004 064C     		ldr	r4, .L66
+ 946 0006 0749     		ldr	r1, .L66+4
+ 947 0008 2046     		mov	r0, r4
+ 948              	.LVL95:
+ 949              		.loc 1 268 5 is_stmt 0 view .LVU143
+ 950 000a FFF7FEFF 		bl	USART_SendString
+ 951              	.LVL96:
+ 269:../Core/Src/debug.c ****                      "[Edge Case] Resume rejected: TID=");
+ 270:../Core/Src/debug.c **** 
+ 271:../Core/Src/debug.c ****     Debug_Print_Number(tid);
+ 952              		.loc 1 271 5 is_stmt 1 view .LVU144
+ 953 000e 2846     		mov	r0, r5
+ 954 0010 FFF7FEFF 		bl	Debug_Print_Number
+ 955              	.LVL97:
+ 272:../Core/Src/debug.c **** 
+ 273:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 956              		.loc 1 273 5 view .LVU145
+ 957 0014 0449     		ldr	r1, .L66+8
+ 958 0016 2046     		mov	r0, r4
+ 959 0018 FFF7FEFF 		bl	USART_SendString
+ 960              	.LVL98:
+ 274:../Core/Src/debug.c ****                      " is not BLOCKED\r\n");
+ 275:../Core/Src/debug.c **** }
+ 961              		.loc 1 275 1 is_stmt 0 view .LVU146
+ 962 001c 38BD     		pop	{r3, r4, r5, pc}
+ 963              	.LVL99:
+ 964              	.L67:
+ 965              		.loc 1 275 1 view .LVU147
+ 966 001e 00BF     		.align	2
+ 967              	.L66:
+ 968 0020 00380140 		.word	1073821696
+ 969 0024 00000000 		.word	.LC16
+ 970 0028 24000000 		.word	.LC17
+ 971              		.cfi_endproc
+ 972              	.LFE80:
+ 974              		.section	.rodata.Debug_Edge_Invalid_Allocation.str1.4,"aMS",%progbits,1
+ 975              		.align	2
+ 976              	.LC18:
+ 977 0000 5B456467 		.ascii	"[Edge Case] Task creation rejected: no free task sl"
+ 977      65204361 
+ 977      73655D20 
+ 977      5461736B 
+ 977      20637265 
+ 978 0033 6F740D0A 		.ascii	"ot\015\012\000"
+ 978      00
+ 979              		.section	.text.Debug_Edge_Invalid_Allocation,"ax",%progbits
+ 980              		.align	1
+ 981              		.global	Debug_Edge_Invalid_Allocation
+ 982              		.syntax unified
+ 983              		.thumb
+ 984              		.thumb_func
+ARM GAS  /tmp/ccyb8xSm.s 			page 24
+
+
+ 986              	Debug_Edge_Invalid_Allocation:
+ 987              	.LFB81:
+ 276:../Core/Src/debug.c **** 
+ 277:../Core/Src/debug.c **** void Debug_Edge_Invalid_Allocation(void)
+ 278:../Core/Src/debug.c **** {
+ 988              		.loc 1 278 1 is_stmt 1 view -0
+ 989              		.cfi_startproc
+ 990              		@ args = 0, pretend = 0, frame = 0
+ 991              		@ frame_needed = 0, uses_anonymous_args = 0
+ 992 0000 08B5     		push	{r3, lr}
+ 993              	.LCFI18:
+ 994              		.cfi_def_cfa_offset 8
+ 995              		.cfi_offset 3, -8
+ 996              		.cfi_offset 14, -4
+ 279:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 997              		.loc 1 279 5 view .LVU149
+ 998 0002 0249     		ldr	r1, .L70
+ 999 0004 0248     		ldr	r0, .L70+4
+ 1000 0006 FFF7FEFF 		bl	USART_SendString
+ 1001              	.LVL100:
+ 280:../Core/Src/debug.c ****                      "[Edge Case] Task creation rejected: "
+ 281:../Core/Src/debug.c ****                      "no free task slot\r\n");
+ 282:../Core/Src/debug.c **** }
+ 1002              		.loc 1 282 1 is_stmt 0 view .LVU150
+ 1003 000a 08BD     		pop	{r3, pc}
+ 1004              	.L71:
+ 1005              		.align	2
+ 1006              	.L70:
+ 1007 000c 00000000 		.word	.LC18
+ 1008 0010 00380140 		.word	1073821696
+ 1009              		.cfi_endproc
+ 1010              	.LFE81:
+ 1012              		.section	.rodata.Debug_Scheduler_Null.str1.4,"aMS",%progbits,1
+ 1013              		.align	2
+ 1014              	.LC19:
+ 1015 0000 5B536368 		.ascii	"[Scheduler] No task selected\015\012\000"
+ 1015      6564756C 
+ 1015      65725D20 
+ 1015      4E6F2074 
+ 1015      61736B20 
+ 1016              		.section	.text.Debug_Scheduler_Null,"ax",%progbits
+ 1017              		.align	1
+ 1018              		.global	Debug_Scheduler_Null
+ 1019              		.syntax unified
+ 1020              		.thumb
+ 1021              		.thumb_func
+ 1023              	Debug_Scheduler_Null:
+ 1024              	.LFB82:
+ 283:../Core/Src/debug.c **** 
+ 284:../Core/Src/debug.c **** void Debug_Scheduler_Null(void)
+ 285:../Core/Src/debug.c **** {
+ 1025              		.loc 1 285 1 is_stmt 1 view -0
+ 1026              		.cfi_startproc
+ 1027              		@ args = 0, pretend = 0, frame = 0
+ 1028              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1029 0000 08B5     		push	{r3, lr}
+ 1030              	.LCFI19:
+ARM GAS  /tmp/ccyb8xSm.s 			page 25
+
+
+ 1031              		.cfi_def_cfa_offset 8
+ 1032              		.cfi_offset 3, -8
+ 1033              		.cfi_offset 14, -4
+ 286:../Core/Src/debug.c ****     USART_SendString(USART1,
+ 1034              		.loc 1 286 5 view .LVU152
+ 1035 0002 0249     		ldr	r1, .L74
+ 1036 0004 0248     		ldr	r0, .L74+4
+ 1037 0006 FFF7FEFF 		bl	USART_SendString
+ 1038              	.LVL101:
+ 287:../Core/Src/debug.c ****                      "[Scheduler] No task selected\r\n");
+ 288:../Core/Src/debug.c **** }
+ 1039              		.loc 1 288 1 is_stmt 0 view .LVU153
+ 1040 000a 08BD     		pop	{r3, pc}
+ 1041              	.L75:
+ 1042              		.align	2
+ 1043              	.L74:
+ 1044 000c 00000000 		.word	.LC19
+ 1045 0010 00380140 		.word	1073821696
+ 1046              		.cfi_endproc
+ 1047              	.LFE82:
+ 1049              		.text
+ 1050              	.Letext0:
+ 1051              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1052              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1053              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 1054              		.file 5 "../Drivers/Inc/uart.h"
+ARM GAS  /tmp/ccyb8xSm.s 			page 26
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 debug.c
+     /tmp/ccyb8xSm.s:19     .text.Debug_Print_Number:00000000 $t
+     /tmp/ccyb8xSm.s:24     .text.Debug_Print_Number:00000000 Debug_Print_Number
+     /tmp/ccyb8xSm.s:147    .text.Debug_Print_Number:00000074 $d
+     /tmp/ccyb8xSm.s:154    .rodata.Debug_Print_TID_Priority.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:164    .text.Debug_Print_TID_Priority:00000000 $t
+     /tmp/ccyb8xSm.s:169    .text.Debug_Print_TID_Priority:00000000 Debug_Print_TID_Priority
+     /tmp/ccyb8xSm.s:221    .text.Debug_Print_TID_Priority:00000030 $d
+     /tmp/ccyb8xSm.s:229    .text.Debug_Init:00000000 $t
+     /tmp/ccyb8xSm.s:235    .text.Debug_Init:00000000 Debug_Init
+     /tmp/ccyb8xSm.s:248    .text.Debug_Print:00000000 $t
+     /tmp/ccyb8xSm.s:254    .text.Debug_Print:00000000 Debug_Print
+     /tmp/ccyb8xSm.s:279    .text.Debug_Print:0000000c $d
+     /tmp/ccyb8xSm.s:284    .rodata.Debug_Task_Created.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:288    .text.Debug_Task_Created:00000000 $t
+     /tmp/ccyb8xSm.s:294    .text.Debug_Task_Created:00000000 Debug_Task_Created
+     /tmp/ccyb8xSm.s:332    .text.Debug_Task_Created:00000018 $d
+     /tmp/ccyb8xSm.s:338    .rodata.Debug_Task_Scheduled.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:342    .text.Debug_Task_Scheduled:00000000 $t
+     /tmp/ccyb8xSm.s:348    .text.Debug_Task_Scheduled:00000000 Debug_Task_Scheduled
+     /tmp/ccyb8xSm.s:386    .text.Debug_Task_Scheduled:00000018 $d
+     /tmp/ccyb8xSm.s:392    .rodata.Debug_Task_Running.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:399    .text.Debug_Task_Running:00000000 $t
+     /tmp/ccyb8xSm.s:405    .text.Debug_Task_Running:00000000 Debug_Task_Running
+     /tmp/ccyb8xSm.s:445    .text.Debug_Task_Running:00000020 $d
+     /tmp/ccyb8xSm.s:452    .rodata.Debug_Task_Finished.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:456    .text.Debug_Task_Finished:00000000 $t
+     /tmp/ccyb8xSm.s:462    .text.Debug_Task_Finished:00000000 Debug_Task_Finished
+     /tmp/ccyb8xSm.s:502    .text.Debug_Task_Finished:00000020 $d
+     /tmp/ccyb8xSm.s:509    .rodata.Debug_Task_Terminated.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:513    .text.Debug_Task_Terminated:00000000 $t
+     /tmp/ccyb8xSm.s:519    .text.Debug_Task_Terminated:00000000 Debug_Task_Terminated
+     /tmp/ccyb8xSm.s:559    .text.Debug_Task_Terminated:00000020 $d
+     /tmp/ccyb8xSm.s:566    .rodata.Debug_Task_Blocked.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:570    .text.Debug_Task_Blocked:00000000 $t
+     /tmp/ccyb8xSm.s:576    .text.Debug_Task_Blocked:00000000 Debug_Task_Blocked
+     /tmp/ccyb8xSm.s:616    .text.Debug_Task_Blocked:00000020 $d
+     /tmp/ccyb8xSm.s:623    .rodata.Debug_Task_Ready.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:627    .text.Debug_Task_Ready:00000000 $t
+     /tmp/ccyb8xSm.s:633    .text.Debug_Task_Ready:00000000 Debug_Task_Ready
+     /tmp/ccyb8xSm.s:673    .text.Debug_Task_Ready:00000020 $d
+     /tmp/ccyb8xSm.s:680    .rodata.Debug_Edge_Null_Task.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:687    .text.Debug_Edge_Null_Task:00000000 $t
+     /tmp/ccyb8xSm.s:693    .text.Debug_Edge_Null_Task:00000000 Debug_Edge_Null_Task
+     /tmp/ccyb8xSm.s:734    .text.Debug_Edge_Null_Task:00000020 $d
+     /tmp/ccyb8xSm.s:741    .rodata.Debug_Edge_Idle_Task.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:745    .text.Debug_Edge_Idle_Task:00000000 $t
+     /tmp/ccyb8xSm.s:751    .text.Debug_Edge_Idle_Task:00000000 Debug_Edge_Idle_Task
+     /tmp/ccyb8xSm.s:792    .text.Debug_Edge_Idle_Task:00000020 $d
+     /tmp/ccyb8xSm.s:799    .rodata.Debug_Edge_Not_Initialized.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:803    .text.Debug_Edge_Not_Initialized:00000000 $t
+     /tmp/ccyb8xSm.s:809    .text.Debug_Edge_Not_Initialized:00000000 Debug_Edge_Not_Initialized
+     /tmp/ccyb8xSm.s:850    .text.Debug_Edge_Not_Initialized:00000020 $d
+     /tmp/ccyb8xSm.s:857    .rodata.Debug_Edge_No_Tasks.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:861    .text.Debug_Edge_No_Tasks:00000000 $t
+     /tmp/ccyb8xSm.s:867    .text.Debug_Edge_No_Tasks:00000000 Debug_Edge_No_Tasks
+ARM GAS  /tmp/ccyb8xSm.s 			page 27
+
+
+     /tmp/ccyb8xSm.s:908    .text.Debug_Edge_No_Tasks:00000020 $d
+     /tmp/ccyb8xSm.s:915    .rodata.Debug_Edge_Invalid_Resume.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:922    .text.Debug_Edge_Invalid_Resume:00000000 $t
+     /tmp/ccyb8xSm.s:928    .text.Debug_Edge_Invalid_Resume:00000000 Debug_Edge_Invalid_Resume
+     /tmp/ccyb8xSm.s:968    .text.Debug_Edge_Invalid_Resume:00000020 $d
+     /tmp/ccyb8xSm.s:975    .rodata.Debug_Edge_Invalid_Allocation.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:980    .text.Debug_Edge_Invalid_Allocation:00000000 $t
+     /tmp/ccyb8xSm.s:986    .text.Debug_Edge_Invalid_Allocation:00000000 Debug_Edge_Invalid_Allocation
+     /tmp/ccyb8xSm.s:1007   .text.Debug_Edge_Invalid_Allocation:0000000c $d
+     /tmp/ccyb8xSm.s:1013   .rodata.Debug_Scheduler_Null.str1.4:00000000 $d
+     /tmp/ccyb8xSm.s:1017   .text.Debug_Scheduler_Null:00000000 $t
+     /tmp/ccyb8xSm.s:1023   .text.Debug_Scheduler_Null:00000000 Debug_Scheduler_Null
+     /tmp/ccyb8xSm.s:1044   .text.Debug_Scheduler_Null:0000000c $d
+
+UNDEFINED SYMBOLS
+USART_SendString

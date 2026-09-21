@@ -9,7 +9,10 @@
 #ifndef DEMO_TASKS_H
 #define DEMO_TASKS_H
 
-void LED_ON_TASK(void);
-void LED_BLINK_TASK(void);
+void TASK_A(void);
+void TASK_B(void);
+void TASK_C(void);
+void TASK_D(void);
+void TASK_E(void);
 
-#endif /* DEMO_TASKS_H */
+#endif

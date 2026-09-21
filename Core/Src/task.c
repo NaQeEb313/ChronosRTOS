@@ -12,6 +12,7 @@
 #include "config.h"
 #include "idle.h"
 #include "memory.h"
+#include "debug.h"
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -25,6 +26,7 @@ static TCB *prev = NULL;
 static TCB *next = NULL;
 static TCB *tail = NULL;
 static bool init = 0;
+
 typedef struct Free_Stack {
 
   int8_t top;
@@ -33,17 +35,23 @@ typedef struct Free_Stack {
 
 static Free_Stack free_slot;
 
-void Free_Stack_Init(void) { free_slot.top = -1; }
+void Free_Stack_Init(void)
+{
+  free_slot.top = -1;
+}
 
-void Free_Stack_Push(int8_t free) {
-
+void Free_Stack_Push(int8_t free)
+{
   if (free_slot.top < 5) {
     free_slot.top++;
     free_slot.arr[free_slot.top] = free;
-  } else
+  } else {
     return;
+  }
 }
-int8_t Free_Stack_Empty() {
+
+int8_t Free_Stack_Empty()
+{
   if (free_slot.top == -1) {
     return 1;
   } else {
@@ -51,85 +59,112 @@ int8_t Free_Stack_Empty() {
   }
 }
 
-int8_t Free_Stack_Top() {
+int8_t Free_Stack_Top()
+{
   if (free_slot.top >= 0)
     return free_slot.arr[free_slot.top];
   else
     return -1;
 }
 
-void Free_Stack_Pop(void) {
+void Free_Stack_Pop(void)
+{
   if (free_slot.top >= 0) {
     free_slot.top--;
-  } else
+  } else {
     return;
+  }
 }
 
-void Task_Exit_Handler(void) { Task_Terminate(curr); }
-void Task_Set_Current(TCB *task) { curr = task; }
+void Task_Exit_Handler(void)
+{
+  Task_Terminate(curr);
+}
 
-void Task_Create(TaskFunction task_function, uint8_t priority) {
+void Task_Set_Current(TCB *task)
+{
+  curr = task;
+}
+
+void Task_Create(TaskFunction task_function, uint8_t priority)
+{
   if (Free_Stack_Empty() || !init || task_function == NULL) {
+
+    if (Free_Stack_Empty())
+      Debug_Edge_Invalid_Allocation();
+
+    if (!init)
+      Debug_Edge_Not_Initialized("Task_Create");
+
+    if (task_function == NULL)
+      Debug_Edge_Null_Task("Task_Create");
+
     return;
-  } else {
+  }
+  else {
+
     task_count++;
+
     int8_t slot = Free_Stack_Top();
+
     TCB *tcb = &tcb_pool[slot];
-    uint32_t *stack_base = Mem_Stack_Base(&slot); // THe base of the Task Stack
+
+    uint32_t *stack_base = Mem_Stack_Base(&slot);
+
     uint32_t *sp =
-        stack_base + Mem_Stack_Size_Words(); // The top of the Task Stack it
-                                             // will grow downwards
-    sp--;                                    // push in down growing stack so -
-    *sp = 0x01000000; // set xpsr which has 32 bit , NZCV and other , 24th bit
-                      // is T bit which is T bit , Thumb bit use to set the
-                      // instruction as thumb 2 cause m3 doesnt support arm
+        stack_base + Mem_Stack_Size_Words();
+
     sp--;
-    *sp = (uint32_t)task_function; // set PC
+    *sp = 0x01000000;
+
+    sp--;
+    *sp = (uint32_t)task_function;
+
     sp--;
 
     /* LR: return address used if the task function returns */
     *sp = (uint32_t)Task_Exit_Handler;
 
     --sp;
-    *sp = 0x00000000; // R12
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R3
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R2
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R1
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R0
+    *sp = 0x00000000;
 
     /* Software saved frame */
 
     --sp;
-    *sp = 0x00000000; // R11
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R10
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R9
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R8
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R7
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R6
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R5
+    *sp = 0x00000000;
 
     --sp;
-    *sp = 0x00000000; // R4
+    *sp = 0x00000000;
 
     tcb->task_priority = priority;
     tcb->task_function = task_function;
@@ -137,21 +172,23 @@ void Task_Create(TaskFunction task_function, uint8_t priority) {
     tcb->sp = sp;
     tcb->task_state = TASK_READY;
 
-    // logic
-
     tail->next = tcb;
     tcb->next = TCB0;
     tail = tcb;
 
     Free_Stack_Pop();
+
+    Debug_Task_Created(tcb->tid, tcb->task_priority);
   }
 }
 
-void Task_Init(void) {
-  // initialise the task management
+void Task_Init(void)
+{
   init = 1;
   task_count = 0;
+
   TCB0->next = TCB0;
+
   prev = TCB0;
   curr = TCB0;
   next = TCB0;
@@ -166,12 +203,21 @@ void Task_Init(void) {
 
   for (int8_t i = 5; i > 0; i--)
     Free_Stack_Push(i);
-
-  // initialise the task
 }
 
-void Task_Terminate(TCB *temp) {
+void Task_Terminate(TCB *temp)
+{
   if (temp == NULL || temp == TCB0 || !init) {
+
+    if (temp == NULL)
+      Debug_Edge_Null_Task("Task_Terminate");
+
+    if (temp == TCB0)
+      Debug_Edge_Idle_Task("Task_Terminate");
+
+    if (!init)
+      Debug_Edge_Not_Initialized("Task_Terminate");
+
     return;
   }
 
@@ -208,15 +254,31 @@ void Task_Terminate(TCB *temp) {
     }
 
     temp->task_state = TASK_TERMINATED;
+
+    Debug_Task_Terminated(temp->tid);
+
     task_count--;
 
-  } else {
+  }
+  else {
+    Debug_Edge_No_Tasks("Task_Terminate");
     return;
   }
 }
 
-void Task_Suspend(TCB *temp) {
+void Task_Suspend(TCB *temp)
+{
   if (temp == NULL || temp == TCB0 || !init) {
+
+    if (temp == NULL)
+      Debug_Edge_Null_Task("Task_Suspend");
+
+    if (temp == TCB0)
+      Debug_Edge_Idle_Task("Task_Suspend");
+
+    if (!init)
+      Debug_Edge_Not_Initialized("Task_Suspend");
+
     return;
   }
 
@@ -252,32 +314,63 @@ void Task_Suspend(TCB *temp) {
 
     temp->task_state = TASK_BLOCKED;
 
-  } else {
+    Debug_Task_Blocked(temp->tid);
+
+  }
+  else {
+    Debug_Edge_No_Tasks("Task_Suspend");
     return;
   }
 }
 
-void Task_Resume(TCB *temp) {
+void Task_Resume(TCB *temp)
+{
   if (temp == NULL || temp == TCB0 || !init) {
+
+    if (temp == NULL)
+      Debug_Edge_Null_Task("Task_Resume");
+
+    if (temp == TCB0)
+      Debug_Edge_Idle_Task("Task_Resume");
+
+    if (!init)
+      Debug_Edge_Not_Initialized("Task_Resume");
+
     return;
   }
 
   if (temp->task_state != TASK_BLOCKED) {
+    Debug_Edge_Invalid_Resume(temp->tid);
     return;
   }
 
   if (task_count > 0) {
+
     tail->next = temp;
     temp->next = TCB0;
     tail = temp;
 
     tail->task_state = TASK_READY;
-  } else {
+
+    Debug_Task_Ready(temp->tid);
+  }
+  else {
+    Debug_Edge_No_Tasks("Task_Resume");
     return;
   }
 }
 
-TCB *Task_Get_Current() { return curr; }
+TCB *Task_Get_Current()
+{
+  return curr;
+}
 
-TCB *Task_Get_Idle() { return TCB0; }
-bool Task_Is_Initialized(void) { return init; }
+TCB *Task_Get_Idle()
+{
+  return TCB0;
+}
+
+bool Task_Is_Initialized(void)
+{
+  return init;
+}

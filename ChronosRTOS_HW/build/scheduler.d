@@ -1,6 +1,5 @@
-build/scheduler.o: ../ChronosRTOS/Core/Src/scheduler.c \
- ../ChronosRTOS/Core/Inc/scheduler.h ../ChronosRTOS/Core/Inc/task.h \
- ../ChronosRTOS/Core/Inc/task.h
-../ChronosRTOS/Core/Inc/scheduler.h:
-../ChronosRTOS/Core/Inc/task.h:
-../ChronosRTOS/Core/Inc/task.h:
+build/scheduler.o: ../Core/Src/scheduler.c ../Core/Inc/scheduler.h \
+ ../Core/Inc/task.h ../Core/Inc/task.h
+../Core/Inc/scheduler.h:
+../Core/Inc/task.h:
+../Core/Inc/task.h:

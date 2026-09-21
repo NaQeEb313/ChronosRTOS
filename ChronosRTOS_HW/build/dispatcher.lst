@@ -1,0 +1,111 @@
+ARM GAS  /tmp/cceD77Je.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"dispatcher.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../Core/Src/dispatcher.c"
+  18              		.section	.text.Dispatcher_Run,"ax",%progbits
+  19              		.align	1
+  20              		.global	Dispatcher_Run
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	Dispatcher_Run:
+  26              	.LVL0:
+  27              	.LFB0:
+   1:../Core/Src/dispatcher.c **** #include "dispatcher.h"
+   2:../Core/Src/dispatcher.c **** #include "debug.h"
+   3:../Core/Src/dispatcher.c **** 
+   4:../Core/Src/dispatcher.c **** void Dispatcher_Run(TCB *task)
+   5:../Core/Src/dispatcher.c **** {
+  28              		.loc 1 5 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+   6:../Core/Src/dispatcher.c ****     if (task == NULL || task->task_function == NULL)
+  32              		.loc 1 6 5 view .LVU1
+  33              		.loc 1 6 8 is_stmt 0 view .LVU2
+  34 0000 60B1     		cbz	r0, .L4
+   5:../Core/Src/dispatcher.c ****     if (task == NULL || task->task_function == NULL)
+  35              		.loc 1 5 1 view .LVU3
+  36 0002 10B5     		push	{r4, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 4, -8
+  40              		.cfi_offset 14, -4
+  41 0004 0446     		mov	r4, r0
+  42              		.loc 1 6 29 discriminator 1 view .LVU4
+  43 0006 8369     		ldr	r3, [r0, #24]
+  44              		.loc 1 6 22 discriminator 1 view .LVU5
+  45 0008 3BB1     		cbz	r3, .L1
+   7:../Core/Src/dispatcher.c ****         return;
+   8:../Core/Src/dispatcher.c **** 
+   9:../Core/Src/dispatcher.c ****     Debug_Task_Running(task->tid);
+  46              		.loc 1 9 5 is_stmt 1 view .LVU6
+  47 000a 0068     		ldr	r0, [r0]
+  48              	.LVL1:
+ARM GAS  /tmp/cceD77Je.s 			page 2
+
+
+  49              		.loc 1 9 5 is_stmt 0 view .LVU7
+  50 000c FFF7FEFF 		bl	Debug_Task_Running
+  51              	.LVL2:
+  10:../Core/Src/dispatcher.c **** 
+  11:../Core/Src/dispatcher.c ****     task->task_function();
+  52              		.loc 1 11 5 is_stmt 1 view .LVU8
+  53              		.loc 1 11 9 is_stmt 0 view .LVU9
+  54 0010 A369     		ldr	r3, [r4, #24]
+  55              		.loc 1 11 5 view .LVU10
+  56 0012 9847     		blx	r3
+  57              	.LVL3:
+  12:../Core/Src/dispatcher.c **** 
+  13:../Core/Src/dispatcher.c ****     Debug_Task_Finished(task->tid);
+  58              		.loc 1 13 5 is_stmt 1 view .LVU11
+  59 0014 2068     		ldr	r0, [r4]
+  60 0016 FFF7FEFF 		bl	Debug_Task_Finished
+  61              	.LVL4:
+  62              	.L1:
+  14:../Core/Src/dispatcher.c **** }...
+  63              		.loc 1 14 1 is_stmt 0 view .LVU12
+  64 001a 10BD     		pop	{r4, pc}
+  65              	.LVL5:
+  66              	.L4:
+  67              	.LCFI1:
+  68              		.cfi_def_cfa_offset 0
+  69              		.cfi_restore 4
+  70              		.cfi_restore 14
+  71              		.loc 1 14 1 view .LVU13
+  72 001c 7047     		bx	lr
+  73              		.cfi_endproc
+  74              	.LFE0:
+  76              		.text
+  77              	.Letext0:
+  78              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+  79              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+  80              		.file 4 "../Core/Inc/task.h"
+  81              		.file 5 "../Core/Inc/debug.h"
+ARM GAS  /tmp/cceD77Je.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 dispatcher.c
+     /tmp/cceD77Je.s:19     .text.Dispatcher_Run:00000000 $t
+     /tmp/cceD77Je.s:25     .text.Dispatcher_Run:00000000 Dispatcher_Run
+
+UNDEFINED SYMBOLS
+Debug_Task_Running
+Debug_Task_Finished

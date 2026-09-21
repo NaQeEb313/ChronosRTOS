@@ -1,9 +1,9 @@
-build/memory.o: ../ChronosRTOS/Core/Src/memory.c \
- ../ChronosRTOS/Core/Inc/memory.h ../ChronosRTOS/Core/Inc/config.h \
- ../ChronosRTOS/Core/Inc/error.h ../ChronosRTOS/Core/Inc/types.h \
- ../ChronosRTOS/Core/Inc/error.h
-../ChronosRTOS/Core/Inc/memory.h:
-../ChronosRTOS/Core/Inc/config.h:
-../ChronosRTOS/Core/Inc/error.h:
-../ChronosRTOS/Core/Inc/types.h:
-../ChronosRTOS/Core/Inc/error.h:
+build/memory.o: ../Core/Src/memory.c ../Core/Inc/memory.h \
+ ../Core/Inc/config.h ../Core/Inc/error.h ../Core/Inc/types.h \
+ ../Core/Inc/config.h ../Core/Inc/error.h
+../Core/Inc/memory.h:
+../Core/Inc/config.h:
+../Core/Inc/error.h:
+../Core/Inc/types.h:
+../Core/Inc/config.h:
+../Core/Inc/error.h:

@@ -10,6 +10,7 @@
 #include "kernel.h"
 #include "task.h"
 #include "uart.h"
+#include "demo_tasks.h"
 
 /* Private function prototypes ---------------------------------------------*/
 void SystemClock_Config(void);
@@ -58,12 +59,19 @@ int main(void) {
   USART_SendString(USART1, "ChronosRTOS booted\r\n");
 
   /* Initialize ChronosRTOS kernel */
-  Kernel_Init();
+Kernel_Init();
 
-  USART_SendString(USART1, "Kernel initialized\r\n");
+USART_SendString(USART1, "Kernel initialized\r\n");
 
-  /* Start scheduler */
-  Kernel_Start();
+Task_Create(TASK_A, 1);
+Task_Create(TASK_B, 5);
+Task_Create(TASK_C, 3);
+Task_Create(TASK_D, 2);
+Task_Create(TASK_E, 4);
+
+USART_SendString(USART1, "5 tasks created\r\n");
+
+Kernel_Start();
 
   USART_SendString(USART1, "Kernel started\r\n");
 
