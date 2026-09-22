@@ -18,7 +18,7 @@
 /* =========================================================
  * Enable / Disable
  * ========================================================= */
-
+#define CHRONOS_GPIO_MODE_INPUT       0x0
 #define ENABLE 1U
 #define DISABLE 0U
 

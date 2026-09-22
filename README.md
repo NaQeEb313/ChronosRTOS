@@ -1,4 +1,3 @@
-
 # ChronosRTOS
 
 A small educational real-time operating system developed for the STM32F103C8T6 (ARM Cortex-M3). The project focuses on understanding the internal structure of an RTOS by implementing the kernel, task management, scheduler, static memory management, dispatcher, debugging interface, and ARM Cortex-M3 porting layer from the ground up.
@@ -774,9 +773,7 @@ The stack-frame construction is intended for the 32-bit Cortex-M3 target.
 
 The current host dispatcher does not use this constructed ARM stack frame for execution. Therefore these warnings are expected during the host build and are not evidence of an ARM build failure.
 
-
 ![1790012300048](image/README/1790012300048.png)
-
 
 ---
 
@@ -1017,10 +1014,8 @@ The current prototype can be summarized as:
                  Select Next Task
                          |
                          v
-                       Idle
+          
 ```
-
----
 
 # 28. Example Application
 

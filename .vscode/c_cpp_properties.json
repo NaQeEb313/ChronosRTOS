@@ -1,23 +1,24 @@
 {
-  "configurations": [
-    {
-      "name": "linux-gcc-x64",
-
-      "includePath": [
-        "${workspaceFolder}/Core/Inc",
-        "${workspaceFolder}/Drivers/Inc",
-        "${workspaceFolder}/Demo",
-        "${workspaceFolder}/**"
-      ],
-
-      "compilerPath": "/usr/bin/gcc",
-      "cStandard": "${default}",
-      "cppStandard": "${default}",
-      "intelliSenseMode": "linux-gcc-x64",
-
-      "compilerArgs": []
-    }
-  ],
-
-  "version": 4
+    "configurations": [
+        {
+            "name": "linux-gcc-x64",
+            "includePath": [
+                "${workspaceFolder}/Core/Inc",
+                "${workspaceFolder}/Drivers/Inc",
+                "${workspaceFolder}/Demo",
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/ChronosRTOS_HW/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+                "${workspaceFolder}/ChronosRTOS_HW/Drivers/CMSIS/Core/Include"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "${default}",
+            "cppStandard": "${default}",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerArgs": [],
+            "defines": [
+                "STM32F103xB"
+            ]
+        }
+    ],
+    "version": 4
 }

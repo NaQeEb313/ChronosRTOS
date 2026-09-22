@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccahVcYf.s 			page 1
+ARM GAS  /tmp/ccfvTYkD.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
   30:Core/Src/syscalls.c **** #include <sys/time.h>
   31:Core/Src/syscalls.c **** #include <sys/times.h>
   32:Core/Src/syscalls.c **** 
-ARM GAS  /tmp/ccahVcYf.s 			page 2
+ARM GAS  /tmp/ccfvTYkD.s 			page 2
 
 
   33:Core/Src/syscalls.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
   66              	.LVL0:
   67              	.LFB27:
   52:Core/Src/syscalls.c **** 
-ARM GAS  /tmp/ccahVcYf.s 			page 3
+ARM GAS  /tmp/ccfvTYkD.s 			page 3
 
 
   53:Core/Src/syscalls.c **** int _kill(int pid, int sig)
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
   63:Core/Src/syscalls.c ****   _kill(status, -1);
  114              		.loc 1 63 3 is_stmt 1 view .LVU15
  115 0002 4FF0FF31 		mov	r1, #-1
-ARM GAS  /tmp/ccahVcYf.s 			page 4
+ARM GAS  /tmp/ccfvTYkD.s 			page 4
 
 
  116 0006 FFF7FEFF 		bl	_kill
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  161              		.loc 1 74 14 is_stmt 0 view .LVU27
  162 000a FFF7FEFF 		bl	__io_getchar
  163              	.LVL7:
-ARM GAS  /tmp/ccahVcYf.s 			page 5
+ARM GAS  /tmp/ccfvTYkD.s 			page 5
 
 
  164              		.loc 1 74 9 discriminator 1 view .LVU28
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  211 0004 1646     		mov	r6, r2
   82:Core/Src/syscalls.c ****   (void)file;
  212              		.loc 1 82 3 is_stmt 1 view .LVU38
-ARM GAS  /tmp/ccahVcYf.s 			page 6
+ARM GAS  /tmp/ccfvTYkD.s 			page 6
 
 
   83:Core/Src/syscalls.c ****   int DataIdx;
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  256              		@ args = 0, pretend = 0, frame = 0
  257              		@ frame_needed = 0, uses_anonymous_args = 0
  258              		@ link register save eliminated.
-ARM GAS  /tmp/ccahVcYf.s 			page 7
+ARM GAS  /tmp/ccfvTYkD.s 			page 7
 
 
   94:Core/Src/syscalls.c ****   (void)file;
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  306              	.LVL22:
  307              	.LFB33:
  105:Core/Src/syscalls.c **** 
-ARM GAS  /tmp/ccahVcYf.s 			page 8
+ARM GAS  /tmp/ccfvTYkD.s 			page 8
 
 
  106:Core/Src/syscalls.c **** int _isatty(int file)
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  352              		.global	_open
  353              		.syntax unified
  354              		.thumb
-ARM GAS  /tmp/ccahVcYf.s 			page 9
+ARM GAS  /tmp/ccfvTYkD.s 			page 9
 
 
  355              		.thumb_func
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  401              		@ args = 0, pretend = 0, frame = 0
  402              		@ frame_needed = 0, uses_anonymous_args = 0
  403              		.loc 1 129 1 is_stmt 0 view .LVU83
-ARM GAS  /tmp/ccahVcYf.s 			page 10
+ARM GAS  /tmp/ccfvTYkD.s 			page 10
 
 
  404 0000 08B5     		push	{r3, lr}
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  450              		.loc 1 139 3 is_stmt 1 view .LVU94
  140:Core/Src/syscalls.c **** }
  451              		.loc 1 140 1 is_stmt 0 view .LVU95
-ARM GAS  /tmp/ccahVcYf.s 			page 11
+ARM GAS  /tmp/ccfvTYkD.s 			page 11
 
 
  452 000a 4FF0FF30 		mov	r0, #-1
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  499              		.loc 1 151 15 is_stmt 0 view .LVU104
  500 0000 4FF40053 		mov	r3, #8192
  501 0004 4B60     		str	r3, [r1, #4]
-ARM GAS  /tmp/ccahVcYf.s 			page 12
+ARM GAS  /tmp/ccfvTYkD.s 			page 12
 
 
  152:Core/Src/syscalls.c ****   return 0;
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  549              		.syntax unified
  550              		.thumb
  551              		.thumb_func
-ARM GAS  /tmp/ccahVcYf.s 			page 13
+ARM GAS  /tmp/ccfvTYkD.s 			page 13
 
 
  553              	_fork:
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  598              		.loc 1 172 3 view .LVU124
  173:Core/Src/syscalls.c ****   (void)env;
  599              		.loc 1 173 3 view .LVU125
-ARM GAS  /tmp/ccahVcYf.s 			page 14
+ARM GAS  /tmp/ccfvTYkD.s 			page 14
 
 
  174:Core/Src/syscalls.c ****   errno = ENOMEM;
@@ -818,51 +818,51 @@ ARM GAS  /tmp/ccahVcYf.s 			page 1
  636              		.file 7 "/usr/arm-none-eabi/include/sys/stat.h"
  637              		.file 8 "/usr/arm-none-eabi/include/sys/times.h"
  638              		.file 9 "/usr/arm-none-eabi/include/sys/errno.h"
-ARM GAS  /tmp/ccahVcYf.s 			page 15
+ARM GAS  /tmp/ccfvTYkD.s 			page 15
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 syscalls.c
-     /tmp/ccahVcYf.s:19     .text.initialise_monitor_handles:00000000 $t
-     /tmp/ccahVcYf.s:25     .text.initialise_monitor_handles:00000000 initialise_monitor_handles
-     /tmp/ccahVcYf.s:38     .text._getpid:00000000 $t
-     /tmp/ccahVcYf.s:44     .text._getpid:00000000 _getpid
-     /tmp/ccahVcYf.s:59     .text._kill:00000000 $t
-     /tmp/ccahVcYf.s:65     .text._kill:00000000 _kill
-     /tmp/ccahVcYf.s:94     .text._exit:00000000 $t
-     /tmp/ccahVcYf.s:100    .text._exit:00000000 _exit
-     /tmp/ccahVcYf.s:127    .text._read:00000000 $t
-     /tmp/ccahVcYf.s:133    .text._read:00000000 _read
-     /tmp/ccahVcYf.s:189    .text._write:00000000 $t
-     /tmp/ccahVcYf.s:195    .text._write:00000000 _write
-     /tmp/ccahVcYf.s:245    .text._close:00000000 $t
-     /tmp/ccahVcYf.s:251    .text._close:00000000 _close
-     /tmp/ccahVcYf.s:270    .text._fstat:00000000 $t
-     /tmp/ccahVcYf.s:276    .text._fstat:00000000 _fstat
-     /tmp/ccahVcYf.s:299    .text._isatty:00000000 $t
-     /tmp/ccahVcYf.s:305    .text._isatty:00000000 _isatty
-     /tmp/ccahVcYf.s:324    .text._lseek:00000000 $t
-     /tmp/ccahVcYf.s:330    .text._lseek:00000000 _lseek
-     /tmp/ccahVcYf.s:351    .text._open:00000000 $t
-     /tmp/ccahVcYf.s:357    .text._open:00000000 _open
-     /tmp/ccahVcYf.s:390    .text._wait:00000000 $t
-     /tmp/ccahVcYf.s:396    .text._wait:00000000 _wait
-     /tmp/ccahVcYf.s:424    .text._unlink:00000000 $t
-     /tmp/ccahVcYf.s:430    .text._unlink:00000000 _unlink
-     /tmp/ccahVcYf.s:458    .text._times:00000000 $t
-     /tmp/ccahVcYf.s:464    .text._times:00000000 _times
-     /tmp/ccahVcYf.s:483    .text._stat:00000000 $t
-     /tmp/ccahVcYf.s:489    .text._stat:00000000 _stat
-     /tmp/ccahVcYf.s:512    .text._link:00000000 $t
-     /tmp/ccahVcYf.s:518    .text._link:00000000 _link
-     /tmp/ccahVcYf.s:547    .text._fork:00000000 $t
-     /tmp/ccahVcYf.s:553    .text._fork:00000000 _fork
-     /tmp/ccahVcYf.s:578    .text._execve:00000000 $t
-     /tmp/ccahVcYf.s:584    .text._execve:00000000 _execve
-     /tmp/ccahVcYf.s:618    .data.environ:00000000 environ
-     /tmp/ccahVcYf.s:615    .data.environ:00000000 $d
-     /tmp/ccahVcYf.s:625    .bss.__env:00000000 __env
-     /tmp/ccahVcYf.s:622    .bss.__env:00000000 $d
+     /tmp/ccfvTYkD.s:19     .text.initialise_monitor_handles:00000000 $t
+     /tmp/ccfvTYkD.s:25     .text.initialise_monitor_handles:00000000 initialise_monitor_handles
+     /tmp/ccfvTYkD.s:38     .text._getpid:00000000 $t
+     /tmp/ccfvTYkD.s:44     .text._getpid:00000000 _getpid
+     /tmp/ccfvTYkD.s:59     .text._kill:00000000 $t
+     /tmp/ccfvTYkD.s:65     .text._kill:00000000 _kill
+     /tmp/ccfvTYkD.s:94     .text._exit:00000000 $t
+     /tmp/ccfvTYkD.s:100    .text._exit:00000000 _exit
+     /tmp/ccfvTYkD.s:127    .text._read:00000000 $t
+     /tmp/ccfvTYkD.s:133    .text._read:00000000 _read
+     /tmp/ccfvTYkD.s:189    .text._write:00000000 $t
+     /tmp/ccfvTYkD.s:195    .text._write:00000000 _write
+     /tmp/ccfvTYkD.s:245    .text._close:00000000 $t
+     /tmp/ccfvTYkD.s:251    .text._close:00000000 _close
+     /tmp/ccfvTYkD.s:270    .text._fstat:00000000 $t
+     /tmp/ccfvTYkD.s:276    .text._fstat:00000000 _fstat
+     /tmp/ccfvTYkD.s:299    .text._isatty:00000000 $t
+     /tmp/ccfvTYkD.s:305    .text._isatty:00000000 _isatty
+     /tmp/ccfvTYkD.s:324    .text._lseek:00000000 $t
+     /tmp/ccfvTYkD.s:330    .text._lseek:00000000 _lseek
+     /tmp/ccfvTYkD.s:351    .text._open:00000000 $t
+     /tmp/ccfvTYkD.s:357    .text._open:00000000 _open
+     /tmp/ccfvTYkD.s:390    .text._wait:00000000 $t
+     /tmp/ccfvTYkD.s:396    .text._wait:00000000 _wait
+     /tmp/ccfvTYkD.s:424    .text._unlink:00000000 $t
+     /tmp/ccfvTYkD.s:430    .text._unlink:00000000 _unlink
+     /tmp/ccfvTYkD.s:458    .text._times:00000000 $t
+     /tmp/ccfvTYkD.s:464    .text._times:00000000 _times
+     /tmp/ccfvTYkD.s:483    .text._stat:00000000 $t
+     /tmp/ccfvTYkD.s:489    .text._stat:00000000 _stat
+     /tmp/ccfvTYkD.s:512    .text._link:00000000 $t
+     /tmp/ccfvTYkD.s:518    .text._link:00000000 _link
+     /tmp/ccfvTYkD.s:547    .text._fork:00000000 $t
+     /tmp/ccfvTYkD.s:553    .text._fork:00000000 _fork
+     /tmp/ccfvTYkD.s:578    .text._execve:00000000 $t
+     /tmp/ccfvTYkD.s:584    .text._execve:00000000 _execve
+     /tmp/ccfvTYkD.s:618    .data.environ:00000000 environ
+     /tmp/ccfvTYkD.s:615    .data.environ:00000000 $d
+     /tmp/ccfvTYkD.s:625    .bss.__env:00000000 __env
+     /tmp/ccfvTYkD.s:622    .bss.__env:00000000 $d
 
 UNDEFINED SYMBOLS
 __errno

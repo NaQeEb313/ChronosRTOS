@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccyb8xSm.s 			page 1
+ARM GAS  /tmp/ccAApNpF.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
   30:../Core/Src/debug.c **** void Debug_Task_Scheduled(uint32_t tid, uint8_t priority)
   31:../Core/Src/debug.c **** {
   32:../Core/Src/debug.c ****     printf("[Scheduler] Scheduled TID=%lu | Priority=%u\n",
-ARM GAS  /tmp/ccyb8xSm.s 			page 2
+ARM GAS  /tmp/ccAApNpF.s 			page 2
 
 
   33:../Core/Src/debug.c ****            (unsigned long)tid,
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
   87:../Core/Src/debug.c ****     printf("[Edge Case] %s rejected: no user tasks available\n",
   88:../Core/Src/debug.c ****            operation);
   89:../Core/Src/debug.c **** }
-ARM GAS  /tmp/ccyb8xSm.s 			page 3
+ARM GAS  /tmp/ccAApNpF.s 			page 3
 
 
   90:../Core/Src/debug.c **** 
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  126:../Core/Src/debug.c ****     {
  127:../Core/Src/debug.c ****         buffer[index++] = '0';
   45              		.loc 1 127 9 is_stmt 1 view .LVU6
-ARM GAS  /tmp/ccyb8xSm.s 			page 4
+ARM GAS  /tmp/ccAApNpF.s 			page 4
 
 
   46              	.LVL2:
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
   76              	.LVL7:
   77              	.L4:
   78              	.LCFI3:
-ARM GAS  /tmp/ccyb8xSm.s 			page 5
+ARM GAS  /tmp/ccAApNpF.s 			page 5
 
 
   79              		.cfi_restore_state
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  121              	.LVL13:
  122              	.L6:
  144:../Core/Src/debug.c ****         }
-ARM GAS  /tmp/ccyb8xSm.s 			page 6
+ARM GAS  /tmp/ccAApNpF.s 			page 6
 
 
  123              		.loc 1 144 13 is_stmt 1 view .LVU27
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  169              	Debug_Print_TID_Priority:
  170              	.LVL16:
  171              	.LFB68:
-ARM GAS  /tmp/ccyb8xSm.s 			page 7
+ARM GAS  /tmp/ccAApNpF.s 			page 7
 
 
  152:../Core/Src/debug.c **** 
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  213              	.LVL23:
  165:../Core/Src/debug.c **** }
  214              		.loc 1 165 1 is_stmt 0 view .LVU43
-ARM GAS  /tmp/ccyb8xSm.s 			page 8
+ARM GAS  /tmp/ccAApNpF.s 			page 8
 
 
  215 002c 70BD     		pop	{r4, r5, r6, pc}
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  268              		.loc 1 117 5 is_stmt 1 view .LVU49
  269 0004 0148     		ldr	r0, .L18
  270              	.LVL26:
-ARM GAS  /tmp/ccyb8xSm.s 			page 9
+ARM GAS  /tmp/ccAApNpF.s 			page 9
 
 
  117:../Core/Src/debug.c **** }
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  318 000a FFF7FEFF 		bl	USART_SendString
  319              	.LVL31:
  170:../Core/Src/debug.c **** 
-ARM GAS  /tmp/ccyb8xSm.s 			page 10
+ARM GAS  /tmp/ccAApNpF.s 			page 10
 
 
  171:../Core/Src/debug.c ****     Debug_Print_TID_Priority(tid, priority);
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  366 0006 0449     		ldr	r1, .L26
  367              	.LVL35:
  368              		.loc 1 176 5 is_stmt 0 view .LVU63
-ARM GAS  /tmp/ccyb8xSm.s 			page 11
+ARM GAS  /tmp/ccAApNpF.s 			page 11
 
 
  369 0008 0448     		ldr	r0, .L26+4
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  415              		.cfi_def_cfa_offset 16
  416              		.cfi_offset 3, -16
  417              		.cfi_offset 4, -12
-ARM GAS  /tmp/ccyb8xSm.s 			page 12
+ARM GAS  /tmp/ccAApNpF.s 			page 12
 
 
  418              		.cfi_offset 5, -8
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  190:../Core/Src/debug.c **** void Debug_Task_Finished(uint32_t tid)
  191:../Core/Src/debug.c **** {
  465              		.loc 1 191 1 is_stmt 1 view -0
-ARM GAS  /tmp/ccyb8xSm.s 			page 13
+ARM GAS  /tmp/ccAApNpF.s 			page 13
 
 
  466              		.cfi_startproc
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  511      00
  512              		.section	.text.Debug_Task_Terminated,"ax",%progbits
  513              		.align	1
-ARM GAS  /tmp/ccyb8xSm.s 			page 14
+ARM GAS  /tmp/ccAApNpF.s 			page 14
 
 
  514              		.global	Debug_Task_Terminated
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  560 0024 00000000 		.word	.LC5
  561 0028 00000000 		.word	.LC8
  562              		.cfi_endproc
-ARM GAS  /tmp/ccyb8xSm.s 			page 15
+ARM GAS  /tmp/ccAApNpF.s 			page 15
 
 
  563              	.LFE73:
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  608              	.LVL62:
  215:../Core/Src/debug.c **** }
  609              		.loc 1 215 1 is_stmt 0 view .LVU98
-ARM GAS  /tmp/ccyb8xSm.s 			page 16
+ARM GAS  /tmp/ccAApNpF.s 			page 16
 
 
  610 001c 38BD     		pop	{r3, r4, r5, pc}
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  658 000e 2846     		mov	r0, r5
  659 0010 FFF7FEFF 		bl	Debug_Print_Number
  660              	.LVL67:
-ARM GAS  /tmp/ccyb8xSm.s 			page 17
+ARM GAS  /tmp/ccAApNpF.s 			page 17
 
 
  222:../Core/Src/debug.c **** 
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  704              		.cfi_offset 3, -16
  705              		.cfi_offset 4, -12
  706              		.cfi_offset 5, -8
-ARM GAS  /tmp/ccyb8xSm.s 			page 18
+ARM GAS  /tmp/ccAApNpF.s 			page 18
 
 
  707              		.cfi_offset 14, -4
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  752              	.LVL76:
  753              	.LFB77:
  235:../Core/Src/debug.c **** 
-ARM GAS  /tmp/ccyb8xSm.s 			page 19
+ARM GAS  /tmp/ccAApNpF.s 			page 19
 
 
  236:../Core/Src/debug.c **** void Debug_Edge_Idle_Task(const char *operation)
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  800              	.LC14:
  801 0000 2072656A 		.ascii	" rejected: task system not initialized\015\012\000"
  801      65637465 
-ARM GAS  /tmp/ccyb8xSm.s 			page 20
+ARM GAS  /tmp/ccAApNpF.s 			page 20
 
 
  801      643A2074 
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  844 001e 38BD     		pop	{r3, r4, r5, pc}
  845              	.LVL87:
  846              	.L59:
-ARM GAS  /tmp/ccyb8xSm.s 			page 21
+ARM GAS  /tmp/ccAApNpF.s 			page 21
 
 
  847              		.loc 1 254 1 view .LVU131
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  893 0010 2046     		mov	r0, r4
  894 0012 FFF7FEFF 		bl	USART_SendString
  895              	.LVL91:
-ARM GAS  /tmp/ccyb8xSm.s 			page 22
+ARM GAS  /tmp/ccAApNpF.s 			page 22
 
 
  261:../Core/Src/debug.c **** 
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  937              	.LCFI17:
  938              		.cfi_def_cfa_offset 16
  939              		.cfi_offset 3, -16
-ARM GAS  /tmp/ccyb8xSm.s 			page 23
+ARM GAS  /tmp/ccAApNpF.s 			page 23
 
 
  940              		.cfi_offset 4, -12
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  982              		.syntax unified
  983              		.thumb
  984              		.thumb_func
-ARM GAS  /tmp/ccyb8xSm.s 			page 24
+ARM GAS  /tmp/ccAApNpF.s 			page 24
 
 
  986              	Debug_Edge_Invalid_Allocation:
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  1028              		@ frame_needed = 0, uses_anonymous_args = 0
  1029 0000 08B5     		push	{r3, lr}
  1030              	.LCFI19:
-ARM GAS  /tmp/ccyb8xSm.s 			page 25
+ARM GAS  /tmp/ccAApNpF.s 			page 25
 
 
  1031              		.cfi_def_cfa_offset 8
@@ -1467,82 +1467,82 @@ ARM GAS  /tmp/ccyb8xSm.s 			page 1
  1052              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
  1053              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
  1054              		.file 5 "../Drivers/Inc/uart.h"
-ARM GAS  /tmp/ccyb8xSm.s 			page 26
+ARM GAS  /tmp/ccAApNpF.s 			page 26
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 debug.c
-     /tmp/ccyb8xSm.s:19     .text.Debug_Print_Number:00000000 $t
-     /tmp/ccyb8xSm.s:24     .text.Debug_Print_Number:00000000 Debug_Print_Number
-     /tmp/ccyb8xSm.s:147    .text.Debug_Print_Number:00000074 $d
-     /tmp/ccyb8xSm.s:154    .rodata.Debug_Print_TID_Priority.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:164    .text.Debug_Print_TID_Priority:00000000 $t
-     /tmp/ccyb8xSm.s:169    .text.Debug_Print_TID_Priority:00000000 Debug_Print_TID_Priority
-     /tmp/ccyb8xSm.s:221    .text.Debug_Print_TID_Priority:00000030 $d
-     /tmp/ccyb8xSm.s:229    .text.Debug_Init:00000000 $t
-     /tmp/ccyb8xSm.s:235    .text.Debug_Init:00000000 Debug_Init
-     /tmp/ccyb8xSm.s:248    .text.Debug_Print:00000000 $t
-     /tmp/ccyb8xSm.s:254    .text.Debug_Print:00000000 Debug_Print
-     /tmp/ccyb8xSm.s:279    .text.Debug_Print:0000000c $d
-     /tmp/ccyb8xSm.s:284    .rodata.Debug_Task_Created.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:288    .text.Debug_Task_Created:00000000 $t
-     /tmp/ccyb8xSm.s:294    .text.Debug_Task_Created:00000000 Debug_Task_Created
-     /tmp/ccyb8xSm.s:332    .text.Debug_Task_Created:00000018 $d
-     /tmp/ccyb8xSm.s:338    .rodata.Debug_Task_Scheduled.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:342    .text.Debug_Task_Scheduled:00000000 $t
-     /tmp/ccyb8xSm.s:348    .text.Debug_Task_Scheduled:00000000 Debug_Task_Scheduled
-     /tmp/ccyb8xSm.s:386    .text.Debug_Task_Scheduled:00000018 $d
-     /tmp/ccyb8xSm.s:392    .rodata.Debug_Task_Running.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:399    .text.Debug_Task_Running:00000000 $t
-     /tmp/ccyb8xSm.s:405    .text.Debug_Task_Running:00000000 Debug_Task_Running
-     /tmp/ccyb8xSm.s:445    .text.Debug_Task_Running:00000020 $d
-     /tmp/ccyb8xSm.s:452    .rodata.Debug_Task_Finished.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:456    .text.Debug_Task_Finished:00000000 $t
-     /tmp/ccyb8xSm.s:462    .text.Debug_Task_Finished:00000000 Debug_Task_Finished
-     /tmp/ccyb8xSm.s:502    .text.Debug_Task_Finished:00000020 $d
-     /tmp/ccyb8xSm.s:509    .rodata.Debug_Task_Terminated.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:513    .text.Debug_Task_Terminated:00000000 $t
-     /tmp/ccyb8xSm.s:519    .text.Debug_Task_Terminated:00000000 Debug_Task_Terminated
-     /tmp/ccyb8xSm.s:559    .text.Debug_Task_Terminated:00000020 $d
-     /tmp/ccyb8xSm.s:566    .rodata.Debug_Task_Blocked.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:570    .text.Debug_Task_Blocked:00000000 $t
-     /tmp/ccyb8xSm.s:576    .text.Debug_Task_Blocked:00000000 Debug_Task_Blocked
-     /tmp/ccyb8xSm.s:616    .text.Debug_Task_Blocked:00000020 $d
-     /tmp/ccyb8xSm.s:623    .rodata.Debug_Task_Ready.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:627    .text.Debug_Task_Ready:00000000 $t
-     /tmp/ccyb8xSm.s:633    .text.Debug_Task_Ready:00000000 Debug_Task_Ready
-     /tmp/ccyb8xSm.s:673    .text.Debug_Task_Ready:00000020 $d
-     /tmp/ccyb8xSm.s:680    .rodata.Debug_Edge_Null_Task.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:687    .text.Debug_Edge_Null_Task:00000000 $t
-     /tmp/ccyb8xSm.s:693    .text.Debug_Edge_Null_Task:00000000 Debug_Edge_Null_Task
-     /tmp/ccyb8xSm.s:734    .text.Debug_Edge_Null_Task:00000020 $d
-     /tmp/ccyb8xSm.s:741    .rodata.Debug_Edge_Idle_Task.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:745    .text.Debug_Edge_Idle_Task:00000000 $t
-     /tmp/ccyb8xSm.s:751    .text.Debug_Edge_Idle_Task:00000000 Debug_Edge_Idle_Task
-     /tmp/ccyb8xSm.s:792    .text.Debug_Edge_Idle_Task:00000020 $d
-     /tmp/ccyb8xSm.s:799    .rodata.Debug_Edge_Not_Initialized.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:803    .text.Debug_Edge_Not_Initialized:00000000 $t
-     /tmp/ccyb8xSm.s:809    .text.Debug_Edge_Not_Initialized:00000000 Debug_Edge_Not_Initialized
-     /tmp/ccyb8xSm.s:850    .text.Debug_Edge_Not_Initialized:00000020 $d
-     /tmp/ccyb8xSm.s:857    .rodata.Debug_Edge_No_Tasks.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:861    .text.Debug_Edge_No_Tasks:00000000 $t
-     /tmp/ccyb8xSm.s:867    .text.Debug_Edge_No_Tasks:00000000 Debug_Edge_No_Tasks
-ARM GAS  /tmp/ccyb8xSm.s 			page 27
+     /tmp/ccAApNpF.s:19     .text.Debug_Print_Number:00000000 $t
+     /tmp/ccAApNpF.s:24     .text.Debug_Print_Number:00000000 Debug_Print_Number
+     /tmp/ccAApNpF.s:147    .text.Debug_Print_Number:00000074 $d
+     /tmp/ccAApNpF.s:154    .rodata.Debug_Print_TID_Priority.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:164    .text.Debug_Print_TID_Priority:00000000 $t
+     /tmp/ccAApNpF.s:169    .text.Debug_Print_TID_Priority:00000000 Debug_Print_TID_Priority
+     /tmp/ccAApNpF.s:221    .text.Debug_Print_TID_Priority:00000030 $d
+     /tmp/ccAApNpF.s:229    .text.Debug_Init:00000000 $t
+     /tmp/ccAApNpF.s:235    .text.Debug_Init:00000000 Debug_Init
+     /tmp/ccAApNpF.s:248    .text.Debug_Print:00000000 $t
+     /tmp/ccAApNpF.s:254    .text.Debug_Print:00000000 Debug_Print
+     /tmp/ccAApNpF.s:279    .text.Debug_Print:0000000c $d
+     /tmp/ccAApNpF.s:284    .rodata.Debug_Task_Created.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:288    .text.Debug_Task_Created:00000000 $t
+     /tmp/ccAApNpF.s:294    .text.Debug_Task_Created:00000000 Debug_Task_Created
+     /tmp/ccAApNpF.s:332    .text.Debug_Task_Created:00000018 $d
+     /tmp/ccAApNpF.s:338    .rodata.Debug_Task_Scheduled.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:342    .text.Debug_Task_Scheduled:00000000 $t
+     /tmp/ccAApNpF.s:348    .text.Debug_Task_Scheduled:00000000 Debug_Task_Scheduled
+     /tmp/ccAApNpF.s:386    .text.Debug_Task_Scheduled:00000018 $d
+     /tmp/ccAApNpF.s:392    .rodata.Debug_Task_Running.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:399    .text.Debug_Task_Running:00000000 $t
+     /tmp/ccAApNpF.s:405    .text.Debug_Task_Running:00000000 Debug_Task_Running
+     /tmp/ccAApNpF.s:445    .text.Debug_Task_Running:00000020 $d
+     /tmp/ccAApNpF.s:452    .rodata.Debug_Task_Finished.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:456    .text.Debug_Task_Finished:00000000 $t
+     /tmp/ccAApNpF.s:462    .text.Debug_Task_Finished:00000000 Debug_Task_Finished
+     /tmp/ccAApNpF.s:502    .text.Debug_Task_Finished:00000020 $d
+     /tmp/ccAApNpF.s:509    .rodata.Debug_Task_Terminated.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:513    .text.Debug_Task_Terminated:00000000 $t
+     /tmp/ccAApNpF.s:519    .text.Debug_Task_Terminated:00000000 Debug_Task_Terminated
+     /tmp/ccAApNpF.s:559    .text.Debug_Task_Terminated:00000020 $d
+     /tmp/ccAApNpF.s:566    .rodata.Debug_Task_Blocked.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:570    .text.Debug_Task_Blocked:00000000 $t
+     /tmp/ccAApNpF.s:576    .text.Debug_Task_Blocked:00000000 Debug_Task_Blocked
+     /tmp/ccAApNpF.s:616    .text.Debug_Task_Blocked:00000020 $d
+     /tmp/ccAApNpF.s:623    .rodata.Debug_Task_Ready.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:627    .text.Debug_Task_Ready:00000000 $t
+     /tmp/ccAApNpF.s:633    .text.Debug_Task_Ready:00000000 Debug_Task_Ready
+     /tmp/ccAApNpF.s:673    .text.Debug_Task_Ready:00000020 $d
+     /tmp/ccAApNpF.s:680    .rodata.Debug_Edge_Null_Task.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:687    .text.Debug_Edge_Null_Task:00000000 $t
+     /tmp/ccAApNpF.s:693    .text.Debug_Edge_Null_Task:00000000 Debug_Edge_Null_Task
+     /tmp/ccAApNpF.s:734    .text.Debug_Edge_Null_Task:00000020 $d
+     /tmp/ccAApNpF.s:741    .rodata.Debug_Edge_Idle_Task.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:745    .text.Debug_Edge_Idle_Task:00000000 $t
+     /tmp/ccAApNpF.s:751    .text.Debug_Edge_Idle_Task:00000000 Debug_Edge_Idle_Task
+     /tmp/ccAApNpF.s:792    .text.Debug_Edge_Idle_Task:00000020 $d
+     /tmp/ccAApNpF.s:799    .rodata.Debug_Edge_Not_Initialized.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:803    .text.Debug_Edge_Not_Initialized:00000000 $t
+     /tmp/ccAApNpF.s:809    .text.Debug_Edge_Not_Initialized:00000000 Debug_Edge_Not_Initialized
+     /tmp/ccAApNpF.s:850    .text.Debug_Edge_Not_Initialized:00000020 $d
+     /tmp/ccAApNpF.s:857    .rodata.Debug_Edge_No_Tasks.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:861    .text.Debug_Edge_No_Tasks:00000000 $t
+     /tmp/ccAApNpF.s:867    .text.Debug_Edge_No_Tasks:00000000 Debug_Edge_No_Tasks
+ARM GAS  /tmp/ccAApNpF.s 			page 27
 
 
-     /tmp/ccyb8xSm.s:908    .text.Debug_Edge_No_Tasks:00000020 $d
-     /tmp/ccyb8xSm.s:915    .rodata.Debug_Edge_Invalid_Resume.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:922    .text.Debug_Edge_Invalid_Resume:00000000 $t
-     /tmp/ccyb8xSm.s:928    .text.Debug_Edge_Invalid_Resume:00000000 Debug_Edge_Invalid_Resume
-     /tmp/ccyb8xSm.s:968    .text.Debug_Edge_Invalid_Resume:00000020 $d
-     /tmp/ccyb8xSm.s:975    .rodata.Debug_Edge_Invalid_Allocation.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:980    .text.Debug_Edge_Invalid_Allocation:00000000 $t
-     /tmp/ccyb8xSm.s:986    .text.Debug_Edge_Invalid_Allocation:00000000 Debug_Edge_Invalid_Allocation
-     /tmp/ccyb8xSm.s:1007   .text.Debug_Edge_Invalid_Allocation:0000000c $d
-     /tmp/ccyb8xSm.s:1013   .rodata.Debug_Scheduler_Null.str1.4:00000000 $d
-     /tmp/ccyb8xSm.s:1017   .text.Debug_Scheduler_Null:00000000 $t
-     /tmp/ccyb8xSm.s:1023   .text.Debug_Scheduler_Null:00000000 Debug_Scheduler_Null
-     /tmp/ccyb8xSm.s:1044   .text.Debug_Scheduler_Null:0000000c $d
+     /tmp/ccAApNpF.s:908    .text.Debug_Edge_No_Tasks:00000020 $d
+     /tmp/ccAApNpF.s:915    .rodata.Debug_Edge_Invalid_Resume.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:922    .text.Debug_Edge_Invalid_Resume:00000000 $t
+     /tmp/ccAApNpF.s:928    .text.Debug_Edge_Invalid_Resume:00000000 Debug_Edge_Invalid_Resume
+     /tmp/ccAApNpF.s:968    .text.Debug_Edge_Invalid_Resume:00000020 $d
+     /tmp/ccAApNpF.s:975    .rodata.Debug_Edge_Invalid_Allocation.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:980    .text.Debug_Edge_Invalid_Allocation:00000000 $t
+     /tmp/ccAApNpF.s:986    .text.Debug_Edge_Invalid_Allocation:00000000 Debug_Edge_Invalid_Allocation
+     /tmp/ccAApNpF.s:1007   .text.Debug_Edge_Invalid_Allocation:0000000c $d
+     /tmp/ccAApNpF.s:1013   .rodata.Debug_Scheduler_Null.str1.4:00000000 $d
+     /tmp/ccAApNpF.s:1017   .text.Debug_Scheduler_Null:00000000 $t
+     /tmp/ccAApNpF.s:1023   .text.Debug_Scheduler_Null:00000000 Debug_Scheduler_Null
+     /tmp/ccAApNpF.s:1044   .text.Debug_Scheduler_Null:0000000c $d
 
 UNDEFINED SYMBOLS
 USART_SendString

@@ -4,7 +4,7 @@
  * Module      : GPIO
  * Description : GPIO driver implementation.
  ******************************************************************************/
-
+#include "stm32f1xx.h"
 #include "gpio.h"
 
 /* =========================================================
@@ -74,7 +74,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle) {
    * INPUT MODE
    * ===================================================== */
 
-  if (mode == GPIO_MODE_INPUT) {
+  if (mode == CHRONOS_GPIO_MODE_INPUT) {
 
     /* MODE = 00 */
 

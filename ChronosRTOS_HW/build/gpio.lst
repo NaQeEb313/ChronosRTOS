@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc07hAQC.s 			page 1
+ARM GAS  /tmp/ccxRmtk5.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -33,7 +33,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
    4:../Drivers/Src/gpio.c ****  * Module      : GPIO
    5:../Drivers/Src/gpio.c ****  * Description : GPIO driver implementation.
    6:../Drivers/Src/gpio.c ****  ******************************************************************************/
-   7:../Drivers/Src/gpio.c **** 
+   7:../Drivers/Src/gpio.c **** #include "stm32f1xx.h"
    8:../Drivers/Src/gpio.c **** #include "gpio.h"
    9:../Drivers/Src/gpio.c **** 
   10:../Drivers/Src/gpio.c **** /* =========================================================
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
   20:../Drivers/Src/gpio.c ****     if (pGPIOx == GPIOA) {
   21:../Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 2);
   22:../Drivers/Src/gpio.c ****     } else if (pGPIOx == GPIOB) {
-ARM GAS  /tmp/cc07hAQC.s 			page 2
+ARM GAS  /tmp/ccxRmtk5.s 			page 2
 
 
   23:../Drivers/Src/gpio.c ****       RCC->APB2ENR |= (1U << 3);
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
   25:../Drivers/Src/gpio.c ****     }
   71              		.loc 1 25 7 is_stmt 1 view .LVU16
   25:../Drivers/Src/gpio.c ****     }
-ARM GAS  /tmp/cc07hAQC.s 			page 3
+ARM GAS  /tmp/ccxRmtk5.s 			page 3
 
 
   72              		.loc 1 25 10 is_stmt 0 view .LVU17
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  113 0062 9361     		str	r3, [r2, #24]
  114 0064 7047     		bx	lr
  115              	.L11:
-ARM GAS  /tmp/cc07hAQC.s 			page 4
+ARM GAS  /tmp/ccxRmtk5.s 			page 4
 
 
   33:../Drivers/Src/gpio.c ****     }
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  154              		.cfi_offset 4, -20
  155              		.cfi_offset 5, -16
  156              		.cfi_offset 6, -12
-ARM GAS  /tmp/cc07hAQC.s 			page 5
+ARM GAS  /tmp/ccxRmtk5.s 			page 5
 
 
  157              		.cfi_offset 7, -8
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  195              		.loc 1 67 14 view .LVU54
  196 001a E4B2     		uxtb	r4, r4
  197              	.LVL10:
-ARM GAS  /tmp/cc07hAQC.s 			page 6
+ARM GAS  /tmp/ccxRmtk5.s 			page 6
 
 
  198              	.L18:
@@ -311,7 +311,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
   74:../Drivers/Src/gpio.c ****    * INPUT MODE
   75:../Drivers/Src/gpio.c ****    * ===================================================== */
   76:../Drivers/Src/gpio.c **** 
-  77:../Drivers/Src/gpio.c ****   if (mode == GPIO_MODE_INPUT) {
+  77:../Drivers/Src/gpio.c ****   if (mode == CHRONOS_GPIO_MODE_INPUT) {
  199              		.loc 1 77 3 is_stmt 1 view .LVU55
  200              		.loc 1 77 6 is_stmt 0 view .LVU56
  201 001c 5EB9     		cbnz	r6, .L19
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  229 0034 F2E7     		b	.L18
  230              	.LVL16:
  231              	.L19:
-ARM GAS  /tmp/cc07hAQC.s 			page 7
+ARM GAS  /tmp/ccxRmtk5.s 			page 7
 
 
   82:../Drivers/Src/gpio.c ****       /* CNF = 00, MODE = 00 */
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  253 0048 46F00806 		orr	r6, r6, #8
  254              	.LVL19:
  255              		.loc 1 114 26 view .LVU73
-ARM GAS  /tmp/cc07hAQC.s 			page 8
+ARM GAS  /tmp/ccxRmtk5.s 			page 8
 
 
  256 004c 03E0     		b	.L20
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  292 006c 0026     		movs	r6, #0
  293              	.LVL26:
   77:../Drivers/Src/gpio.c **** 
-ARM GAS  /tmp/cc07hAQC.s 			page 9
+ARM GAS  /tmp/ccxRmtk5.s 			page 9
 
 
  294              		.loc 1 77 6 view .LVU86
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  342              	.LFB68:
  139:../Drivers/Src/gpio.c **** 
  140:../Drivers/Src/gpio.c **** /* =========================================================
-ARM GAS  /tmp/cc07hAQC.s 			page 10
+ARM GAS  /tmp/ccxRmtk5.s 			page 10
 
 
  141:../Drivers/Src/gpio.c ****  * GPIO Write
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  156:../Drivers/Src/gpio.c **** void GPIO_TogglePin(GPIO_TypeDef *pGPIOx, uint8_t PinNumber) {
  381              		.loc 1 156 62 is_stmt 1 view -0
  382              		.cfi_startproc
-ARM GAS  /tmp/cc07hAQC.s 			page 11
+ARM GAS  /tmp/ccxRmtk5.s 			page 11
 
 
  383              		@ args = 0, pretend = 0, frame = 0
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  171:../Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 3);
  172:../Drivers/Src/gpio.c **** 
  173:../Drivers/Src/gpio.c ****   } else if (pGPIOx == GPIOC) {
-ARM GAS  /tmp/cc07hAQC.s 			page 12
+ARM GAS  /tmp/ccxRmtk5.s 			page 12
 
 
  425              		.loc 1 173 10 is_stmt 1 view .LVU115
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  463              	.L42:
  174:../Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 4);
  464              		.loc 1 174 5 is_stmt 1 view .LVU130
-ARM GAS  /tmp/cc07hAQC.s 			page 13
+ARM GAS  /tmp/ccxRmtk5.s 			page 13
 
 
  174:../Drivers/Src/gpio.c ****     RCC->APB2RSTR &= ~(1U << 4);
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  197:../Drivers/Src/gpio.c ****  * LED starts OFF.
  198:../Drivers/Src/gpio.c ****  * ========================================================= */
  199:../Drivers/Src/gpio.c **** 
-ARM GAS  /tmp/cc07hAQC.s 			page 14
+ARM GAS  /tmp/ccxRmtk5.s 			page 14
 
 
  200:../Drivers/Src/gpio.c **** void GPIO_INIT(void) {
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  532 0020 4FF40053 		mov	r3, #8192
  533 0024 2361     		str	r3, [r4, #16]
  219:../Drivers/Src/gpio.c **** }
-ARM GAS  /tmp/cc07hAQC.s 			page 15
+ARM GAS  /tmp/ccxRmtk5.s 			page 15
 
 
  534              		.loc 1 219 1 view .LVU150
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  228:../Drivers/Src/gpio.c **** 
  229:../Drivers/Src/gpio.c **** /* =========================================================
  230:../Drivers/Src/gpio.c ****  * GPIO_OFF
-ARM GAS  /tmp/cc07hAQC.s 			page 16
+ARM GAS  /tmp/ccxRmtk5.s 			page 16
 
 
  231:../Drivers/Src/gpio.c ****  *
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  629 000c 00100140 		.word	1073811456
  630              		.cfi_endproc
  631              	.LFE74:
-ARM GAS  /tmp/cc07hAQC.s 			page 17
+ARM GAS  /tmp/ccxRmtk5.s 			page 17
 
 
  633              		.section	.text.GPIO_READ,"ax",%progbits
@@ -1004,41 +1004,41 @@ ARM GAS  /tmp/cc07hAQC.s 			page 1
  664              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
  665              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
  666              		.file 5 "../Drivers/Inc/gpio.h"
-ARM GAS  /tmp/cc07hAQC.s 			page 18
+ARM GAS  /tmp/ccxRmtk5.s 			page 18
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 gpio.c
-     /tmp/cc07hAQC.s:19     .text.GPIO_ClockControl:00000000 $t
-     /tmp/cc07hAQC.s:25     .text.GPIO_ClockControl:00000000 GPIO_ClockControl
-     /tmp/cc07hAQC.s:128    .text.GPIO_ClockControl:00000074 $d
-     /tmp/cc07hAQC.s:136    .text.GPIO_Init:00000000 $t
-     /tmp/cc07hAQC.s:142    .text.GPIO_Init:00000000 GPIO_Init
-     /tmp/cc07hAQC.s:237    .text.GPIO_Init:0000003e $d
-     /tmp/cc07hAQC.s:241    .text.GPIO_Init:00000042 $t
-     /tmp/cc07hAQC.s:307    .text.GPIO_ReadPin:00000000 $t
-     /tmp/cc07hAQC.s:313    .text.GPIO_ReadPin:00000000 GPIO_ReadPin
-     /tmp/cc07hAQC.s:334    .text.GPIO_WritePin:00000000 $t
-     /tmp/cc07hAQC.s:340    .text.GPIO_WritePin:00000000 GPIO_WritePin
-     /tmp/cc07hAQC.s:372    .text.GPIO_TogglePin:00000000 $t
-     /tmp/cc07hAQC.s:378    .text.GPIO_TogglePin:00000000 GPIO_TogglePin
-     /tmp/cc07hAQC.s:401    .text.GPIO_DeInit:00000000 $t
-     /tmp/cc07hAQC.s:407    .text.GPIO_DeInit:00000000 GPIO_DeInit
-     /tmp/cc07hAQC.s:482    .text.GPIO_DeInit:00000058 $d
-     /tmp/cc07hAQC.s:489    .text.GPIO_INIT:00000000 $t
-     /tmp/cc07hAQC.s:495    .text.GPIO_INIT:00000000 GPIO_INIT
-     /tmp/cc07hAQC.s:543    .text.GPIO_INIT:0000002c $d
-     /tmp/cc07hAQC.s:548    .text.GPIO_ON:00000000 $t
-     /tmp/cc07hAQC.s:554    .text.GPIO_ON:00000000 GPIO_ON
-     /tmp/cc07hAQC.s:571    .text.GPIO_ON:0000000c $d
-     /tmp/cc07hAQC.s:576    .text.GPIO_OFF:00000000 $t
-     /tmp/cc07hAQC.s:582    .text.GPIO_OFF:00000000 GPIO_OFF
-     /tmp/cc07hAQC.s:599    .text.GPIO_OFF:0000000c $d
-     /tmp/cc07hAQC.s:604    .text.GPIO_TOGGLE:00000000 $t
-     /tmp/cc07hAQC.s:610    .text.GPIO_TOGGLE:00000000 GPIO_TOGGLE
-     /tmp/cc07hAQC.s:629    .text.GPIO_TOGGLE:0000000c $d
-     /tmp/cc07hAQC.s:634    .text.GPIO_READ:00000000 $t
-     /tmp/cc07hAQC.s:640    .text.GPIO_READ:00000000 GPIO_READ
-     /tmp/cc07hAQC.s:657    .text.GPIO_READ:0000000c $d
+     /tmp/ccxRmtk5.s:19     .text.GPIO_ClockControl:00000000 $t
+     /tmp/ccxRmtk5.s:25     .text.GPIO_ClockControl:00000000 GPIO_ClockControl
+     /tmp/ccxRmtk5.s:128    .text.GPIO_ClockControl:00000074 $d
+     /tmp/ccxRmtk5.s:136    .text.GPIO_Init:00000000 $t
+     /tmp/ccxRmtk5.s:142    .text.GPIO_Init:00000000 GPIO_Init
+     /tmp/ccxRmtk5.s:237    .text.GPIO_Init:0000003e $d
+     /tmp/ccxRmtk5.s:241    .text.GPIO_Init:00000042 $t
+     /tmp/ccxRmtk5.s:307    .text.GPIO_ReadPin:00000000 $t
+     /tmp/ccxRmtk5.s:313    .text.GPIO_ReadPin:00000000 GPIO_ReadPin
+     /tmp/ccxRmtk5.s:334    .text.GPIO_WritePin:00000000 $t
+     /tmp/ccxRmtk5.s:340    .text.GPIO_WritePin:00000000 GPIO_WritePin
+     /tmp/ccxRmtk5.s:372    .text.GPIO_TogglePin:00000000 $t
+     /tmp/ccxRmtk5.s:378    .text.GPIO_TogglePin:00000000 GPIO_TogglePin
+     /tmp/ccxRmtk5.s:401    .text.GPIO_DeInit:00000000 $t
+     /tmp/ccxRmtk5.s:407    .text.GPIO_DeInit:00000000 GPIO_DeInit
+     /tmp/ccxRmtk5.s:482    .text.GPIO_DeInit:00000058 $d
+     /tmp/ccxRmtk5.s:489    .text.GPIO_INIT:00000000 $t
+     /tmp/ccxRmtk5.s:495    .text.GPIO_INIT:00000000 GPIO_INIT
+     /tmp/ccxRmtk5.s:543    .text.GPIO_INIT:0000002c $d
+     /tmp/ccxRmtk5.s:548    .text.GPIO_ON:00000000 $t
+     /tmp/ccxRmtk5.s:554    .text.GPIO_ON:00000000 GPIO_ON
+     /tmp/ccxRmtk5.s:571    .text.GPIO_ON:0000000c $d
+     /tmp/ccxRmtk5.s:576    .text.GPIO_OFF:00000000 $t
+     /tmp/ccxRmtk5.s:582    .text.GPIO_OFF:00000000 GPIO_OFF
+     /tmp/ccxRmtk5.s:599    .text.GPIO_OFF:0000000c $d
+     /tmp/ccxRmtk5.s:604    .text.GPIO_TOGGLE:00000000 $t
+     /tmp/ccxRmtk5.s:610    .text.GPIO_TOGGLE:00000000 GPIO_TOGGLE
+     /tmp/ccxRmtk5.s:629    .text.GPIO_TOGGLE:0000000c $d
+     /tmp/ccxRmtk5.s:634    .text.GPIO_READ:00000000 $t
+     /tmp/ccxRmtk5.s:640    .text.GPIO_READ:00000000 GPIO_READ
+     /tmp/ccxRmtk5.s:657    .text.GPIO_READ:0000000c $d
 
 NO UNDEFINED SYMBOLS

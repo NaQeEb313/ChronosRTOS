@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cchyNuLf.s 			page 1
+ARM GAS  /tmp/cc0eoUqD.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -26,270 +26,568 @@ ARM GAS  /tmp/cchyNuLf.s 			page 1
   21      52554E4E 
   21      494E470D 
   21      0A00
-  22              		.section	.text.TASK_A,"ax",%progbits
-  23              		.align	1
-  24              		.global	TASK_A
-  25              		.syntax unified
-  26              		.thumb
-  27              		.thumb_func
-  29              	TASK_A:
-  30              	.LFB65:
-   1:../Demo/demo_tasks.c **** /******************************************************************************
-   2:../Demo/demo_tasks.c ****  * File        : demo_tasks.c
-   3:../Demo/demo_tasks.c ****  * Project     : ChronosRTOS
-   4:../Demo/demo_tasks.c ****  * Module      : Demo Tasks
-   5:../Demo/demo_tasks.c ****  * Group       :
-   6:../Demo/demo_tasks.c ****  * Description : Demo task implementations.
-   7:../Demo/demo_tasks.c ****  ******************************************************************************/
-   8:../Demo/demo_tasks.c **** #include "demo_tasks.h"
-   9:../Demo/demo_tasks.c **** #include "uart.h"
-  10:../Demo/demo_tasks.c **** 
-  11:../Demo/demo_tasks.c **** void TASK_A(void)
-  12:../Demo/demo_tasks.c **** {
-  31              		.loc 1 12 1 view -0
-  32              		.cfi_startproc
-  33              		@ args = 0, pretend = 0, frame = 0
-  34              		@ frame_needed = 0, uses_anonymous_args = 0
-  35 0000 08B5     		push	{r3, lr}
-  36              	.LCFI0:
-  37              		.cfi_def_cfa_offset 8
-  38              		.cfi_offset 3, -8
-  39              		.cfi_offset 14, -4
-  13:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task A: RUNNING\r\n");
-  40              		.loc 1 13 5 view .LVU1
-  41 0002 0249     		ldr	r1, .L3
-ARM GAS  /tmp/cchyNuLf.s 			page 2
+  22 0012 0000     		.align	2
+  23              	.LC1:
+  24 0014 5461736B 		.ascii	"Task A: FINISHED\015\012\000"
+  24      20413A20 
+  24      46494E49 
+  24      53484544 
+  24      0D0A00
+  25              		.section	.text.TASK_A,"ax",%progbits
+  26              		.align	1
+  27              		.global	TASK_A
+  28              		.syntax unified
+  29              		.thumb
+  30              		.thumb_func
+  32              	TASK_A:
+  33              	.LFB65:
+   1:../Demo/demo_tasks.c **** #include "demo_tasks.h"
+   2:../Demo/demo_tasks.c **** #include "uart.h"
+   3:../Demo/demo_tasks.c **** #include "gpio.h"
+   4:../Demo/demo_tasks.c **** #include "stm32f1xx_hal.h"
+   5:../Demo/demo_tasks.c **** 
+   6:../Demo/demo_tasks.c **** void TASK_A(void)
+   7:../Demo/demo_tasks.c **** {
+  34              		.loc 1 7 1 view -0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38 0000 10B5     		push	{r4, lr}
+  39              	.LCFI0:
+  40              		.cfi_def_cfa_offset 8
+  41              		.cfi_offset 4, -8
+  42              		.cfi_offset 14, -4
+   8:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task A: RUNNING\r\n");
+ARM GAS  /tmp/cc0eoUqD.s 			page 2
 
 
-  42 0004 0248     		ldr	r0, .L3+4
-  43 0006 FFF7FEFF 		bl	USART_SendString
-  44              	.LVL0:
-  14:../Demo/demo_tasks.c **** }
-  45              		.loc 1 14 1 is_stmt 0 view .LVU2
-  46 000a 08BD     		pop	{r3, pc}
-  47              	.L4:
-  48              		.align	2
-  49              	.L3:
-  50 000c 00000000 		.word	.LC0
-  51 0010 00380140 		.word	1073821696
-  52              		.cfi_endproc
-  53              	.LFE65:
-  55              		.section	.rodata.TASK_B.str1.4,"aMS",%progbits,1
-  56              		.align	2
-  57              	.LC1:
-  58 0000 5461736B 		.ascii	"Task B: RUNNING\015\012\000"
-  58      20423A20 
-  58      52554E4E 
-  58      494E470D 
-  58      0A00
-  59              		.section	.text.TASK_B,"ax",%progbits
-  60              		.align	1
-  61              		.global	TASK_B
-  62              		.syntax unified
-  63              		.thumb
-  64              		.thumb_func
-  66              	TASK_B:
-  67              	.LFB66:
+  43              		.loc 1 8 5 view .LVU1
+  44 0002 0B4C     		ldr	r4, .L3
+  45 0004 0B49     		ldr	r1, .L3+4
+  46 0006 2046     		mov	r0, r4
+  47 0008 FFF7FEFF 		bl	USART_SendString
+  48              	.LVL0:
+   9:../Demo/demo_tasks.c **** 
+  10:../Demo/demo_tasks.c ****     GPIO_ON();
+  49              		.loc 1 10 5 view .LVU2
+  50 000c FFF7FEFF 		bl	GPIO_ON
+  51              	.LVL1:
+  11:../Demo/demo_tasks.c ****     HAL_Delay(500);
+  52              		.loc 1 11 5 view .LVU3
+  53 0010 4FF4FA70 		mov	r0, #500
+  54 0014 FFF7FEFF 		bl	HAL_Delay
+  55              	.LVL2:
+  12:../Demo/demo_tasks.c ****     GPIO_OFF();
+  56              		.loc 1 12 5 view .LVU4
+  57 0018 FFF7FEFF 		bl	GPIO_OFF
+  58              	.LVL3:
+  13:../Demo/demo_tasks.c **** 
+  14:../Demo/demo_tasks.c ****     HAL_Delay(5000);
+  59              		.loc 1 14 5 view .LVU5
+  60 001c 41F28830 		movw	r0, #5000
+  61 0020 FFF7FEFF 		bl	HAL_Delay
+  62              	.LVL4:
   15:../Demo/demo_tasks.c **** 
-  16:../Demo/demo_tasks.c **** void TASK_B(void)
-  17:../Demo/demo_tasks.c **** {
-  68              		.loc 1 17 1 is_stmt 1 view -0
-  69              		.cfi_startproc
-  70              		@ args = 0, pretend = 0, frame = 0
-  71              		@ frame_needed = 0, uses_anonymous_args = 0
-  72 0000 08B5     		push	{r3, lr}
-  73              	.LCFI1:
-  74              		.cfi_def_cfa_offset 8
-  75              		.cfi_offset 3, -8
-  76              		.cfi_offset 14, -4
-  18:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task B: RUNNING\r\n");
-  77              		.loc 1 18 5 view .LVU4
-  78 0002 0249     		ldr	r1, .L7
-  79 0004 0248     		ldr	r0, .L7+4
-  80 0006 FFF7FEFF 		bl	USART_SendString
-  81              	.LVL1:
-  19:../Demo/demo_tasks.c **** }
-  82              		.loc 1 19 1 is_stmt 0 view .LVU5
-  83 000a 08BD     		pop	{r3, pc}
-  84              	.L8:
-  85              		.align	2
-  86              	.L7:
-  87 000c 00000000 		.word	.LC1
-  88 0010 00380140 		.word	1073821696
-  89              		.cfi_endproc
-  90              	.LFE66:
-ARM GAS  /tmp/cchyNuLf.s 			page 3
+  16:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task A: FINISHED\r\n");
+  63              		.loc 1 16 5 view .LVU6
+  64 0024 0449     		ldr	r1, .L3+8
+  65 0026 2046     		mov	r0, r4
+  66 0028 FFF7FEFF 		bl	USART_SendString
+  67              	.LVL5:
+  17:../Demo/demo_tasks.c **** }
+  68              		.loc 1 17 1 is_stmt 0 view .LVU7
+  69 002c 10BD     		pop	{r4, pc}
+  70              	.L4:
+  71 002e 00BF     		.align	2
+  72              	.L3:
+  73 0030 00380140 		.word	1073821696
+  74 0034 00000000 		.word	.LC0
+  75 0038 14000000 		.word	.LC1
+  76              		.cfi_endproc
+  77              	.LFE65:
+  79              		.section	.rodata.TASK_B.str1.4,"aMS",%progbits,1
+  80              		.align	2
+  81              	.LC2:
+  82 0000 5461736B 		.ascii	"Task B: RUNNING\015\012\000"
+  82      20423A20 
+  82      52554E4E 
+  82      494E470D 
+  82      0A00
+  83 0012 0000     		.align	2
+  84              	.LC3:
+  85 0014 5461736B 		.ascii	"Task B: FINISHED\015\012\000"
+  85      20423A20 
+  85      46494E49 
+ARM GAS  /tmp/cc0eoUqD.s 			page 3
 
 
-  92              		.section	.rodata.TASK_C.str1.4,"aMS",%progbits,1
-  93              		.align	2
-  94              	.LC2:
-  95 0000 5461736B 		.ascii	"Task C: RUNNING\015\012\000"
-  95      20433A20 
-  95      52554E4E 
-  95      494E470D 
-  95      0A00
-  96              		.section	.text.TASK_C,"ax",%progbits
-  97              		.align	1
-  98              		.global	TASK_C
-  99              		.syntax unified
- 100              		.thumb
- 101              		.thumb_func
- 103              	TASK_C:
- 104              	.LFB67:
-  20:../Demo/demo_tasks.c **** 
-  21:../Demo/demo_tasks.c **** void TASK_C(void)
-  22:../Demo/demo_tasks.c **** {
- 105              		.loc 1 22 1 is_stmt 1 view -0
- 106              		.cfi_startproc
- 107              		@ args = 0, pretend = 0, frame = 0
- 108              		@ frame_needed = 0, uses_anonymous_args = 0
- 109 0000 08B5     		push	{r3, lr}
- 110              	.LCFI2:
- 111              		.cfi_def_cfa_offset 8
- 112              		.cfi_offset 3, -8
- 113              		.cfi_offset 14, -4
-  23:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task C: RUNNING\r\n");
- 114              		.loc 1 23 5 view .LVU7
- 115 0002 0249     		ldr	r1, .L11
- 116 0004 0248     		ldr	r0, .L11+4
- 117 0006 FFF7FEFF 		bl	USART_SendString
- 118              	.LVL2:
-  24:../Demo/demo_tasks.c **** }
- 119              		.loc 1 24 1 is_stmt 0 view .LVU8
- 120 000a 08BD     		pop	{r3, pc}
- 121              	.L12:
- 122              		.align	2
- 123              	.L11:
- 124 000c 00000000 		.word	.LC2
- 125 0010 00380140 		.word	1073821696
- 126              		.cfi_endproc
- 127              	.LFE67:
- 129              		.section	.rodata.TASK_D.str1.4,"aMS",%progbits,1
- 130              		.align	2
- 131              	.LC3:
- 132 0000 5461736B 		.ascii	"Task D: RUNNING\015\012\000"
- 132      20443A20 
- 132      52554E4E 
- 132      494E470D 
- 132      0A00
- 133              		.section	.text.TASK_D,"ax",%progbits
- 134              		.align	1
- 135              		.global	TASK_D
- 136              		.syntax unified
- 137              		.thumb
-ARM GAS  /tmp/cchyNuLf.s 			page 4
+  85      53484544 
+  85      0D0A00
+  86              		.section	.text.TASK_B,"ax",%progbits
+  87              		.align	1
+  88              		.global	TASK_B
+  89              		.syntax unified
+  90              		.thumb
+  91              		.thumb_func
+  93              	TASK_B:
+  94              	.LFB66:
+  18:../Demo/demo_tasks.c **** 
+  19:../Demo/demo_tasks.c **** void TASK_B(void)
+  20:../Demo/demo_tasks.c **** {
+  95              		.loc 1 20 1 is_stmt 1 view -0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99 0000 10B5     		push	{r4, lr}
+ 100              	.LCFI1:
+ 101              		.cfi_def_cfa_offset 8
+ 102              		.cfi_offset 4, -8
+ 103              		.cfi_offset 14, -4
+  21:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task B: RUNNING\r\n");
+ 104              		.loc 1 21 5 view .LVU9
+ 105 0002 114C     		ldr	r4, .L7
+ 106 0004 1149     		ldr	r1, .L7+4
+ 107 0006 2046     		mov	r0, r4
+ 108 0008 FFF7FEFF 		bl	USART_SendString
+ 109              	.LVL6:
+  22:../Demo/demo_tasks.c **** 
+  23:../Demo/demo_tasks.c ****     GPIO_ON();
+ 110              		.loc 1 23 5 view .LVU10
+ 111 000c FFF7FEFF 		bl	GPIO_ON
+ 112              	.LVL7:
+  24:../Demo/demo_tasks.c ****     HAL_Delay(500);
+ 113              		.loc 1 24 5 view .LVU11
+ 114 0010 4FF4FA70 		mov	r0, #500
+ 115 0014 FFF7FEFF 		bl	HAL_Delay
+ 116              	.LVL8:
+  25:../Demo/demo_tasks.c ****     GPIO_OFF();
+ 117              		.loc 1 25 5 view .LVU12
+ 118 0018 FFF7FEFF 		bl	GPIO_OFF
+ 119              	.LVL9:
+  26:../Demo/demo_tasks.c ****     HAL_Delay(500);
+ 120              		.loc 1 26 5 view .LVU13
+ 121 001c 4FF4FA70 		mov	r0, #500
+ 122 0020 FFF7FEFF 		bl	HAL_Delay
+ 123              	.LVL10:
+  27:../Demo/demo_tasks.c **** 
+  28:../Demo/demo_tasks.c ****     GPIO_ON();
+ 124              		.loc 1 28 5 view .LVU14
+ 125 0024 FFF7FEFF 		bl	GPIO_ON
+ 126              	.LVL11:
+  29:../Demo/demo_tasks.c ****     HAL_Delay(500);
+ 127              		.loc 1 29 5 view .LVU15
+ 128 0028 4FF4FA70 		mov	r0, #500
+ 129 002c FFF7FEFF 		bl	HAL_Delay
+ARM GAS  /tmp/cc0eoUqD.s 			page 4
 
 
- 138              		.thumb_func
- 140              	TASK_D:
- 141              	.LFB68:
-  25:../Demo/demo_tasks.c **** 
-  26:../Demo/demo_tasks.c **** void TASK_D(void)
-  27:../Demo/demo_tasks.c **** {
- 142              		.loc 1 27 1 is_stmt 1 view -0
- 143              		.cfi_startproc
- 144              		@ args = 0, pretend = 0, frame = 0
- 145              		@ frame_needed = 0, uses_anonymous_args = 0
- 146 0000 08B5     		push	{r3, lr}
- 147              	.LCFI3:
- 148              		.cfi_def_cfa_offset 8
- 149              		.cfi_offset 3, -8
- 150              		.cfi_offset 14, -4
-  28:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task D: RUNNING\r\n");
- 151              		.loc 1 28 5 view .LVU10
- 152 0002 0249     		ldr	r1, .L15
- 153 0004 0248     		ldr	r0, .L15+4
- 154 0006 FFF7FEFF 		bl	USART_SendString
- 155              	.LVL3:
-  29:../Demo/demo_tasks.c **** }
- 156              		.loc 1 29 1 is_stmt 0 view .LVU11
- 157 000a 08BD     		pop	{r3, pc}
- 158              	.L16:
- 159              		.align	2
- 160              	.L15:
- 161 000c 00000000 		.word	.LC3
- 162 0010 00380140 		.word	1073821696
- 163              		.cfi_endproc
- 164              	.LFE68:
- 166              		.section	.rodata.TASK_E.str1.4,"aMS",%progbits,1
- 167              		.align	2
- 168              	.LC4:
- 169 0000 5461736B 		.ascii	"Task E: RUNNING\015\012\000"
- 169      20453A20 
- 169      52554E4E 
- 169      494E470D 
- 169      0A00
- 170              		.section	.text.TASK_E,"ax",%progbits
- 171              		.align	1
- 172              		.global	TASK_E
- 173              		.syntax unified
- 174              		.thumb
- 175              		.thumb_func
- 177              	TASK_E:
- 178              	.LFB69:
-  30:../Demo/demo_tasks.c **** 
-  31:../Demo/demo_tasks.c **** void TASK_E(void)
-  32:../Demo/demo_tasks.c **** {
- 179              		.loc 1 32 1 is_stmt 1 view -0
- 180              		.cfi_startproc
- 181              		@ args = 0, pretend = 0, frame = 0
- 182              		@ frame_needed = 0, uses_anonymous_args = 0
- 183 0000 08B5     		push	{r3, lr}
- 184              	.LCFI4:
- 185              		.cfi_def_cfa_offset 8
-ARM GAS  /tmp/cchyNuLf.s 			page 5
+ 130              	.LVL12:
+  30:../Demo/demo_tasks.c ****     GPIO_OFF();
+ 131              		.loc 1 30 5 view .LVU16
+ 132 0030 FFF7FEFF 		bl	GPIO_OFF
+ 133              	.LVL13:
+  31:../Demo/demo_tasks.c **** 
+  32:../Demo/demo_tasks.c ****     HAL_Delay(5000);
+ 134              		.loc 1 32 5 view .LVU17
+ 135 0034 41F28830 		movw	r0, #5000
+ 136 0038 FFF7FEFF 		bl	HAL_Delay
+ 137              	.LVL14:
+  33:../Demo/demo_tasks.c **** 
+  34:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task B: FINISHED\r\n");
+ 138              		.loc 1 34 5 view .LVU18
+ 139 003c 0449     		ldr	r1, .L7+8
+ 140 003e 2046     		mov	r0, r4
+ 141 0040 FFF7FEFF 		bl	USART_SendString
+ 142              	.LVL15:
+  35:../Demo/demo_tasks.c **** }
+ 143              		.loc 1 35 1 is_stmt 0 view .LVU19
+ 144 0044 10BD     		pop	{r4, pc}
+ 145              	.L8:
+ 146 0046 00BF     		.align	2
+ 147              	.L7:
+ 148 0048 00380140 		.word	1073821696
+ 149 004c 00000000 		.word	.LC2
+ 150 0050 14000000 		.word	.LC3
+ 151              		.cfi_endproc
+ 152              	.LFE66:
+ 154              		.section	.rodata.TASK_C.str1.4,"aMS",%progbits,1
+ 155              		.align	2
+ 156              	.LC4:
+ 157 0000 5461736B 		.ascii	"Task C: RUNNING\015\012\000"
+ 157      20433A20 
+ 157      52554E4E 
+ 157      494E470D 
+ 157      0A00
+ 158 0012 0000     		.align	2
+ 159              	.LC5:
+ 160 0014 5461736B 		.ascii	"Task C: FINISHED\015\012\000"
+ 160      20433A20 
+ 160      46494E49 
+ 160      53484544 
+ 160      0D0A00
+ 161              		.section	.text.TASK_C,"ax",%progbits
+ 162              		.align	1
+ 163              		.global	TASK_C
+ 164              		.syntax unified
+ 165              		.thumb
+ 166              		.thumb_func
+ 168              	TASK_C:
+ 169              	.LFB67:
+  36:../Demo/demo_tasks.c **** 
+  37:../Demo/demo_tasks.c **** void TASK_C(void)
+  38:../Demo/demo_tasks.c **** {
+ 170              		.loc 1 38 1 is_stmt 1 view -0
+ 171              		.cfi_startproc
+ARM GAS  /tmp/cc0eoUqD.s 			page 5
 
 
- 186              		.cfi_offset 3, -8
- 187              		.cfi_offset 14, -4
-  33:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task E: RUNNING\r\n");
- 188              		.loc 1 33 5 view .LVU13
- 189 0002 0249     		ldr	r1, .L19
- 190 0004 0248     		ldr	r0, .L19+4
- 191 0006 FFF7FEFF 		bl	USART_SendString
- 192              	.LVL4:
-  34:../Demo/demo_tasks.c **** }...
- 193              		.loc 1 34 1 is_stmt 0 view .LVU14
- 194 000a 08BD     		pop	{r3, pc}
- 195              	.L20:
- 196              		.align	2
- 197              	.L19:
- 198 000c 00000000 		.word	.LC4
- 199 0010 00380140 		.word	1073821696
- 200              		.cfi_endproc
- 201              	.LFE69:
- 203              		.text
- 204              	.Letext0:
- 205              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 206              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 207              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
- 208              		.file 5 "../Drivers/Inc/uart.h"
-ARM GAS  /tmp/cchyNuLf.s 			page 6
+ 172              		@ args = 0, pretend = 0, frame = 0
+ 173              		@ frame_needed = 0, uses_anonymous_args = 0
+ 174 0000 10B5     		push	{r4, lr}
+ 175              	.LCFI2:
+ 176              		.cfi_def_cfa_offset 8
+ 177              		.cfi_offset 4, -8
+ 178              		.cfi_offset 14, -4
+  39:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task C: RUNNING\r\n");
+ 179              		.loc 1 39 5 view .LVU21
+ 180 0002 0F49     		ldr	r1, .L13
+ 181 0004 0F48     		ldr	r0, .L13+4
+ 182 0006 FFF7FEFF 		bl	USART_SendString
+ 183              	.LVL16:
+  40:../Demo/demo_tasks.c **** 
+  41:../Demo/demo_tasks.c ****     for (int i = 0; i < 3; i++)
+ 184              		.loc 1 41 5 view .LVU22
+ 185              	.LBB2:
+ 186              		.loc 1 41 10 view .LVU23
+ 187              		.loc 1 41 14 is_stmt 0 view .LVU24
+ 188 000a 0024     		movs	r4, #0
+ 189              		.loc 1 41 5 view .LVU25
+ 190 000c 0CE0     		b	.L10
+ 191              	.LVL17:
+ 192              	.L11:
+  42:../Demo/demo_tasks.c ****     {
+  43:../Demo/demo_tasks.c ****         GPIO_ON();
+ 193              		.loc 1 43 9 is_stmt 1 view .LVU26
+ 194 000e FFF7FEFF 		bl	GPIO_ON
+ 195              	.LVL18:
+  44:../Demo/demo_tasks.c ****         HAL_Delay(500);
+ 196              		.loc 1 44 9 view .LVU27
+ 197 0012 4FF4FA70 		mov	r0, #500
+ 198 0016 FFF7FEFF 		bl	HAL_Delay
+ 199              	.LVL19:
+  45:../Demo/demo_tasks.c ****         GPIO_OFF();
+ 200              		.loc 1 45 9 view .LVU28
+ 201 001a FFF7FEFF 		bl	GPIO_OFF
+ 202              	.LVL20:
+  46:../Demo/demo_tasks.c ****         HAL_Delay(500);
+ 203              		.loc 1 46 9 view .LVU29
+ 204 001e 4FF4FA70 		mov	r0, #500
+ 205 0022 FFF7FEFF 		bl	HAL_Delay
+ 206              	.LVL21:
+  41:../Demo/demo_tasks.c ****     {
+ 207              		.loc 1 41 29 discriminator 1 view .LVU30
+ 208 0026 0134     		adds	r4, r4, #1
+ 209              	.LVL22:
+ 210              	.L10:
+  41:../Demo/demo_tasks.c ****     {
+ 211              		.loc 1 41 23 discriminator 2 view .LVU31
+ 212 0028 022C     		cmp	r4, #2
+ 213 002a F0DD     		ble	.L11
+ 214              	.LBE2:
+  47:../Demo/demo_tasks.c ****     }
+  48:../Demo/demo_tasks.c **** 
+  49:../Demo/demo_tasks.c ****     HAL_Delay(5000);
+ 215              		.loc 1 49 5 view .LVU32
+ARM GAS  /tmp/cc0eoUqD.s 			page 6
+
+
+ 216 002c 41F28830 		movw	r0, #5000
+ 217 0030 FFF7FEFF 		bl	HAL_Delay
+ 218              	.LVL23:
+  50:../Demo/demo_tasks.c **** 
+  51:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task C: FINISHED\r\n");
+ 219              		.loc 1 51 5 view .LVU33
+ 220 0034 0449     		ldr	r1, .L13+8
+ 221 0036 0348     		ldr	r0, .L13+4
+ 222 0038 FFF7FEFF 		bl	USART_SendString
+ 223              	.LVL24:
+  52:../Demo/demo_tasks.c **** }
+ 224              		.loc 1 52 1 is_stmt 0 view .LVU34
+ 225 003c 10BD     		pop	{r4, pc}
+ 226              	.LVL25:
+ 227              	.L14:
+ 228              		.loc 1 52 1 view .LVU35
+ 229 003e 00BF     		.align	2
+ 230              	.L13:
+ 231 0040 00000000 		.word	.LC4
+ 232 0044 00380140 		.word	1073821696
+ 233 0048 14000000 		.word	.LC5
+ 234              		.cfi_endproc
+ 235              	.LFE67:
+ 237              		.section	.rodata.TASK_D.str1.4,"aMS",%progbits,1
+ 238              		.align	2
+ 239              	.LC6:
+ 240 0000 5461736B 		.ascii	"Task D: RUNNING\015\012\000"
+ 240      20443A20 
+ 240      52554E4E 
+ 240      494E470D 
+ 240      0A00
+ 241 0012 0000     		.align	2
+ 242              	.LC7:
+ 243 0014 5461736B 		.ascii	"Task D: FINISHED\015\012\000"
+ 243      20443A20 
+ 243      46494E49 
+ 243      53484544 
+ 243      0D0A00
+ 244              		.section	.text.TASK_D,"ax",%progbits
+ 245              		.align	1
+ 246              		.global	TASK_D
+ 247              		.syntax unified
+ 248              		.thumb
+ 249              		.thumb_func
+ 251              	TASK_D:
+ 252              	.LFB68:
+  53:../Demo/demo_tasks.c **** 
+  54:../Demo/demo_tasks.c **** void TASK_D(void)
+  55:../Demo/demo_tasks.c **** {
+ 253              		.loc 1 55 1 is_stmt 1 view -0
+ 254              		.cfi_startproc
+ 255              		@ args = 0, pretend = 0, frame = 0
+ 256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 257 0000 10B5     		push	{r4, lr}
+ 258              	.LCFI3:
+ 259              		.cfi_def_cfa_offset 8
+ 260              		.cfi_offset 4, -8
+ARM GAS  /tmp/cc0eoUqD.s 			page 7
+
+
+ 261              		.cfi_offset 14, -4
+  56:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task D: RUNNING\r\n");
+ 262              		.loc 1 56 5 view .LVU37
+ 263 0002 0F49     		ldr	r1, .L19
+ 264 0004 0F48     		ldr	r0, .L19+4
+ 265 0006 FFF7FEFF 		bl	USART_SendString
+ 266              	.LVL26:
+  57:../Demo/demo_tasks.c **** 
+  58:../Demo/demo_tasks.c ****     for (int i = 0; i < 4; i++)
+ 267              		.loc 1 58 5 view .LVU38
+ 268              	.LBB3:
+ 269              		.loc 1 58 10 view .LVU39
+ 270              		.loc 1 58 14 is_stmt 0 view .LVU40
+ 271 000a 0024     		movs	r4, #0
+ 272              		.loc 1 58 5 view .LVU41
+ 273 000c 0CE0     		b	.L16
+ 274              	.LVL27:
+ 275              	.L17:
+  59:../Demo/demo_tasks.c ****     {
+  60:../Demo/demo_tasks.c ****         GPIO_ON();
+ 276              		.loc 1 60 9 is_stmt 1 view .LVU42
+ 277 000e FFF7FEFF 		bl	GPIO_ON
+ 278              	.LVL28:
+  61:../Demo/demo_tasks.c ****         HAL_Delay(500);
+ 279              		.loc 1 61 9 view .LVU43
+ 280 0012 4FF4FA70 		mov	r0, #500
+ 281 0016 FFF7FEFF 		bl	HAL_Delay
+ 282              	.LVL29:
+  62:../Demo/demo_tasks.c ****         GPIO_OFF();
+ 283              		.loc 1 62 9 view .LVU44
+ 284 001a FFF7FEFF 		bl	GPIO_OFF
+ 285              	.LVL30:
+  63:../Demo/demo_tasks.c ****         HAL_Delay(500);
+ 286              		.loc 1 63 9 view .LVU45
+ 287 001e 4FF4FA70 		mov	r0, #500
+ 288 0022 FFF7FEFF 		bl	HAL_Delay
+ 289              	.LVL31:
+  58:../Demo/demo_tasks.c ****     {
+ 290              		.loc 1 58 29 discriminator 1 view .LVU46
+ 291 0026 0134     		adds	r4, r4, #1
+ 292              	.LVL32:
+ 293              	.L16:
+  58:../Demo/demo_tasks.c ****     {
+ 294              		.loc 1 58 23 discriminator 2 view .LVU47
+ 295 0028 032C     		cmp	r4, #3
+ 296 002a F0DD     		ble	.L17
+ 297              	.LBE3:
+  64:../Demo/demo_tasks.c ****     }
+  65:../Demo/demo_tasks.c **** 
+  66:../Demo/demo_tasks.c ****     HAL_Delay(5000);
+ 298              		.loc 1 66 5 view .LVU48
+ 299 002c 41F28830 		movw	r0, #5000
+ 300 0030 FFF7FEFF 		bl	HAL_Delay
+ 301              	.LVL33:
+  67:../Demo/demo_tasks.c **** 
+  68:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task D: FINISHED\r\n");
+ 302              		.loc 1 68 5 view .LVU49
+ARM GAS  /tmp/cc0eoUqD.s 			page 8
+
+
+ 303 0034 0449     		ldr	r1, .L19+8
+ 304 0036 0348     		ldr	r0, .L19+4
+ 305 0038 FFF7FEFF 		bl	USART_SendString
+ 306              	.LVL34:
+  69:../Demo/demo_tasks.c **** }
+ 307              		.loc 1 69 1 is_stmt 0 view .LVU50
+ 308 003c 10BD     		pop	{r4, pc}
+ 309              	.LVL35:
+ 310              	.L20:
+ 311              		.loc 1 69 1 view .LVU51
+ 312 003e 00BF     		.align	2
+ 313              	.L19:
+ 314 0040 00000000 		.word	.LC6
+ 315 0044 00380140 		.word	1073821696
+ 316 0048 14000000 		.word	.LC7
+ 317              		.cfi_endproc
+ 318              	.LFE68:
+ 320              		.section	.rodata.TASK_E.str1.4,"aMS",%progbits,1
+ 321              		.align	2
+ 322              	.LC8:
+ 323 0000 5461736B 		.ascii	"Task E: RUNNING\015\012\000"
+ 323      20453A20 
+ 323      52554E4E 
+ 323      494E470D 
+ 323      0A00
+ 324 0012 0000     		.align	2
+ 325              	.LC9:
+ 326 0014 5461736B 		.ascii	"Task E: FINISHED\015\012\000"
+ 326      20453A20 
+ 326      46494E49 
+ 326      53484544 
+ 326      0D0A00
+ 327              		.section	.text.TASK_E,"ax",%progbits
+ 328              		.align	1
+ 329              		.global	TASK_E
+ 330              		.syntax unified
+ 331              		.thumb
+ 332              		.thumb_func
+ 334              	TASK_E:
+ 335              	.LFB69:
+  70:../Demo/demo_tasks.c **** 
+  71:../Demo/demo_tasks.c **** void TASK_E(void)
+  72:../Demo/demo_tasks.c **** {
+ 336              		.loc 1 72 1 is_stmt 1 view -0
+ 337              		.cfi_startproc
+ 338              		@ args = 0, pretend = 0, frame = 0
+ 339              		@ frame_needed = 0, uses_anonymous_args = 0
+ 340 0000 10B5     		push	{r4, lr}
+ 341              	.LCFI4:
+ 342              		.cfi_def_cfa_offset 8
+ 343              		.cfi_offset 4, -8
+ 344              		.cfi_offset 14, -4
+  73:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task E: RUNNING\r\n");
+ 345              		.loc 1 73 5 view .LVU53
+ 346 0002 0F49     		ldr	r1, .L25
+ 347 0004 0F48     		ldr	r0, .L25+4
+ 348 0006 FFF7FEFF 		bl	USART_SendString
+ARM GAS  /tmp/cc0eoUqD.s 			page 9
+
+
+ 349              	.LVL36:
+  74:../Demo/demo_tasks.c **** 
+  75:../Demo/demo_tasks.c ****     for (int i = 0; i < 5; i++)
+ 350              		.loc 1 75 5 view .LVU54
+ 351              	.LBB4:
+ 352              		.loc 1 75 10 view .LVU55
+ 353              		.loc 1 75 14 is_stmt 0 view .LVU56
+ 354 000a 0024     		movs	r4, #0
+ 355              		.loc 1 75 5 view .LVU57
+ 356 000c 0CE0     		b	.L22
+ 357              	.LVL37:
+ 358              	.L23:
+  76:../Demo/demo_tasks.c ****     {
+  77:../Demo/demo_tasks.c ****         GPIO_ON();
+ 359              		.loc 1 77 9 is_stmt 1 view .LVU58
+ 360 000e FFF7FEFF 		bl	GPIO_ON
+ 361              	.LVL38:
+  78:../Demo/demo_tasks.c ****         HAL_Delay(500);
+ 362              		.loc 1 78 9 view .LVU59
+ 363 0012 4FF4FA70 		mov	r0, #500
+ 364 0016 FFF7FEFF 		bl	HAL_Delay
+ 365              	.LVL39:
+  79:../Demo/demo_tasks.c ****         GPIO_OFF();
+ 366              		.loc 1 79 9 view .LVU60
+ 367 001a FFF7FEFF 		bl	GPIO_OFF
+ 368              	.LVL40:
+  80:../Demo/demo_tasks.c ****         HAL_Delay(500);
+ 369              		.loc 1 80 9 view .LVU61
+ 370 001e 4FF4FA70 		mov	r0, #500
+ 371 0022 FFF7FEFF 		bl	HAL_Delay
+ 372              	.LVL41:
+  75:../Demo/demo_tasks.c ****     {
+ 373              		.loc 1 75 29 discriminator 1 view .LVU62
+ 374 0026 0134     		adds	r4, r4, #1
+ 375              	.LVL42:
+ 376              	.L22:
+  75:../Demo/demo_tasks.c ****     {
+ 377              		.loc 1 75 23 discriminator 2 view .LVU63
+ 378 0028 042C     		cmp	r4, #4
+ 379 002a F0DD     		ble	.L23
+ 380              	.LBE4:
+  81:../Demo/demo_tasks.c ****     }
+  82:../Demo/demo_tasks.c **** 
+  83:../Demo/demo_tasks.c ****     HAL_Delay(5000);
+ 381              		.loc 1 83 5 view .LVU64
+ 382 002c 41F28830 		movw	r0, #5000
+ 383 0030 FFF7FEFF 		bl	HAL_Delay
+ 384              	.LVL43:
+  84:../Demo/demo_tasks.c **** 
+  85:../Demo/demo_tasks.c ****     USART_SendString(USART1, "Task E: FINISHED\r\n");
+ 385              		.loc 1 85 5 view .LVU65
+ 386 0034 0449     		ldr	r1, .L25+8
+ 387 0036 0348     		ldr	r0, .L25+4
+ 388 0038 FFF7FEFF 		bl	USART_SendString
+ 389              	.LVL44:
+  86:../Demo/demo_tasks.c **** }...
+ 390              		.loc 1 86 1 is_stmt 0 view .LVU66
+ARM GAS  /tmp/cc0eoUqD.s 			page 10
+
+
+ 391 003c 10BD     		pop	{r4, pc}
+ 392              	.LVL45:
+ 393              	.L26:
+ 394              		.loc 1 86 1 view .LVU67
+ 395 003e 00BF     		.align	2
+ 396              	.L25:
+ 397 0040 00000000 		.word	.LC8
+ 398 0044 00380140 		.word	1073821696
+ 399 0048 14000000 		.word	.LC9
+ 400              		.cfi_endproc
+ 401              	.LFE69:
+ 403              		.text
+ 404              	.Letext0:
+ 405              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 406              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 407              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 408              		.file 5 "../Drivers/Inc/gpio.h"
+ 409              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 410              		.file 7 "../Drivers/Inc/uart.h"
+ARM GAS  /tmp/cc0eoUqD.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 demo_tasks.c
-     /tmp/cchyNuLf.s:19     .rodata.TASK_A.str1.4:00000000 $d
-     /tmp/cchyNuLf.s:23     .text.TASK_A:00000000 $t
-     /tmp/cchyNuLf.s:29     .text.TASK_A:00000000 TASK_A
-     /tmp/cchyNuLf.s:50     .text.TASK_A:0000000c $d
-     /tmp/cchyNuLf.s:56     .rodata.TASK_B.str1.4:00000000 $d
-     /tmp/cchyNuLf.s:60     .text.TASK_B:00000000 $t
-     /tmp/cchyNuLf.s:66     .text.TASK_B:00000000 TASK_B
-     /tmp/cchyNuLf.s:87     .text.TASK_B:0000000c $d
-     /tmp/cchyNuLf.s:93     .rodata.TASK_C.str1.4:00000000 $d
-     /tmp/cchyNuLf.s:97     .text.TASK_C:00000000 $t
-     /tmp/cchyNuLf.s:103    .text.TASK_C:00000000 TASK_C
-     /tmp/cchyNuLf.s:124    .text.TASK_C:0000000c $d
-     /tmp/cchyNuLf.s:130    .rodata.TASK_D.str1.4:00000000 $d
-     /tmp/cchyNuLf.s:134    .text.TASK_D:00000000 $t
-     /tmp/cchyNuLf.s:140    .text.TASK_D:00000000 TASK_D
-     /tmp/cchyNuLf.s:161    .text.TASK_D:0000000c $d
-     /tmp/cchyNuLf.s:167    .rodata.TASK_E.str1.4:00000000 $d
-     /tmp/cchyNuLf.s:171    .text.TASK_E:00000000 $t
-     /tmp/cchyNuLf.s:177    .text.TASK_E:00000000 TASK_E
-     /tmp/cchyNuLf.s:198    .text.TASK_E:0000000c $d
+     /tmp/cc0eoUqD.s:19     .rodata.TASK_A.str1.4:00000000 $d
+     /tmp/cc0eoUqD.s:26     .text.TASK_A:00000000 $t
+     /tmp/cc0eoUqD.s:32     .text.TASK_A:00000000 TASK_A
+     /tmp/cc0eoUqD.s:73     .text.TASK_A:00000030 $d
+     /tmp/cc0eoUqD.s:80     .rodata.TASK_B.str1.4:00000000 $d
+     /tmp/cc0eoUqD.s:87     .text.TASK_B:00000000 $t
+     /tmp/cc0eoUqD.s:93     .text.TASK_B:00000000 TASK_B
+     /tmp/cc0eoUqD.s:148    .text.TASK_B:00000048 $d
+     /tmp/cc0eoUqD.s:155    .rodata.TASK_C.str1.4:00000000 $d
+     /tmp/cc0eoUqD.s:162    .text.TASK_C:00000000 $t
+     /tmp/cc0eoUqD.s:168    .text.TASK_C:00000000 TASK_C
+     /tmp/cc0eoUqD.s:231    .text.TASK_C:00000040 $d
+     /tmp/cc0eoUqD.s:238    .rodata.TASK_D.str1.4:00000000 $d
+     /tmp/cc0eoUqD.s:245    .text.TASK_D:00000000 $t
+     /tmp/cc0eoUqD.s:251    .text.TASK_D:00000000 TASK_D
+     /tmp/cc0eoUqD.s:314    .text.TASK_D:00000040 $d
+     /tmp/cc0eoUqD.s:321    .rodata.TASK_E.str1.4:00000000 $d
+     /tmp/cc0eoUqD.s:328    .text.TASK_E:00000000 $t
+     /tmp/cc0eoUqD.s:334    .text.TASK_E:00000000 TASK_E
+     /tmp/cc0eoUqD.s:397    .text.TASK_E:00000040 $d
 
 UNDEFINED SYMBOLS
 USART_SendString
+GPIO_ON
+HAL_Delay
+GPIO_OFF

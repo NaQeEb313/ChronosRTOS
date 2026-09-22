@@ -38,6 +38,8 @@ int main(void) {
   /* Initialize custom ChronosRTOS GPIO driver */
   GPIO_INIT();
 
+  
+
   /* Configure custom USART1 driver */
   usart1.pUSARTx = USART1;
 
